@@ -1,8 +1,6 @@
 # 🧠 AI-Based Mental Health Risk Prediction System
 
-**Live App:** [Click here to try it](https://your-app-name.streamlit.app)  
-*(Update this link after deployment)*
-
+**Live App:** [Click here to try it]([https://mental-health-riskpredictor.streamlit.app])  
 ---
 
 ## About
