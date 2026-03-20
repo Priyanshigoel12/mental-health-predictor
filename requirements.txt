@@ -1,11 +1,10 @@
-streamlit==1.28.2
+streamlit==1.31.0
 pandas==2.1.4
-numpy==1.26.4
+numpy==1.24.4
 scikit-learn==1.4.0
 matplotlib==3.8.3
 seaborn==0.13.2
 Pillow==10.2.0
-protobuf==3.20.3
-shap
-imbalanced-learn
-watchdog
+shap==0.44.0
+imbalanced-learn==0.11.0
+watchdog==3.1.1
