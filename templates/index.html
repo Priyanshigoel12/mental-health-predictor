@@ -259,8 +259,21 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
 .modal-row{display:flex;gap:.75rem;margin-top:.5rem}
 .btn-save{flex:1;padding:.75rem;border-radius:10px;border:none;background:linear-gradient(135deg,var(--p),var(--pl));color:white;font-size:.9rem;font-weight:700}
 .btn-cancel{padding:.75rem 1.25rem;border-radius:10px;border:2px solid var(--border);background:var(--card);color:var(--txt2);font-size:.9rem;font-weight:700}
+.welcome-overlay{position:fixed;inset:0;background:linear-gradient(135deg,#1a0a3e 0%,#2d1b69 40%,#6C3CE1 100%);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;transition:opacity .5s ease}
+.welcome-overlay.hide{opacity:0;pointer-events:none}
+.welcome-card{background:var(--card);border-radius:24px;padding:3rem 2.5rem;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:fadeUp .6s ease;text-align:center}
+.welcome-emoji{font-size:4rem;margin-bottom:1rem}
+.welcome-title{font-family:'Sora',sans-serif;font-size:1.8rem;font-weight:800;color:var(--txt);margin-bottom:.5rem;letter-spacing:-.5px}
+.welcome-sub{font-size:.92rem;color:var(--txt2);margin-bottom:2rem;line-height:1.6}
+.welcome-input{width:100%;border:2px solid var(--border);border-radius:14px;padding:1rem 1.2rem;font-size:1rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .3s;text-align:center;margin-bottom:1.5rem}
+.welcome-input:focus{border-color:var(--p);box-shadow:0 0 0 4px rgba(108,60,225,.12)}
+.welcome-input::placeholder{color:#B0B0C0}
+.btn-welcome{width:100%;padding:1rem;border-radius:14px;border:none;background:linear-gradient(135deg,var(--p),var(--pl));color:white;font-size:1rem;font-weight:700;font-family:'Sora',sans-serif;box-shadow:0 6px 24px rgba(108,60,225,.4);transition:transform .2s,box-shadow .2s;cursor:pointer}
+.btn-welcome:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(108,60,225,.5)}
+.btn-welcome:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.welcome-note{font-size:.75rem;color:var(--txt2);margin-top:1.2rem;line-height:1.5}
 @media(max-width:900px){.grid-top{grid-template-columns:1fr}.grid-bottom{grid-template-columns:1fr}.results-grid{grid-template-columns:1fr}.habits-row{grid-template-columns:1fr 1fr}.tips-grid{grid-template-columns:1fr}.tips-sidebar{position:static}}
-@media(max-width:640px){.page{padding:1rem 1rem 6rem}.hero{padding:2.5rem 1.5rem}.assess-grid{grid-template-columns:1fr}.form-grid-3{grid-template-columns:1fr}.form-grid-2{grid-template-columns:1fr}.risk-body{flex-direction:column;align-items:flex-start}.conf-head{flex-direction:column}.habits-row{grid-template-columns:1fr}.stepper .step-lbl{display:none}.shap-label{width:100px;font-size:.7rem}.nav-links{gap:1rem}.tips-hero{padding:2rem 1.5rem}.tips-hero-title{font-size:1.5rem}}
+@media(max-width:640px){.page{padding:1rem 1rem 6rem}.hero{padding:2.5rem 1.5rem}.assess-grid{grid-template-columns:1fr}.form-grid-3{grid-template-columns:1fr}.form-grid-2{grid-template-columns:1fr}.risk-body{flex-direction:column;align-items:flex-start}.conf-head{flex-direction:column}.habits-row{grid-template-columns:1fr}.stepper .step-lbl{display:none}.shap-label{width:100px;font-size:.7rem}.nav-links{gap:1rem}.tips-hero{padding:2rem 1.5rem}.tips-hero-title{font-size:1.5rem}.welcome-card{padding:2rem 1.5rem}.welcome-title{font-size:1.4rem}}
 </style>
 </head>
 <body>
@@ -274,7 +287,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
 </div>
 <div class="nav-actions">
 <div class="nav-icon" onclick="showToast('No new notifications')">🔔</div>
-<div class="nav-avatar" onclick="openModal()" title="Edit profile">AR</div>
+<div class="nav-avatar" onclick="openModal()" title="Edit profile" id="nav-av">?</div>
 </div>
 </div></nav>
 
@@ -292,8 +305,8 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
 <div class="grid-top">
 <div class="card">
 <div class="profile-top">
-<div class="avatar" id="av-letter">A</div>
-<div><div class="p-name" id="disp-name">Alex Rivera</div><div class="p-role" id="disp-role">Undergraduate Senior</div></div>
+<div class="avatar" id="av-letter">?</div>
+<div><div class="p-name" id="disp-name">New User</div><div class="p-role" id="disp-role">Student</div></div>
 </div>
 <div class="stat-row"><span class="stat-lbl">Age</span><span class="stat-val" id="disp-age">21 Years</span></div>
 <div class="stat-row"><span class="stat-lbl">Lifestyle</span><span class="stat-val green" id="disp-lifestyle">Active</span></div>
@@ -438,12 +451,24 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
 
 <div class="modal-overlay" id="modal"><div class="modal">
 <div class="modal-title">Edit Profile</div><div class="modal-sub">Update your profile details shown on the dashboard.</div>
-<input class="modal-input" id="m-name" placeholder="Full Name" value="Alex Rivera"/>
+<input class="modal-input" id="m-name" placeholder="Full Name" value=""/>
 <input class="modal-input" id="m-role" placeholder="Role" value="Undergraduate Senior"/>
 <input class="modal-input" id="m-age" placeholder="Age" value="21"/>
 <input class="modal-input" id="m-edu" placeholder="Major" value="CS Major"/>
 <div class="modal-row"><button class="btn-cancel" onclick="closeModal()">Cancel</button><button class="btn-save" onclick="saveProfile()">Save Changes</button></div>
 </div></div>
+
+<div class="welcome-overlay" id="welcomeScreen">
+<div class="welcome-card">
+<div class="welcome-emoji">🧠</div>
+<div class="welcome-title">Welcome to MindScan</div>
+<div class="welcome-sub">AI-powered mental health assessment for students.<br/>Let's start by getting your name.</div>
+<input class="welcome-input" id="welcome-name" placeholder="Enter your name" autocomplete="off" autofocus/>
+<button class="btn-welcome" id="welcome-btn" onclick="completeWelcome()">Get Started →</button>
+<div class="welcome-note">🔒 Your data stays private and is stored only on your device.</div>
+</div>
+</div>
+
 <div class="toast" id="toast"></div>
 <button class="fab" onclick="showPage('assess',document.querySelectorAll('.nav-link')[1]);showToast('Starting new assessment…')" title="New assessment">+</button>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -637,17 +662,47 @@ function filterTips(cat,btn){
 function openModal(){document.getElementById('modal').classList.add('open')}
 function closeModal(){document.getElementById('modal').classList.remove('open')}
 function saveProfile(){
-  var name=document.getElementById('m-name').value.trim()||'Alex Rivera';
-  var role=document.getElementById('m-role').value.trim()||'Undergraduate Senior';
+  var name=document.getElementById('m-name').value.trim()||'User';
+  var role=document.getElementById('m-role').value.trim()||'Student';
   var age=document.getElementById('m-age').value.trim()||'21';
-  var edu=document.getElementById('m-edu').value.trim()||'CS Major';
+  var edu=document.getElementById('m-edu').value.trim()||'Undeclared';
+  applyProfile(name,role,age,edu);
+  localStorage.setItem('ms_profile',JSON.stringify({name:name,role:role,age:age,edu:edu}));
+  closeModal();showToast('Profile updated!');
+}
+function applyProfile(name,role,age,edu){
   document.getElementById('disp-name').textContent=name;
   document.getElementById('disp-role').textContent=role;
   document.getElementById('disp-age').textContent=age+' Years';
   document.getElementById('disp-edu').textContent=edu;
   document.getElementById('av-letter').textContent=name[0].toUpperCase();
-  document.querySelector('.nav-avatar').textContent=(name.split(' ').map(function(w){return w[0]}).join('').slice(0,2)).toUpperCase();
-  closeModal();showToast('Profile updated!');
+  var initials=(name.split(' ').map(function(w){return w[0]}).join('').slice(0,2)).toUpperCase();
+  document.getElementById('nav-av').textContent=initials;
+  document.getElementById('m-name').value=name;
+  document.getElementById('m-role').value=role;
+  document.getElementById('m-age').value=age;
+  document.getElementById('m-edu').value=edu;
+}
+function completeWelcome(){
+  var name=document.getElementById('welcome-name').value.trim();
+  if(!name)return;
+  var profile={name:name,role:'Student',age:'21',edu:'Undeclared'};
+  localStorage.setItem('ms_profile',JSON.stringify(profile));
+  applyProfile(profile.name,profile.role,profile.age,profile.edu);
+  var ws=document.getElementById('welcomeScreen');
+  ws.classList.add('hide');
+  setTimeout(function(){ws.style.display='none'},500);
+  showToast('Welcome, '+name+'! 👋');
+}
+function loadProfile(){
+  var saved=localStorage.getItem('ms_profile');
+  if(saved){
+    var p=JSON.parse(saved);
+    applyProfile(p.name,p.role,p.age,p.edu);
+    document.getElementById('welcomeScreen').style.display='none';
+  } else {
+    document.getElementById('welcomeScreen').style.display='flex';
+  }
 }
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2500)}
 
@@ -666,8 +721,10 @@ function animateHome(){
 }
 
 document.addEventListener('DOMContentLoaded',function(){
-  initChips();buildPHQ();initCharts();animateHome();
+  initChips();buildPHQ();initCharts();animateHome();loadProfile();
   document.getElementById('modal').addEventListener('click',function(e){if(e.target===document.getElementById('modal'))closeModal()});
+  document.getElementById('welcome-name').addEventListener('keydown',function(e){if(e.key==='Enter')completeWelcome()});
+  document.getElementById('welcome-name').addEventListener('input',function(){document.getElementById('welcome-btn').disabled=!this.value.trim()});
 });
 </script>
 </body>
