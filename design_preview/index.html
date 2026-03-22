@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindScan - AI-Powered Mental Health Risk Assessment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">MindScan</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link connected">Home</a>
+                <a href="#" class="nav-link">Assess</a>
+                <a href="#" class="nav-link">Habits</a>
+            </div>
+            <div class="nav-icons">
+                <div class="notification-icon">🔔</div>
+                <div class="user-icon">👤</div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1 class="hero-title">MindScan</h1>
+            <p class="hero-subtitle">AI-Powered Mental Health Risk<br>Assessment for Students</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary">Start Daily Check-In</button>
+                <button class="btn btn-outline">View Trends</button>
+            </div>
+        </section>
+
+        <div class="content-wrapper">
+            <!-- User Profile Section -->
+            <section class="profile-section">
+                <div class="profile-header">
+                    <div class="profile-avatar">A</div>
+                    <div class="profile-info">
+                        <h2 class="profile-name">Alex Rivera</h2>
+                        <p class="profile-subtitle">Undergraduate Senior</p>
+                    </div>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <span class="stat-label">AGE</span>
+                        <span class="stat-value">21 Years</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">LIFESTYLE</span>
+                        <span class="stat-value">Active</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">EDUCATION</span>
+                        <span class="stat-value">CS Major</span>
+                    </div>
+                </div>
+                <a href="#" class="edit-profile">Edit Profile →</a>
+            </section>
+
+            <!-- Risk Assessment Section -->
+            <section class="risk-assessment">
+                <div class="risk-header">
+                    <span class="status-badge">STATUS: CURRENT PREDICTION</span>
+                    <h2 class="risk-title">Low Risk Detected</h2>
+                </div>
+                <p class="risk-description">Your current cognitive and behavioral patterns suggest a highly stable mental state. Excellent habits!</p>
+                
+                <div class="risk-circle">
+                    <svg viewBox="0 0 200 200" class="circular-progress">
+                        <circle cx="100" cy="100" r="90" class="progress-bg"></circle>
+                        <circle cx="100" cy="100" r="90" class="progress-fill"></circle>
+                    </svg>
+                    <div class="progress-text">
+                        <span class="progress-value">88%</span>
+                        <span class="progress-label">STABILITY</span>
+                    </div>
+                </div>
+
+                <div class="score-boxes">
+                    <div class="score-box phq">
+                        <span class="score-label">PHQ-9 SCORE</span>
+                        <span class="score-value">04</span>
+                        <span class="score-max">/ 27</span>
+                    </div>
+                    <div class="score-box gad">
+                        <span class="score-label">GAD-7 SCORE</span>
+                        <span class="score-value">02</span>
+                        <span class="score-max">/ 21</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Prediction Confidence Section -->
+            <section class="prediction-confidence">
+                <h2 class="section-title">Prediction Confidence</h2>
+                <p class="section-subtitle">Our AI models calculate the probability of each risk level based on your historical data points.</p>
+                
+                <div class="accuracy-badge">
+                    <span class="accuracy-icon">✓</span>
+                    <span class="accuracy-text">94.2% Accuracy</span>
+                </div>
+
+                <div class="confidence-items">
+                    <div class="confidence-item">
+                        <div class="confidence-header">
+                            <span class="confidence-label">Low Risk</span>
+                            <span class="confidence-percentage green">82% Confidence</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill low" style="width: 82%"></div>
+                        </div>
+                    </div>
+
+                    <div class="confidence-item">
+                        <div class="confidence-header">
+                            <span class="confidence-label">Moderate Risk</span>
+                            <span class="confidence-percentage purple">14% Confidence</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill moderate" style="width: 14%"></div>
+                        </div>
+                    </div>
+
+                    <div class="confidence-item">
+                        <div class="confidence-header">
+                            <span class="confidence-label">High Risk</span>
+                            <span class="confidence-percentage red">04% Confidence</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill high" style="width: 4%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Active Assessments Section -->
+            <section class="active-assessments">
+                <h2 class="section-title">Active Assessments</h2>
+                
+                <div class="assessment-form">
+                    <h2 class="form-section-title">⚡ Lifestyle & Habits</h2>
+                    
+                    <!-- Sleep Section -->
+                    <div class="form-section">
+                        <h3 class="question-title">Sleep per night</h3>
+                        <div class="options-group">
+                            <label class="option-radio selected">
+                                <span class="radio-dot"></span>
+                                <5 hrs
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                5-6 hrs
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                6-7 hrs
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                7-8 hrs
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                >8 hrs
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Screen Time Section -->
+                    <div class="form-section">
+                        <h3 class="question-title">Screen time/day</h3>
+                        <div class="options-group">
+                            <label class="option-radio selected">
+                                <span class="radio-dot"></span>
+                                <2 hrs
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                2-4 hrs
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                >4 hrs
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Exercise Frequency Section -->
+                    <div class="form-section">
+                        <h3 class="question-title">Exercise frequency</h3>
+                        <div class="options-group">
+                            <label class="option-radio selected">
+                                <span class="radio-dot"></span>
+                                Never
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                1-2x/week
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                3-4x/week
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                Daily
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Study Hours Section -->
+                    <div class="form-section">
+                        <h3 class="question-title">Study hours outside class</h3>
+                        <div class="options-group">
+                            <label class="option-radio selected">
+                                <span class="radio-dot"></span>
+                                0-1 hr
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                1-2 hrs
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                2-3 hrs
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                3+ hrs
+                            </label>
+                        </div>
+                    </div>
+
+                    <h2 class="form-section-title">📚 Academic Stress & Support</h2>
+
+                    <!-- Support Section -->
+                    <div class="form-section">
+                        <h3 class="question-title">Support from friends/family</h3>
+                        <div class="options-group">
+                            <label class="option-radio selected">
+                                <span class="radio-dot"></span>
+                                Never
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                Rarely
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                Sometimes
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                Often
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                Always
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Academic Overload Yes/No Section -->
+                    <div class="form-section">
+                        <h3 class="question-title">Do you feel academically overloaded?</h3>
+                        <div class="yes-no-options">
+                            <label class="option-radio selected">
+                                <span class="radio-dot"></span>
+                                No
+                            </label>
+                            <label class="option-radio">
+                                <span class="radio-dot"></span>
+                                Yes
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Stress Indicators Section -->
+                    <div class="form-section">
+                        <h3 class="question-title">Stress Indicators (1=Never, 5=Always)</h3>
+                        
+                        <div class="slider-item">
+                            <label>Stressed by workload</label>
+                            <div class="slider-container">
+                                <input type="range" min="1" max="5" value="3" class="slider">
+                                <span class="slider-value">3</span>
+                            </div>
+                        </div>
+
+                        <div class="slider-item">
+                            <label>Difficulty relaxing</label>
+                            <div class="slider-container">
+                                <input type="range" min="1" max="5" value="3" class="slider">
+                                <span class="slider-value">3</span>
+                            </div>
+                        </div>
+
+                        <div class="slider-item">
+                            <label>Overwhelmed by responsibility</label>
+                            <div class="slider-container">
+                                <input type="range" min="1" max="5" value="3" class="slider">
+                                <span class="slider-value">3</span>
+                            </div>
+                        </div>
+
+                        <div class="slider-item">
+                            <label>Anxious about exams</label>
+                            <div class="slider-container">
+                                <input type="range" min="1" max="5" value="3" class="slider">
+                                <span class="slider-value">3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="assessment-grid">
+                    <!-- Lifestyle & Habits Card -->
+                    <div class="assessment-card">
+                        <div class="card-header">
+                            <span class="card-icon">⚡</span>
+                            <span class="card-badge">12 LEFT</span>
+                        </div>
+                        <h3 class="card-title">Lifestyle &amp; Habits</h3>
+                        <p class="card-description">Analyze sleep hygiene, physical activity, and social interaction frequency to refine your profile.</p>
+                        <div class="progress-bar-small">
+                            <div class="progress-fill-small" style="width: 45%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Stress Card -->
+                    <div class="assessment-card new">
+                        <div class="card-header">
+                            <span class="card-icon">📖</span>
+                            <span class="card-badge new-badge">NEW</span>
+                        </div>
+                        <h3 class="card-title">Academic Stress</h3>
+                        <p class="card-description">How is your workload affecting your mood? Quick survey on exams, deadlines, and focus.</p>
+                        <button class="btn-start">Start Now</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Action Button -->
+    <button class="fab">+</button>
+</body>
+</html>

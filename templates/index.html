@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MindScan – AI Mental Health Risk Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --p:#6C3CE1;--pm:#9B59B6;--pl:#C471ED;
+  --green:#10B981;--violet:#A78BFA;--red:#EF4444;--amber:#F59E0B;
+  --bg:#F0F2FA;--card:#FFFFFF;--border:#E6E8F4;
+  --txt:#0D0D1A;--txt2:#6B7280;
+  --sh-sm:0 2px 10px rgba(0,0,0,.07);
+  --sh-md:0 4px 20px rgba(0,0,0,.09);
+  --sh-lg:0 8px 32px rgba(0,0,0,.13);
+  --r:18px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit}
+.navbar{background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:300;box-shadow:var(--sh-sm)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:.85rem 2rem;display:flex;align-items:center;gap:1.5rem}
+.nav-brand{font-family:'Sora',sans-serif;font-size:1.4rem;font-weight:800;color:var(--p);white-space:nowrap;letter-spacing:-.5px}
+.nav-links{display:flex;gap:2rem;flex:1;justify-content:center}
+.nav-link{font-size:.9rem;font-weight:600;color:var(--txt2);padding-bottom:4px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;cursor:pointer}
+.nav-link:hover{color:var(--p)}
+.nav-link.active{color:var(--txt);border-bottom-color:var(--p)}
+.nav-actions{display:flex;gap:.75rem;align-items:center}
+.nav-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:var(--txt2);transition:background .2s}
+.nav-icon:hover{background:var(--bg)}
+.nav-avatar{width:36px;height:36px;border-radius:50%;background:var(--txt);display:flex;align-items:center;justify-content:center;color:white;font-size:.72rem;font-weight:700;cursor:pointer}
+.page{display:none;max-width:1200px;margin:0 auto;padding:2rem 2rem 6rem;animation:fadeUp .4s ease both}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero{background:linear-gradient(135deg,#6C3CE1 0%,#9B59B6 50%,#C471ED 100%);border-radius:var(--r);padding:3.5rem 2.5rem;color:white;margin-bottom:2.5rem;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-60px;top:-60px;width:340px;height:340px;background:rgba(255,255,255,.06);border-radius:50%}
+.hero::before{content:'';position:absolute;right:80px;bottom:-80px;width:220px;height:220px;background:rgba(255,255,255,.04);border-radius:50%}
+.hero-icon{font-size:3rem;margin-bottom:.5rem;position:relative;z-index:1}
+.hero-title{font-family:'Sora',sans-serif;font-size:clamp(2.2rem,5vw,3.2rem);font-weight:800;letter-spacing:-1.5px;margin-bottom:.4rem;position:relative;z-index:1}
+.hero-sub{font-size:1rem;opacity:.92;margin-bottom:.3rem;line-height:1.6;position:relative;z-index:1}
+.hero-tag{font-size:.75rem;opacity:.7;margin-bottom:2rem;position:relative;z-index:1;text-transform:uppercase;letter-spacing:.7px}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;position:relative;z-index:1}
+.btn-white{padding:.8rem 1.7rem;border-radius:50px;border:none;background:white;color:var(--p);font-size:.9rem;font-weight:700;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 18px rgba(0,0,0,.18)}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,0,0,.24)}
+.btn-ghost{padding:.8rem 1.7rem;border-radius:50px;border:2px solid rgba(255,255,255,.7);background:transparent;color:white;font-size:.9rem;font-weight:700;transition:background .2s}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.grid-top{display:grid;grid-template-columns:260px 1fr;gap:1.75rem;margin-bottom:1.75rem}
+.grid-bottom{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem}
+.card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh-md);padding:1.75rem}
+.profile-top{display:flex;align-items:center;gap:1rem;padding-bottom:1.25rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.avatar{width:60px;height:60px;border-radius:13px;flex-shrink:0;background:linear-gradient(135deg,var(--p),var(--pl));display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:1.4rem;font-weight:700;color:white}
+.p-name{font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800}
+.p-role{font-size:.8rem;color:var(--p);font-weight:600;margin-top:2px}
+.stat-row{display:flex;flex-direction:column;background:#F8F9FE;border:1px solid var(--border);border-radius:10px;padding:.65rem .9rem;margin-bottom:.55rem}
+.stat-lbl{font-size:.65rem;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.7px}
+.stat-val{font-size:.9rem;font-weight:700;margin-top:2px}
+.stat-val.green{color:var(--green)}
+.btn-edit{width:100%;padding:.65rem;border:2px solid var(--p);border-radius:10px;background:transparent;color:var(--p);font-size:.85rem;font-weight:700;transition:background .2s;margin-top:.4rem}
+.btn-edit:hover{background:rgba(108,60,225,.06)}
+.status-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,.1);color:var(--green);padding:.3rem .8rem;border-radius:6px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:.8rem;width:fit-content}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+.risk-title{font-family:'Sora',sans-serif;font-size:1.9rem;font-weight:800;line-height:1.15;margin-bottom:.5rem}
+.risk-desc{font-size:.88rem;color:var(--txt2);line-height:1.6;margin-bottom:1.5rem}
+.risk-body{display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.ring-wrap{position:relative;width:150px;height:150px;flex-shrink:0}
+.ring-wrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:#E8EBF5;stroke-width:11}
+.ring-fill{fill:none;stroke:var(--green);stroke-width:11;stroke-linecap:round;stroke-dasharray:471.24;stroke-dashoffset:471.24;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)}
+.ring-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-val{font-family:'Sora',sans-serif;font-size:1.8rem;font-weight:800;color:var(--green);line-height:1}
+.ring-lbl{font-size:.62rem;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.6px;margin-top:3px}
+.scores{display:flex;flex-direction:column;gap:.7rem;flex:1;min-width:130px}
+.score-box{border-radius:12px;padding:.9rem 1.1rem;border:1px solid var(--border)}
+.score-box.phq{background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.2)}
+.score-box.gad{background:rgba(167,139,250,.06);border-color:rgba(167,139,250,.2)}
+.s-lbl{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px}
+.score-box.phq .s-lbl{color:var(--green)}
+.score-box.gad .s-lbl{color:var(--violet)}
+.s-num{font-family:'Sora',sans-serif;font-size:1.5rem;font-weight:800;line-height:1}
+.score-box.phq .s-num{color:var(--green)}
+.score-box.gad .s-num{color:var(--violet)}
+.s-max{font-size:.78rem;color:var(--txt2);font-weight:500}
+.sec-head{font-family:'Sora',sans-serif;font-size:1.25rem;font-weight:800;margin-bottom:1.2rem}
+.assess-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.acard{background:#FAFBFE;border:1px solid var(--border);border-radius:14px;padding:1.2rem;position:relative;transition:transform .25s,box-shadow .25s}
+.acard:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
+.a-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:.8rem}
+.i-pur{background:rgba(108,60,225,.1)}
+.i-red{background:rgba(239,68,68,.1)}
+.a-badge{position:absolute;top:.9rem;right:.9rem;font-size:.62rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:.28rem .62rem;border-radius:20px;color:white}
+.b-pur{background:linear-gradient(135deg,#A78BFA,#C4B5FD)}
+.b-red{background:var(--red)}
+.a-title{font-family:'Sora',sans-serif;font-size:.95rem;font-weight:800;margin-bottom:.35rem}
+.a-desc{font-size:.79rem;color:var(--txt2);line-height:1.55;margin-bottom:.9rem}
+.mini-track{height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.mini-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--p),var(--pl));width:45%}
+.btn-now{width:100%;padding:.7rem;background:linear-gradient(135deg,#EF4444,#DC2626);color:white;border:none;border-radius:10px;font-size:.85rem;font-weight:700;transition:transform .2s,box-shadow .2s}
+.btn-now:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(239,68,68,.35)}
+.conf-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.75rem;gap:1rem}
+.conf-title{font-family:'Sora',sans-serif;font-size:1.25rem;font-weight:800;margin-bottom:.3rem}
+.conf-sub{font-size:.82rem;color:var(--txt2);line-height:1.55}
+.acc-pill{display:flex;align-items:center;gap:.55rem;background:var(--txt);color:white;padding:.6rem 1.1rem;border-radius:50px;white-space:nowrap;height:fit-content}
+.acc-icon{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--green)}
+.acc-text{font-size:.82rem;font-weight:700}
+.conf-bars{display:flex;flex-direction:column;gap:1.3rem}
+.conf-row-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem}
+.conf-label{font-size:.9rem;font-weight:700}
+.conf-pct{font-size:.9rem;font-weight:800}
+.conf-pct.g{color:var(--green)}.conf-pct.v{color:var(--violet)}.conf-pct.r{color:var(--red)}
+.bar-track{height:10px;background:#E8EBF5;border-radius:5px;overflow:hidden}
+.bar-fill{height:100%;border-radius:5px;width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.bar-g{background:var(--green)}.bar-v{background:var(--violet)}.bar-r{background:var(--red)}
+.assess-hero{background:linear-gradient(135deg,#6C3CE1 0%,#9B59B6 60%,#C471ED 100%);border-radius:var(--r);padding:2.5rem 2.5rem;color:white;margin-bottom:2rem;position:relative;overflow:hidden}
+.assess-hero::after{content:'';position:absolute;right:-40px;top:-40px;width:250px;height:250px;background:rgba(255,255,255,.06);border-radius:50%}
+.assess-hero-title{font-family:'Sora',sans-serif;font-size:1.8rem;font-weight:800;position:relative;z-index:1;margin-bottom:.4rem}
+.assess-hero-sub{font-size:.9rem;opacity:.88;position:relative;z-index:1}
+.assess-tags{display:flex;gap:.5rem;margin-top:.8rem;position:relative;z-index:1;flex-wrap:wrap}
+.a-tag{background:rgba(255,255,255,.15);padding:.3rem .7rem;border-radius:20px;font-size:.7rem;font-weight:600;letter-spacing:.5px}
+.stepper{display:flex;align-items:center;gap:0;margin-bottom:2rem}
+.step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
+.step:not(:last-child)::after{content:'';position:absolute;top:18px;left:calc(50% + 18px);right:calc(-50% + 18px);height:2px;background:var(--border);z-index:0;transition:background .3s}
+.step.done:not(:last-child)::after{background:var(--p)}
+.step-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;border:2px solid var(--border);background:var(--card);color:var(--txt2);position:relative;z-index:1;transition:all .3s}
+.step.active .step-circle{border-color:var(--p);background:var(--p);color:white}
+.step.done .step-circle{border-color:var(--p);background:var(--p);color:white}
+.step-lbl{font-size:.68rem;font-weight:600;color:var(--txt2);margin-top:.35rem;text-align:center;white-space:nowrap}
+.step.active .step-lbl,.step.done .step-lbl{color:var(--p)}
+.form-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh-md);padding:1.75rem;margin-bottom:1.5rem;display:none}
+.form-card.active-form{display:block;animation:fadeUp .35s ease}
+.form-section-title{display:flex;align-items:center;gap:.6rem;font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:800;margin-bottom:1.5rem;padding-bottom:.85rem;border-bottom:1px solid var(--border)}
+.form-section-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--p),var(--pl));display:flex;align-items:center;justify-content:center;font-size:1rem}
+.form-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.form-group{display:flex;flex-direction:column;gap:.45rem}
+.form-label{font-size:.8rem;font-weight:700;color:var(--txt);letter-spacing:.2px}
+.form-label span{color:var(--txt2);font-weight:400;margin-left:.3rem}
+.chip-group{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.2rem}
+.chip{padding:.38rem .85rem;border-radius:50px;border:1.5px solid var(--border);background:#F8F9FE;color:var(--txt2);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;user-select:none}
+.chip:hover{border-color:var(--pm);color:var(--p);background:rgba(108,60,225,.04)}
+.chip.selected{background:#EDE9FE;border-color:var(--p);color:var(--p);box-shadow:0 3px 10px rgba(108,60,225,.2)}
+.slider-wrap{display:flex;flex-direction:column;gap:.4rem}
+.slider-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--txt2);margin-top:2px}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--border);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--p);box-shadow:0 2px 8px rgba(108,60,225,.4);transition:transform .2s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
+.slider-val{font-size:.75rem;font-weight:700;color:var(--p);text-align:right}
+.phq-item{background:#F8F9FE;border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem;margin-bottom:.8rem}
+.phq-q{font-size:.88rem;font-weight:600;margin-bottom:.75rem;color:var(--txt)}
+.phq-q span{font-size:.78rem;font-weight:500;color:var(--txt2)}
+.phq-options{display:flex;gap:.4rem;flex-wrap:wrap}
+.phq-opt{padding:.38rem .8rem;border-radius:50px;border:1.5px solid var(--border);background:var(--card);color:var(--txt2);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s}
+.phq-opt:hover{border-color:var(--pm)}
+.phq-opt.sel{background:#EDE9FE;border-color:var(--p);color:var(--p)}
+.form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem}
+.btn-back{padding:.75rem 1.5rem;border-radius:50px;border:2px solid var(--border);background:var(--card);color:var(--txt2);font-size:.88rem;font-weight:700;transition:all .2s}
+.btn-back:hover{border-color:var(--p);color:var(--p)}
+.btn-next{padding:.75rem 1.75rem;border-radius:50px;border:none;background:linear-gradient(135deg,var(--p),var(--pm));color:white;font-size:.88rem;font-weight:700;box-shadow:0 4px 16px rgba(108,60,225,.3);transition:transform .2s,box-shadow .2s}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(108,60,225,.4)}
+.btn-analyze{padding:.85rem 2.5rem;border-radius:50px;border:none;background:linear-gradient(135deg,var(--p),var(--pl));color:white;font-size:1rem;font-weight:700;box-shadow:0 4px 20px rgba(108,60,225,.35);transition:transform .2s,box-shadow .2s;width:100%;margin-top:1rem}
+.btn-analyze:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(108,60,225,.45)}
+#page-results{display:none}
+#page-results.active{display:block}
+.result-banner{border-radius:var(--r);padding:2.5rem;margin-bottom:2rem;text-align:center;position:relative;overflow:hidden}
+.rb-low{background:linear-gradient(135deg,#D1FAE5,#A7F3D0);border:2px solid var(--green)}
+.rb-mod{background:linear-gradient(135deg,#FEF3C7,#FDE68A);border:2px solid var(--amber)}
+.rb-high{background:linear-gradient(135deg,#FEE2E2,#FECACA);border:2px solid var(--red)}
+.rb-icon{font-size:3rem;margin-bottom:.5rem}
+.rb-title{font-family:'Sora',sans-serif;font-size:2rem;font-weight:800;margin-bottom:.4rem}
+.rb-low .rb-title{color:#065F46}
+.rb-mod .rb-title{color:#92400E}
+.rb-high .rb-title{color:#991B1B}
+.rb-msg{font-size:.95rem;opacity:.85;margin-bottom:.8rem}
+.rb-phq{font-size:.9rem;font-weight:600}
+.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;margin-bottom:1.75rem}
+.shap-bars{display:flex;flex-direction:column;gap:.9rem;margin-top:.5rem}
+.shap-row{display:flex;align-items:center;gap:.75rem}
+.shap-label{font-size:.78rem;font-weight:600;color:var(--txt);width:160px;flex-shrink:0;text-align:right}
+.shap-track{flex:1;height:18px;background:#F0F2FA;border-radius:4px;overflow:hidden;position:relative}
+.shap-bar{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.4,0,.2,1);position:relative}
+.shap-bar::after{content:attr(data-v);position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:.65rem;font-weight:700;color:white}
+.tip-card{background:var(--card);border:1px solid #F3F0FF;border-left:4px solid var(--p);border-radius:12px;padding:1rem 1.1rem;margin-bottom:.75rem}
+.tip-card.urgent{border-left-color:var(--red);border-color:#FEE2E2;background:#FFF5F5}
+.tip-card.good{border-left-color:var(--green);border-color:#D1FAE5;background:#F0FDF4}
+.tip-head{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
+.tip-icon{font-size:1rem}
+.tip-title{font-size:.82rem;font-weight:700;color:var(--txt)}
+.tip-body{font-size:.82rem;color:#374151;line-height:1.6;padding-left:1.5rem}
+.habits-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:1.75rem}
+.habit-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh-sm);padding:1.25rem;text-align:center}
+.habit-icon{font-size:2rem;margin-bottom:.5rem}
+.habit-title{font-family:'Sora',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:.3rem}
+.habit-val{font-size:1.6rem;font-weight:800;color:var(--p);line-height:1}
+.habit-sub{font-size:.72rem;color:var(--txt2);margin-top:2px}
+.chart-wrap{position:relative;height:260px;margin-top:.5rem}
+.tips-hero{background:linear-gradient(135deg,#6C3CE1 0%,#9B59B6 55%,#C471ED 100%);border-radius:var(--r);padding:2.8rem 2.5rem;color:white;margin-bottom:2rem;position:relative;overflow:hidden}
+.tips-hero::after{content:'';position:absolute;right:-50px;top:-50px;width:280px;height:280px;background:rgba(255,255,255,.06);border-radius:50%}
+.tips-hero-title{font-family:'Sora',sans-serif;font-size:1.9rem;font-weight:800;position:relative;z-index:1;margin-bottom:.4rem;display:flex;align-items:center;gap:.6rem}
+.tips-hero-sub{font-size:.92rem;opacity:.88;position:relative;z-index:1;line-height:1.6}
+.tips-hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);border-radius:50px;padding:.4rem 1rem;font-size:.75rem;font-weight:700;margin-top:.9rem;position:relative;z-index:1}
+.tips-grid{display:grid;grid-template-columns:260px 1fr;gap:1.75rem;align-items:start}
+.tips-sidebar{display:flex;flex-direction:column;gap:1rem;position:sticky;top:80px}
+.tips-filter-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh-sm);padding:1.4rem}
+.tips-filter-title{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:800;margin-bottom:1rem;color:var(--txt)}
+.filter-btn{width:100%;text-align:left;padding:.6rem .85rem;border-radius:10px;border:1.5px solid transparent;background:transparent;color:var(--txt2);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem}
+.filter-btn:hover{background:#F5F3FF;color:var(--p)}
+.filter-btn.active-f{background:#EDE9FE;border-color:var(--p);color:var(--p)}
+.filter-count{margin-left:auto;background:var(--border);color:var(--txt2);font-size:.68rem;font-weight:700;padding:.2rem .5rem;border-radius:20px;min-width:22px;text-align:center}
+.filter-btn.active-f .filter-count{background:rgba(108,60,225,.2);color:var(--p)}
+.score-summary-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh-sm);padding:1.4rem}
+.score-sum-title{font-family:'Sora',sans-serif;font-size:.85rem;font-weight:800;margin-bottom:1rem;color:var(--txt)}
+.mini-score-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.8rem}
+.mini-score-row:last-child{border-bottom:none}
+.mini-score-lbl{font-weight:600;color:var(--txt2)}
+.mini-score-val{font-weight:800}
+.tips-section-head{display:flex;align-items:center;gap:.6rem;font-family:'Sora',sans-serif;font-size:1rem;font-weight:800;margin-bottom:1rem;margin-top:1.75rem;padding-bottom:.5rem;border-bottom:2px solid var(--border)}
+.tips-section-head:first-of-type{margin-top:0}
+.tips-section-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.tip-big-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--p);border-radius:14px;padding:1.25rem 1.4rem;margin-bottom:.85rem;box-shadow:var(--sh-sm);transition:transform .2s,box-shadow .2s;cursor:default;animation:fadeUp .3s ease both}
+.tip-big-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md)}
+.tip-big-card.good{border-left-color:var(--green);background:linear-gradient(135deg,#F0FDF4,#FFFFFF)}
+.tip-big-card.urgent{border-left-color:var(--red);background:linear-gradient(135deg,#FFF5F5,#FFFFFF)}
+.tip-big-card.warning{border-left-color:var(--amber);background:linear-gradient(135deg,#FFFBEB,#FFFFFF)}
+.tip-big-card.info{border-left-color:var(--violet);background:linear-gradient(135deg,#F5F3FF,#FFFFFF)}
+.tbh{display:flex;align-items:flex-start;gap:.85rem}
+.tb-icon-wrap{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.good .tb-icon-wrap{background:rgba(16,185,129,.12)}
+.urgent .tb-icon-wrap{background:rgba(239,68,68,.12)}
+.warning .tb-icon-wrap{background:rgba(245,158,11,.12)}
+.info .tb-icon-wrap{background:rgba(167,139,250,.12)}
+.tb-title{font-size:.9rem;font-weight:800;color:var(--txt);margin-bottom:.3rem}
+.tb-body{font-size:.83rem;color:#374151;line-height:1.65}
+.tb-tag{display:inline-block;margin-top:.6rem;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:.2rem .6rem;border-radius:20px}
+.good .tb-tag{background:rgba(16,185,129,.12);color:#065F46}
+.urgent .tb-tag{background:rgba(239,68,68,.12);color:#991B1B}
+.warning .tb-tag{background:rgba(245,158,11,.12);color:#92400E}
+.info .tb-tag{background:rgba(167,139,250,.18);color:#4C1D95}
+.run-first-banner{background:var(--card);border:2px dashed var(--border);border-radius:var(--r);padding:3rem 2rem;text-align:center}
+.rfb-icon{font-size:3.5rem;margin-bottom:1rem}
+.rfb-title{font-family:'Sora',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.5rem}
+.rfb-sub{font-size:.88rem;color:var(--txt2);margin-bottom:1.5rem;line-height:1.6}
+.btn-go-assess{padding:.85rem 2rem;border-radius:50px;border:none;background:linear-gradient(135deg,var(--p),var(--pl));color:white;font-size:.9rem;font-weight:700;box-shadow:0 4px 16px rgba(108,60,225,.3);transition:transform .2s}
+.btn-go-assess:hover{transform:translateY(-2px)}
+.fab{position:fixed;bottom:2rem;right:2rem;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--pl));color:white;font-size:1.6rem;font-weight:300;border:none;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(108,60,225,.45);transition:transform .2s,box-shadow .2s;z-index:400}
+.fab:hover{transform:scale(1.1);box-shadow:0 12px 36px rgba(108,60,225,.55)}
+.fab:active{transform:scale(.95)}
+.toast{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--txt);color:white;padding:.7rem 1.5rem;border-radius:50px;font-size:.85rem;font-weight:600;opacity:0;transition:opacity .3s,transform .3s;z-index:500;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;display:none;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);border-radius:var(--r);padding:2rem;max-width:480px;width:100%;box-shadow:var(--sh-lg);animation:fadeUp .3s ease}
+.modal-title{font-family:'Sora',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:.4rem}
+.modal-sub{font-size:.85rem;color:var(--txt2);margin-bottom:1.5rem;line-height:1.55}
+.modal-input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.7rem 1rem;font-size:.9rem;margin-bottom:.8rem;outline:none;transition:border-color .2s}
+.modal-input:focus{border-color:var(--p)}
+.modal-row{display:flex;gap:.75rem;margin-top:.5rem}
+.btn-save{flex:1;padding:.75rem;border-radius:10px;border:none;background:linear-gradient(135deg,var(--p),var(--pl));color:white;font-size:.9rem;font-weight:700}
+.btn-cancel{padding:.75rem 1.25rem;border-radius:10px;border:2px solid var(--border);background:var(--card);color:var(--txt2);font-size:.9rem;font-weight:700}
+@media(max-width:900px){.grid-top{grid-template-columns:1fr}.grid-bottom{grid-template-columns:1fr}.results-grid{grid-template-columns:1fr}.habits-row{grid-template-columns:1fr 1fr}.tips-grid{grid-template-columns:1fr}.tips-sidebar{position:static}}
+@media(max-width:640px){.page{padding:1rem 1rem 6rem}.hero{padding:2.5rem 1.5rem}.assess-grid{grid-template-columns:1fr}.form-grid-3{grid-template-columns:1fr}.form-grid-2{grid-template-columns:1fr}.risk-body{flex-direction:column;align-items:flex-start}.conf-head{flex-direction:column}.habits-row{grid-template-columns:1fr}.stepper .step-lbl{display:none}.shap-label{width:100px;font-size:.7rem}.nav-links{gap:1rem}.tips-hero{padding:2rem 1.5rem}.tips-hero-title{font-size:1.5rem}}
+</style>
+</head>
+<body>
+<nav class="navbar"><div class="nav-inner">
+<div class="nav-brand">🧠 MindScan</div>
+<div class="nav-links">
+<span class="nav-link active" onclick="showPage('home',this)">Home</span>
+<span class="nav-link" onclick="showPage('assess',this)">Assess</span>
+<span class="nav-link" onclick="showPage('habits',this)">Habits</span>
+<span class="nav-link" onclick="showPage('tips',this)">💡 Tips</span>
+</div>
+<div class="nav-actions">
+<div class="nav-icon" onclick="showToast('No new notifications')">🔔</div>
+<div class="nav-avatar" onclick="openModal()" title="Edit profile">AR</div>
+</div>
+</div></nav>
+
+<div class="page active" id="page-home"><div style="max-width:1200px;margin:0 auto">
+<section class="hero">
+<div class="hero-icon">🧠</div>
+<h1 class="hero-title">MindScan</h1>
+<p class="hero-sub">AI-Powered Mental Health Risk Assessment for Students</p>
+<p class="hero-tag">Confidential · Anonymous · Instant Results</p>
+<div class="hero-btns">
+<button class="btn-white" onclick="showPage('assess',document.querySelectorAll('.nav-link')[1])">Start Daily Check-In</button>
+<button class="btn-ghost" onclick="showPage('habits',document.querySelectorAll('.nav-link')[2])">View Trends</button>
+</div>
+</section>
+<div class="grid-top">
+<div class="card">
+<div class="profile-top">
+<div class="avatar" id="av-letter">A</div>
+<div><div class="p-name" id="disp-name">Alex Rivera</div><div class="p-role" id="disp-role">Undergraduate Senior</div></div>
+</div>
+<div class="stat-row"><span class="stat-lbl">Age</span><span class="stat-val" id="disp-age">21 Years</span></div>
+<div class="stat-row"><span class="stat-lbl">Lifestyle</span><span class="stat-val green" id="disp-lifestyle">Active</span></div>
+<div class="stat-row"><span class="stat-lbl">Education</span><span class="stat-val" id="disp-edu">CS Major</span></div>
+<button class="btn-edit" onclick="openModal()">Edit Profile →</button>
+</div>
+<div class="card">
+<div class="status-pill"><span class="dot"></span>STATUS: CURRENT PREDICTION</div>
+<h2 class="risk-title" id="home-risk-title">Low Risk Detected</h2>
+<p class="risk-desc" id="home-risk-desc">Your current cognitive and behavioral patterns suggest a highly stable mental state. Excellent habits!</p>
+<div class="risk-body">
+<div class="ring-wrap"><svg viewBox="0 0 150 150"><circle class="ring-bg" cx="75" cy="75" r="62"></circle><circle class="ring-fill" id="home-ring" cx="75" cy="75" r="62"></circle></svg><div class="ring-text"><span class="ring-val" id="home-stab">88%</span><span class="ring-lbl">Stability</span></div></div>
+<div class="scores">
+<div class="score-box phq"><div class="s-lbl">PHQ-9 Score</div><div><span class="s-num" id="home-phq">04</span><span class="s-max"> / 27</span></div></div>
+<div class="score-box gad"><div class="s-lbl">GAD-7 Score</div><div><span class="s-num" id="home-gad">02</span><span class="s-max"> / 21</span></div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid-bottom">
+<div class="card">
+<h2 class="sec-head">Active Assessments</h2>
+<div class="assess-grid">
+<div class="acard"><div class="a-icon i-pur">⚡</div><span class="a-badge b-pur">12 Left</span><div class="a-title">Lifestyle &amp; Habits</div><div class="a-desc">Analyze sleep hygiene, physical activity, and social interaction frequency to refine your profile.</div><div class="mini-track"><div class="mini-fill"></div></div></div>
+<div class="acard"><div class="a-icon i-red">📖</div><span class="a-badge b-red">NEW</span><div class="a-title">Academic Stress</div><div class="a-desc">How is your workload affecting your mood? Quick survey on exams, deadlines, and focus.</div><button class="btn-now" onclick="showPage('assess',document.querySelectorAll('.nav-link')[1])">Start Now</button></div>
+</div>
+</div>
+<div class="card">
+<div class="conf-head"><div><div class="conf-title">Prediction Confidence</div><div class="conf-sub">Our AI models calculate the probability of each risk level based on your historical data points.</div></div><div class="acc-pill"><div class="acc-icon">✓</div><span class="acc-text">94.2% Accuracy</span></div></div>
+<div class="conf-bars">
+<div><div class="conf-row-head"><span class="conf-label">Low Risk</span><span class="conf-pct g" id="hc-low">82% Confidence</span></div><div class="bar-track"><div class="bar-fill bar-g" id="hb-low" data-w="82"></div></div></div>
+<div><div class="conf-row-head"><span class="conf-label">Moderate Risk</span><span class="conf-pct v" id="hc-mod">14% Confidence</span></div><div class="bar-track"><div class="bar-fill bar-v" id="hb-mod" data-w="14"></div></div></div>
+<div><div class="conf-row-head"><span class="conf-label">High Risk</span><span class="conf-pct r" id="hc-high">04% Confidence</span></div><div class="bar-track"><div class="bar-fill bar-r" id="hb-high" data-w="4"></div></div></div>
+</div>
+</div>
+</div>
+</div></div>
+
+<div class="page" id="page-assess"><div style="max-width:780px;margin:0 auto">
+<div class="assess-hero"><div class="assess-hero-title">🔬 Mental Health Assessment</div><div class="assess-hero-sub">Answer honestly — all data is anonymous and confidential</div><div class="assess-tags"><span class="a-tag">CONFIDENTIAL</span><span class="a-tag">ANONYMOUS</span><span class="a-tag">INSTANT AI RESULTS</span></div></div>
+<div class="stepper">
+<div class="step active" id="st-1"><div class="step-circle">1</div><div class="step-lbl">Profile</div></div>
+<div class="step" id="st-2"><div class="step-circle">2</div><div class="step-lbl">Lifestyle</div></div>
+<div class="step" id="st-3"><div class="step-circle">3</div><div class="step-lbl">Stress</div></div>
+<div class="step" id="st-4"><div class="step-circle">4</div><div class="step-lbl">PHQ-9</div></div>
+</div>
+<div class="form-card active-form" id="form-1">
+<div class="form-section-title"><div class="form-section-icon">👤</div>Your Profile</div>
+<div class="form-grid-3">
+<div class="form-group"><label class="form-label">Age</label><div class="chip-group" id="chips-age"><span class="chip" data-val="18">18</span><span class="chip" data-val="19">19</span><span class="chip" data-val="20">20</span><span class="chip" data-val="21">21</span><span class="chip" data-val="22">22</span><span class="chip" data-val="23">23</span><span class="chip" data-val="24">24</span><span class="chip" data-val="25">25+</span></div></div>
+<div class="form-group"><label class="form-label">Gender</label><div class="chip-group" id="chips-gender"><span class="chip" data-val="0">Male</span><span class="chip" data-val="1">Female</span><span class="chip" data-val="2">Other</span></div></div>
+<div class="form-group"><label class="form-label">Year of Study</label><div class="chip-group" id="chips-year"><span class="chip" data-val="1">1st</span><span class="chip" data-val="2">2nd</span><span class="chip" data-val="3">3rd</span><span class="chip" data-val="4">4th</span><span class="chip" data-val="5">Masters</span><span class="chip" data-val="6">PhD</span></div></div>
+</div>
+<div class="form-nav"><span></span><button class="btn-next" onclick="goStep(2)">Next: Lifestyle →</button></div>
+</div>
+<div class="form-card" id="form-2">
+<div class="form-section-title"><div class="form-section-icon">🌙</div>Lifestyle &amp; Habits</div>
+<div class="form-grid-2">
+<div class="form-group"><label class="form-label">Sleep per night</label><div class="chip-group" id="chips-sleep"><span class="chip" data-val="0">&lt;5 hrs</span><span class="chip" data-val="1">5–6 hrs</span><span class="chip" data-val="2">6–7 hrs</span><span class="chip" data-val="3">7–8 hrs</span><span class="chip" data-val="4">&gt;8 hrs</span></div></div>
+<div class="form-group"><label class="form-label">Exercise frequency</label><div class="chip-group" id="chips-exercise"><span class="chip" data-val="0">Never</span><span class="chip" data-val="1">1–2×/wk</span><span class="chip" data-val="2">3–4×/wk</span><span class="chip" data-val="3">Daily</span></div></div>
+<div class="form-group"><label class="form-label">Screen time / day</label><div class="chip-group" id="chips-screen"><span class="chip" data-val="0">&lt;2 hrs</span><span class="chip" data-val="1">2–4 hrs</span><span class="chip" data-val="2">&gt;4 hrs</span></div></div>
+<div class="form-group"><label class="form-label">Study hours outside class</label><div class="chip-group" id="chips-study"><span class="chip" data-val="0">0–1 hr</span><span class="chip" data-val="1">1–2 hrs</span><span class="chip" data-val="2">2–3 hrs</span><span class="chip" data-val="3">3+ hrs</span></div></div>
+</div>
+<div class="form-nav"><button class="btn-back" onclick="goStep(1)">← Back</button><button class="btn-next" onclick="goStep(3)">Next: Stress →</button></div>
+</div>
+<div class="form-card" id="form-3">
+<div class="form-section-title"><div class="form-section-icon">📚</div>Academic Stress &amp; Support</div>
+<div class="form-grid-2">
+<div class="form-group"><label class="form-label">Support from friends / family</label><div class="chip-group" id="chips-support"><span class="chip" data-val="0">Never</span><span class="chip" data-val="1">Rarely</span><span class="chip" data-val="2">Sometimes</span><span class="chip" data-val="3">Often</span><span class="chip" data-val="4">Always</span></div></div>
+<div class="form-group"><label class="form-label">Feel academically overloaded?</label><div class="chip-group" id="chips-overload"><span class="chip" data-val="0">No</span><span class="chip" data-val="1">Yes</span></div></div>
+</div>
+<div style="margin-top:1.5rem">
+<p style="font-size:.8rem;font-weight:700;color:var(--txt);margin-bottom:1.1rem">Stress Indicators <span style="font-weight:400;color:var(--txt2)">(1 = Never, 5 = Always)</span></p>
+<div class="form-grid-2">
+<div class="slider-wrap"><label class="form-label">Stressed by workload</label><input type="range" min="1" max="5" value="3" id="sl-workload" oninput="updateSlider(this,'sv-workload')"/><div class="slider-labels"><span>Never</span><span id="sv-workload" class="slider-val">3</span><span>Always</span></div></div>
+<div class="slider-wrap"><label class="form-label">Difficulty relaxing</label><input type="range" min="1" max="5" value="3" id="sl-relax" oninput="updateSlider(this,'sv-relax')"/><div class="slider-labels"><span>Never</span><span id="sv-relax" class="slider-val">3</span><span>Always</span></div></div>
+<div class="slider-wrap"><label class="form-label">Overwhelmed by responsibilities</label><input type="range" min="1" max="5" value="3" id="sl-overwhelm" oninput="updateSlider(this,'sv-overwhelm')"/><div class="slider-labels"><span>Never</span><span id="sv-overwhelm" class="slider-val">3</span><span>Always</span></div></div>
+<div class="slider-wrap"><label class="form-label">Anxious about exams / deadlines</label><input type="range" min="1" max="5" value="3" id="sl-exam" oninput="updateSlider(this,'sv-exam')"/><div class="slider-labels"><span>Never</span><span id="sv-exam" class="slider-val">3</span><span>Always</span></div></div>
+</div>
+</div>
+<div class="form-nav"><button class="btn-back" onclick="goStep(2)">← Back</button><button class="btn-next" onclick="goStep(4)">Next: PHQ-9 →</button></div>
+</div>
+<div class="form-card" id="form-4">
+<div class="form-section-title"><div class="form-section-icon">🔬</div>Wellness Check (PHQ-9)</div>
+<p style="font-size:.83rem;color:var(--txt2);margin-bottom:1.2rem;line-height:1.55">Over the <strong>last 2 weeks</strong>, how often have you been bothered by the following?</p>
+<div id="phq-container"></div>
+<button class="btn-analyze" onclick="runAnalysis()">🚀 Analyze My Mental Health Risk</button>
+<div class="form-nav" style="margin-top:1rem"><button class="btn-back" onclick="goStep(3)">← Back</button><span></span></div>
+</div>
+</div></div>
+
+<div id="page-results"><div style="max-width:780px;margin:0 auto;padding:0 2rem 6rem">
+<div id="result-banner" class="result-banner rb-low"><div class="rb-icon" id="rb-icon">🌿</div><div class="rb-title" id="rb-title">Low Risk</div><div class="rb-msg" id="rb-msg">You're doing great!</div><div class="rb-phq" id="rb-phq">PHQ-9 Score: 0 / 27</div></div>
+<div class="results-grid">
+<div class="card"><div class="conf-head"><div><div class="conf-title">Prediction Confidence</div><div class="conf-sub">AI probability per risk level</div></div><div class="acc-pill"><div class="acc-icon">✓</div><span class="acc-text">94.2%</span></div></div><div class="conf-bars" id="res-conf-bars"></div></div>
+<div class="card"><h2 class="conf-title" style="margin-bottom:.3rem">🧠 Why this prediction?</h2><p class="conf-sub" style="margin-bottom:1rem">Top factors influencing your risk score</p><div class="shap-bars" id="shap-bars"></div></div>
+</div>
+<div class="card" style="margin-bottom:1.75rem"><h2 class="conf-title" style="margin-bottom:.3rem">💡 Personalised Recommendations</h2><p class="conf-sub" style="margin-bottom:1.25rem">Based on your specific responses — not generic advice.</p><div id="tips-container"></div><p style="font-size:.75rem;color:var(--txt2);margin-top:.75rem" id="tips-count"></p></div>
+<div style="text-align:center;margin-top:1.5rem"><button class="btn-next" onclick="goStep(1);showPage('assess',document.querySelectorAll('.nav-link')[1])">← Retake Assessment</button></div>
+</div></div>
+
+<div class="page" id="page-habits"><div style="max-width:1000px;margin:0 auto">
+<div class="assess-hero" style="margin-bottom:2rem"><div class="assess-hero-title">📈 Trends &amp; Habits</div><div class="assess-hero-sub">Your mental wellness journey over time</div></div>
+<div class="habits-row">
+<div class="habit-card"><div class="habit-icon">🌙</div><div class="habit-title">Avg. Sleep</div><div class="habit-val">7.2h</div><div class="habit-sub">per night</div></div>
+<div class="habit-card"><div class="habit-icon">🏃</div><div class="habit-title">Exercise</div><div class="habit-val">3×</div><div class="habit-sub">per week</div></div>
+<div class="habit-card"><div class="habit-icon">📱</div><div class="habit-title">Screen Time</div><div class="habit-val">3.1h</div><div class="habit-sub">per day</div></div>
+<div class="habit-card"><div class="habit-icon">🤝</div><div class="habit-title">Social Support</div><div class="habit-val">Often</div><div class="habit-sub">this month</div></div>
+<div class="habit-card"><div class="habit-icon">📚</div><div class="habit-title">Study Hours</div><div class="habit-val">2.4h</div><div class="habit-sub">outside class</div></div>
+<div class="habit-card"><div class="habit-icon">🧠</div><div class="habit-title">Stress Level</div><div class="habit-val">2.8</div><div class="habit-sub">avg (1–5)</div></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.75rem">
+<div class="card"><h2 class="conf-title" style="margin-bottom:1rem">Stability Score — Last 8 Weeks</h2><div class="chart-wrap"><canvas id="chart-trend"></canvas></div></div>
+<div class="card"><h2 class="conf-title" style="margin-bottom:1rem">PHQ-9 Over Time</h2><div class="chart-wrap"><canvas id="chart-phq"></canvas></div></div>
+<div class="card" style="grid-column:1/-1"><h2 class="conf-title" style="margin-bottom:1rem">Risk Level Distribution</h2><div class="chart-wrap" style="height:200px"><canvas id="chart-risk"></canvas></div></div>
+</div>
+</div></div>
+
+<div class="page" id="page-tips"><div style="max-width:1100px;margin:0 auto">
+<div class="tips-hero"><div class="tips-hero-title">💡 Your Personalised Recommendations</div><div class="tips-hero-sub">Based on your specific responses — not generic advice. Run an assessment to unlock tailored insights.</div><div class="tips-hero-badge">🧠 AI-Generated · Updated After Each Assessment</div></div>
+<div id="tips-empty" class="run-first-banner" style="display:none"><div class="rfb-icon">🔬</div><div class="rfb-title">No assessment yet</div><div class="rfb-sub">Complete the mental health assessment to receive personalised recommendations.</div><button class="btn-go-assess" onclick="showPage('assess',document.querySelectorAll('.nav-link')[1])">Start Assessment →</button></div>
+<div id="tips-content" style="display:none"><div class="tips-grid">
+<div class="tips-sidebar">
+<div class="tips-filter-card"><div class="tips-filter-title">Filter by Category</div>
+<button class="filter-btn active-f" onclick="filterTips('all',this)">🔍 All Tips <span class="filter-count" id="fc-all">0</span></button>
+<button class="filter-btn" onclick="filterTips('urgent',this)">🚨 Urgent <span class="filter-count" id="fc-urgent">0</span></button>
+<button class="filter-btn" onclick="filterTips('good',this)">✅ Doing Well <span class="filter-count" id="fc-good">0</span></button>
+<button class="filter-btn" onclick="filterTips('warning',this)">⚡ Improve <span class="filter-count" id="fc-warning">0</span></button>
+<button class="filter-btn" onclick="filterTips('info',this)">💜 Mindfulness <span class="filter-count" id="fc-info">0</span></button>
+</div>
+<div class="score-summary-card"><div class="score-sum-title">Your Scores</div>
+<div class="mini-score-row"><span class="mini-score-lbl">PHQ-9 Score</span><span class="mini-score-val" id="ts-phq" style="color:var(--green)">—</span></div>
+<div class="mini-score-row"><span class="mini-score-lbl">GAD-7 (est.)</span><span class="mini-score-val" id="ts-gad" style="color:var(--violet)">—</span></div>
+<div class="mini-score-row"><span class="mini-score-lbl">Stability</span><span class="mini-score-val" id="ts-stab" style="color:var(--p)">—</span></div>
+<div class="mini-score-row"><span class="mini-score-lbl">Risk Level</span><span class="mini-score-val" id="ts-risk">—</span></div>
+<div class="mini-score-row" style="border:none"><span class="mini-score-lbl">Tips Generated</span><span class="mini-score-val" id="ts-count" style="color:var(--p)">—</span></div>
+</div>
+</div>
+<div class="tips-main" id="tips-list-wrap"></div>
+</div></div>
+</div></div>
+
+<div class="modal-overlay" id="modal"><div class="modal">
+<div class="modal-title">Edit Profile</div><div class="modal-sub">Update your profile details shown on the dashboard.</div>
+<input class="modal-input" id="m-name" placeholder="Full Name" value="Alex Rivera"/>
+<input class="modal-input" id="m-role" placeholder="Role" value="Undergraduate Senior"/>
+<input class="modal-input" id="m-age" placeholder="Age" value="21"/>
+<input class="modal-input" id="m-edu" placeholder="Major" value="CS Major"/>
+<div class="modal-row"><button class="btn-cancel" onclick="closeModal()">Cancel</button><button class="btn-save" onclick="saveProfile()">Save Changes</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
+<button class="fab" onclick="showPage('assess',document.querySelectorAll('.nav-link')[1]);showToast('Starting new assessment…')" title="New assessment">+</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const inputs={age:21,gender:0,year:4,sleep:3,exercise:2,screen:1,study:1,support:3,overload:0,workload:3,relax:3,overwhelm:3,exam:3,phq:[0,0,0,0,0,0,0,0,0]};
+const PHQ_LABELS=["Little interest or pleasure in doing things","Feeling down, depressed, or hopeless","Trouble falling/staying asleep, or sleeping too much","Feeling tired or having little energy","Poor appetite or overeating","Feeling bad about yourself — or that you are a failure","Trouble concentrating on things","Moving/speaking slowly OR restlessness/fidgety","Thoughts that you would be better off dead or hurting yourself"];
+const PHQ_OPTS=["Not at all","Several days","More than half","Nearly every day"];
+let assessmentDone=false;
+
+function showPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-results').style.display='none';
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  if(el)el.classList.add('active');
+  if(id==='assess'){document.getElementById('page-assess').classList.add('active');}
+  else if(id==='tips'){
+    document.getElementById('page-tips').classList.add('active');
+    if(!assessmentDone){document.getElementById('tips-empty').style.display='block';document.getElementById('tips-content').style.display='none';}
+    else{document.getElementById('tips-empty').style.display='none';document.getElementById('tips-content').style.display='block';}
+  }else{document.getElementById('page-'+id).classList.add('active');}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goStep(n){
+  for(let i=1;i<=4;i++){
+    document.getElementById('st-'+i).className='step'+(i<n?' done':i===n?' active':'');
+    document.getElementById('form-'+i).className='form-card'+(i===n?' active-form':'');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function initChips(){
+  document.querySelectorAll('.chip-group').forEach(group=>{
+    group.querySelectorAll('.chip').forEach(chip=>{
+      chip.addEventListener('click',()=>{
+        group.querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));
+        chip.classList.add('selected');
+        const key=group.id.replace('chips-','');
+        inputs[key]=parseFloat(chip.dataset.val);
+      });
+    });
+  });
+  selectChip('chips-age','21');selectChip('chips-gender','0');selectChip('chips-year','4');
+  selectChip('chips-sleep','3');selectChip('chips-exercise','2');selectChip('chips-screen','1');
+  selectChip('chips-study','1');selectChip('chips-support','3');selectChip('chips-overload','0');
+}
+function selectChip(gid,val){var g=document.getElementById(gid);if(!g)return;g.querySelectorAll('.chip').forEach(c=>{if(c.dataset.val===val)c.classList.add('selected')});}
+
+function updateSlider(el,vid){document.getElementById(vid).textContent=el.value;const m={'sl-workload':'workload','sl-relax':'relax','sl-overwhelm':'overwhelm','sl-exam':'exam'};inputs[m[el.id]]=parseInt(el.value);}
+
+function buildPHQ(){
+  const c=document.getElementById('phq-container');c.innerHTML='';
+  PHQ_LABELS.forEach((lbl,i)=>{
+    const div=document.createElement('div');div.className='phq-item';
+    div.innerHTML='<div class="phq-q"><strong>'+(i+1)+'.</strong> '+lbl+'</div><div class="phq-options" id="phqg-'+i+'">'+PHQ_OPTS.map((o,v)=>'<span class="phq-opt'+(v===0?' sel':'')+'" data-v="'+v+'" onclick="selPHQ('+i+','+v+',this)">'+o+'</span>').join('')+'</div>';
+    c.appendChild(div);
+  });
+}
+function selPHQ(q,v,el){inputs.phq[q]=v;document.querySelectorAll('#phqg-'+q+' .phq-opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');}
+
+function buildSHAP(){
+  const phqT=inputs.phq.reduce((a,b)=>a+b,0);
+  const s=(v,max)=>Math.min(98,Math.round((v/max)*100));
+  return[
+    ["PHQ-9 Score",s(phqT,27),"#EF4444"],["Workload Stress",s(inputs.workload-1,4),"#F97316"],
+    ["Sleep Quality",s(4-inputs.sleep,4),"#6366F1"],["Social Support",s(4-inputs.support,4),"#A78BFA"],
+    ["Difficulty Relaxing",s(inputs.relax-1,4),"#F59E0B"],["Exam Anxiety",s(inputs.exam-1,4),"#EC4899"],
+    ["Screen Time",s(inputs.screen,2),"#14B8A6"],["Exercise Freq.",s(3-inputs.exercise,3),"#3B82F6"],
+  ].sort((a,b)=>b[1]-a[1]).slice(0,6);
+}
+
+function buildTips(pred,phqT){
+  const tips=[];
+  if(inputs.sleep===0)tips.push(["🌙","Critical: Sleep","You're sleeping fewer than 5 hours — this is the strongest driver of your risk score.","urgent"]);
+  else if(inputs.sleep===1)tips.push(["🌙","Sleep needs improvement","You're getting 5–6 hours which is below the recommended 7–8.","" ]);
+  else tips.push(["✅","Sleep is on track","Your sleep duration is in a healthy range.","good"]);
+  if(inputs.exercise===0)tips.push(["🏃","Start moving","You currently don't exercise. Even a 20-minute walk 3× per week helps.","urgent"]);
+  else if(inputs.exercise===1)tips.push(["🏃","Increase exercise slightly","Try adding one more session per week.",""]);
+  else tips.push(["✅","Exercise habit is strong","Your exercise frequency is excellent.","good"]);
+  if(inputs.screen===2)tips.push(["📱","Reduce screen time","You're spending 4+ hours on screens daily.",""]);
+  else if(inputs.screen===1)tips.push(["📱","Screen time is moderate","Avoid using your phone 30 min before sleep.",""]);
+  if(inputs.support<=1)tips.push(["🤝","Build your support network","You rarely feel supported. Reach out to one person today.","urgent"]);
+  else if(inputs.support===2)tips.push(["🤝","Strengthen social connections","Try to identify 1–2 people you can talk to regularly.",""]);
+  else tips.push(["✅","Social support is strong","You feel well-supported.","good"]);
+  if(inputs.overload===1)tips.push(["📚","Managing academic overload","Break your workload into a daily task list — 3 tasks max.",""]);
+  if(inputs.workload>=4)tips.push(["😰","High academic stress","Use the Pomodoro technique — 25 min work, 5-min break.",""]);
+  if(inputs.relax>=4)tips.push(["🧘","Difficulty relaxing","Try 4-7-8 breathing: inhale 4s, hold 7, exhale 8.",""]);
+  if(inputs.overwhelm>=4)tips.push(["📋","Reducing overwhelm","Write everything down, then pick ONE thing to do next.",""]);
+  if(inputs.exam>=4)tips.push(["📝","Exam anxiety management","Make a 2-week revision plan and stick to it.",""]);
+  if(inputs.phq[2]>=2)tips.push(["🛌","Sleep quality needs attention","Keep a fixed wake-up time 7 days a week.",""]);
+  if(inputs.phq[3]>=2)tips.push(["⚡","Low energy patterns","Check water intake, meal regularity and iron levels.",""]);
+  if(inputs.phq[6]>=2)tips.push(["🎯","Improving concentration","Try single-tasking — close all tabs except the one you need.",""]);
+  if(pred===2)tips.push(["🆘","Please reach out today","iCall: 9152987821 · Vandrevala Foundation: 1860-2662-345 (24/7) · NIMHANS: 080-46110007.","urgent"]);
+  return tips;
+}
+
+async function runAnalysis(){
+  const btn=document.querySelector('.btn-analyze');
+  btn.textContent='⏳ Analyzing...';btn.disabled=true;
+  try{
+    const resp=await fetch('/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(inputs)});
+    const data=await resp.json();
+    if(data.error){showToast('Error: '+data.error);btn.textContent='🚀 Analyze My Mental Health Risk';btn.disabled=false;return;}
+    const pred=data.prediction;
+    const probs=data.probabilities;
+    const phqT=data.phq_total;
+    const stability=data.stability;
+    const gadSim=data.gad_estimate;
+    const RISK={0:{label:"Low Risk",cls:"rb-low",icon:"🌿",msg:"You're doing great! Keep maintaining your healthy habits."},1:{label:"Moderate Risk",cls:"rb-mod",icon:"⚡",msg:"Some risk detected. Consider adjusting your sleep and stress management."},2:{label:"High Risk",cls:"rb-high",icon:"⚠️",msg:"High risk detected. We strongly recommend speaking to a counsellor."}};
+    const r=RISK[pred];
+    const ban=document.getElementById('result-banner');ban.className='result-banner '+r.cls;
+    document.getElementById('rb-icon').textContent=r.icon;
+    document.getElementById('rb-title').textContent=r.label;
+    document.getElementById('rb-msg').textContent=r.msg;
+    document.getElementById('rb-phq').textContent='PHQ-9 Score: '+phqT+' / 27';
+    const bars=[['Low Risk',probs[0],'var(--green)','g'],['Moderate Risk',probs[1],'var(--amber)','v'],['High Risk',probs[2],'var(--red)','r']];
+    document.getElementById('res-conf-bars').innerHTML=bars.map(([lbl,p,col,cls])=>'<div><div class="conf-row-head"><span class="conf-label">'+lbl+'</span><span class="conf-pct '+cls+'">'+(p*100).toFixed(1)+'%</span></div><div class="bar-track"><div class="bar-fill" style="background:'+col+';width:0" data-w="'+(p*100).toFixed(1)+'"></div></div></div>').join('');
+    const shapData=buildSHAP();
+    document.getElementById('shap-bars').innerHTML=shapData.map(([lbl,val,col])=>'<div class="shap-row"><span class="shap-label">'+lbl+'</span><div class="shap-track"><div class="shap-bar" style="background:'+col+';width:0" data-w="'+val+'" data-v="'+val+'%"></div></div></div>').join('');
+    const tips=buildTips(pred,phqT);
+    document.getElementById('tips-container').innerHTML=tips.map(([icon,title,body,type])=>'<div class="tip-card '+type+'"><div class="tip-head"><span class="tip-icon">'+icon+'</span><span class="tip-title">'+title+'</span></div><div class="tip-body">'+body+'</div></div>').join('');
+    document.getElementById('tips-count').textContent='📊 '+tips.length+' personalised recommendations generated.';
+    assessmentDone=true;
+    populateTipsPage(pred,phqT,gadSim,stability,tips);
+    document.getElementById('home-risk-title').textContent=r.label+' Detected';
+    document.getElementById('home-risk-desc').textContent=r.msg;
+    document.getElementById('home-stab').textContent=stability+'%';
+    document.getElementById('home-phq').textContent=String(phqT).padStart(2,'0');
+    document.getElementById('home-gad').textContent=String(gadSim).padStart(2,'0');
+    var circ=2*Math.PI*62;var off=circ*(1-stability/100);
+    setTimeout(function(){document.getElementById('home-ring').style.strokeDashoffset=off},300);
+    document.getElementById('hc-low').textContent=Math.round(probs[0]*100)+'% Confidence';
+    document.getElementById('hc-mod').textContent=Math.round(probs[1]*100)+'% Confidence';
+    document.getElementById('hc-high').textContent=Math.round(probs[2]*100)+'% Confidence';
+    document.getElementById('hb-low').dataset.w=Math.round(probs[0]*100);
+    document.getElementById('hb-mod').dataset.w=Math.round(probs[1]*100);
+    document.getElementById('hb-high').dataset.w=Math.round(probs[2]*100);
+    document.getElementById('page-assess').classList.remove('active');
+    var res=document.getElementById('page-results');res.style.display='block';res.style.padding='2rem 0 0';res.className='active';
+    window.scrollTo({top:0,behavior:'smooth'});
+    requestAnimationFrame(function(){setTimeout(function(){
+      document.querySelectorAll('#res-conf-bars .bar-fill[data-w]').forEach(function(b){b.style.width=b.dataset.w+'%'});
+      document.querySelectorAll('#shap-bars .shap-bar[data-w]').forEach(function(b){b.style.width=b.dataset.w+'%'});
+    },200)});
+  }catch(e){showToast('Network error — please try again.');console.error(e);}
+  btn.textContent='🚀 Analyze My Mental Health Risk';btn.disabled=false;
+}
+
+function populateTipsPage(pred,phqT,gadSim,stability,tips){
+  var RL=['Low Risk','Moderate Risk','High Risk'],RC=['color:var(--green)','color:var(--amber)','color:var(--red)'];
+  document.getElementById('ts-phq').textContent=phqT+' / 27';
+  document.getElementById('ts-gad').textContent=gadSim+' / 21';
+  document.getElementById('ts-stab').textContent=stability+'%';
+  document.getElementById('ts-risk').textContent=RL[pred];
+  document.getElementById('ts-risk').style.cssText=RC[pred];
+  document.getElementById('ts-count').textContent=tips.length;
+  var counts={all:tips.length,urgent:0,good:0,warning:0,info:0};
+  tips.forEach(function(t){var ty=t[3];if(ty==='urgent')counts.urgent++;else if(ty==='good')counts.good++;else if(ty==='info')counts.info++;else counts.warning++});
+  document.getElementById('fc-all').textContent=counts.all;
+  document.getElementById('fc-urgent').textContent=counts.urgent;
+  document.getElementById('fc-good').textContent=counts.good;
+  document.getElementById('fc-warning').textContent=counts.warning;
+  document.getElementById('fc-info').textContent=counts.info;
+  var SECTIONS=[{key:'sleep',label:'🌙 Sleep',icon:'🌙',bg:'#EDE9FE'},{key:'exercise',label:'🏃 Exercise',icon:'🏃',bg:'#DBEAFE'},{key:'screen',label:'📱 Screen & Digital',icon:'📱',bg:'#FEF3C7'},{key:'social',label:'🤝 Social Support',icon:'🤝',bg:'#F3E8FF'},{key:'stress',label:'😰 Stress & Anxiety',icon:'😰',bg:'#FEE2E2'},{key:'wellness',label:'🔬 Wellness (PHQ-9)',icon:'🔬',bg:'#D1FAE5'},{key:'crisis',label:'🆘 Crisis Resources',icon:'🆘',bg:'#FEE2E2'},{key:'general',label:'💡 General',icon:'💡',bg:'#F0F2FA'}];
+  var SM={'🌙':'sleep','✅':'wellness','🏃':'exercise','📱':'screen','🤝':'social','📚':'social','😰':'stress','🧘':'stress','📋':'stress','📝':'stress','🛌':'sleep','⚡':'wellness','🎯':'wellness','🆘':'crisis'};
+  var grouped={};SECTIONS.forEach(function(s){grouped[s.key]=[]});
+  tips.forEach(function(tip){var sec=SM[tip[0]]||'general';grouped[sec].push(tip)});
+  var html='';
+  SECTIONS.forEach(function(sec){
+    var items=grouped[sec.key];if(!items||items.length===0)return;
+    html+='<div class="tips-section-head" data-sec="'+sec.key+'"><div class="tips-section-icon" style="background:'+sec.bg+'">'+sec.icon+'</div>'+sec.label+'</div>';
+    items.forEach(function(t,idx){
+      var type=t[3]||'warning';
+      var tagLabel=type==='urgent'?'Action Needed':type==='good'?'On Track':type==='info'?'Tip':'Improve';
+      html+='<div class="tip-big-card '+type+'" data-type="'+type+'" style="animation-delay:'+idx*0.05+'s"><div class="tbh"><div class="tb-icon-wrap">'+t[0]+'</div><div class="tb-text"><div class="tb-title">'+t[1]+'</div><div class="tb-body">'+t[2]+'</div><span class="tb-tag">'+tagLabel+'</span></div></div></div>'});
+  });
+  document.getElementById('tips-list-wrap').innerHTML=html;
+  filterTips('all',document.querySelector('.filter-btn.active-f'));
+}
+
+function filterTips(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active-f')});
+  if(btn)btn.classList.add('active-f');
+  document.querySelectorAll('.tip-big-card').forEach(function(card){
+    if(cat==='all')card.style.display='block';
+    else if(cat==='warning')card.style.display=(card.dataset.type===''||card.dataset.type==='warning')?'block':'none';
+    else card.style.display=card.dataset.type===cat?'block':'none';
+  });
+}
+
+function openModal(){document.getElementById('modal').classList.add('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+function saveProfile(){
+  var name=document.getElementById('m-name').value.trim()||'Alex Rivera';
+  var role=document.getElementById('m-role').value.trim()||'Undergraduate Senior';
+  var age=document.getElementById('m-age').value.trim()||'21';
+  var edu=document.getElementById('m-edu').value.trim()||'CS Major';
+  document.getElementById('disp-name').textContent=name;
+  document.getElementById('disp-role').textContent=role;
+  document.getElementById('disp-age').textContent=age+' Years';
+  document.getElementById('disp-edu').textContent=edu;
+  document.getElementById('av-letter').textContent=name[0].toUpperCase();
+  document.querySelector('.nav-avatar').textContent=(name.split(' ').map(function(w){return w[0]}).join('').slice(0,2)).toUpperCase();
+  closeModal();showToast('Profile updated!');
+}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2500)}
+
+function initCharts(){
+  var weeks=['Wk1','Wk2','Wk3','Wk4','Wk5','Wk6','Wk7','Wk8'];
+  var stabData=[72,75,78,74,80,82,85,88];var phqData=[12,11,10,9,8,7,6,4];
+  var baseFont={family:"'DM Sans', sans-serif",size:11};var gridColor='rgba(0,0,0,.06)';
+  new Chart(document.getElementById('chart-trend'),{type:'line',data:{labels:weeks,datasets:[{label:'Stability %',data:stabData,borderColor:'#6C3CE1',backgroundColor:'rgba(108,60,225,.1)',fill:true,tension:.4,pointBackgroundColor:'#6C3CE1',pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:50,max:100,ticks:{font:baseFont},grid:{color:gridColor}},x:{ticks:{font:baseFont},grid:{color:gridColor}}}}});
+  new Chart(document.getElementById('chart-phq'),{type:'bar',data:{labels:weeks,datasets:[{label:'PHQ-9',data:phqData,backgroundColor:phqData.map(function(v){return v>=15?'rgba(239,68,68,.7)':v>=10?'rgba(245,158,11,.7)':'rgba(16,185,129,.7)'}),borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:27,ticks:{font:baseFont},grid:{color:gridColor}},x:{ticks:{font:baseFont},grid:{color:gridColor}}}}});
+  new Chart(document.getElementById('chart-risk'),{type:'doughnut',data:{labels:['Low Risk','Moderate Risk','High Risk'],datasets:[{data:[65,25,10],backgroundColor:['rgba(16,185,129,.8)','rgba(167,139,250,.8)','rgba(239,68,68,.8)'],borderWidth:0,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'right',labels:{font:baseFont,padding:16,usePointStyle:true}}}}});
+}
+
+function animateHome(){
+  var circ=2*Math.PI*62;var off=circ*(1-.88);
+  setTimeout(function(){document.getElementById('home-ring').style.strokeDashoffset=off;document.querySelectorAll('.bar-fill[data-w]').forEach(function(b){b.style.width=b.dataset.w+'%'})},300);
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  initChips();buildPHQ();initCharts();animateHome();
+  document.getElementById('modal').addEventListener('click',function(e){if(e.target===document.getElementById('modal'))closeModal()});
+});
+</script>
+</body>
+</html>
