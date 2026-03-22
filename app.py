@@ -10,6 +10,7 @@ import pickle
 import os
 
 app = Flask(__name__)
+app.config['ENV'] = os.getenv('FLASK_ENV', 'development')
 
 # ── Load AI Model ─────────────────────────────────────────────────────────────
 def load_model():
@@ -93,4 +94,6 @@ def predict():
 
 # ── Run ───────────────────────────────────────────────────────────────────────
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    debug_mode = os.getenv('FLASK_ENV') == 'development'
+    port = int(os.getenv('PORT', 5000))
+    app.run(debug=debug_mode, port=port, host='0.0.0.0')
