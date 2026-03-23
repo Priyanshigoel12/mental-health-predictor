@@ -2134,8 +2134,8 @@
       <div class="nav-links">
         <span class="nav-link active" onclick="showPage('home',this)">Home</span>
         <span class="nav-link" onclick="showPage('assess',this)">Assess</span>
-        <span class="nav-link" onclick="showPage('habits',this)">Trends</span>
-        <span class="nav-link" onclick="showPage('tips',this)">💡 Your Personalised Recommendations</span>
+        <span class="nav-link" onclick="showPage('habits',this)">Insights</span>
+        <span class="nav-link" onclick="showPage('tips',this)">💡 Recommendations</span>
       </div>
       <div class="nav-actions">
         <div class="nav-icon" onclick="showToast('No new notifications')">🔔</div>
@@ -2155,7 +2155,7 @@
           <button class="btn-white" onclick="showPage('assess',document.querySelectorAll('.nav-link')[1])">Start Daily
             Check-In</button>
           <button class="btn-ghost" onclick="showPage('habits',document.querySelectorAll('.nav-link')[2])">View
-            Trends</button>
+            Insights</button>
         </div>
       </section>
       <div id="home-pre-assess" class="home-pre-assess">
@@ -2461,68 +2461,59 @@
   <div class="page" id="page-habits">
     <div style="max-width:1000px;margin:0 auto">
       <div class="assess-hero" style="margin-bottom:2rem">
-        <div class="assess-hero-title">📈 Your Wellness Trends</div>
+        <div class="assess-hero-title">📈 Your Insights</div>
         <div class="assess-hero-sub">Your mental wellness journey over time</div>
       </div>
-      <div id="trends-empty" class="run-first-banner">
-        <div class="rfb-icon">📈</div>
-        <div class="rfb-title">No trends data yet</div>
-        <div class="rfb-sub">Complete the mental health assessment to see your wellness trends and habits.</div>
-        <button class="btn-go-assess" onclick="showPage('assess',document.querySelectorAll('.nav-link')[1])">Start
-          Assessment →</button>
-      </div>
-      <div id="trends-content" style="display:none">
-        <div class="habits-row">
-          <div class="habit-card">
-            <div class="habit-icon">🌙</div>
-            <div class="habit-title">Avg. Sleep</div>
-            <div class="habit-val" id="trend-sleep">7.2h</div>
-            <div class="habit-sub">per night</div>
-          </div>
-          <div class="habit-card">
-            <div class="habit-icon">🏃</div>
-            <div class="habit-title">Exercise</div>
-            <div class="habit-val" id="trend-exercise">3×</div>
-            <div class="habit-sub">per week</div>
-          </div>
-          <div class="habit-card">
-            <div class="habit-icon">📱</div>
-            <div class="habit-title">Screen Time</div>
-            <div class="habit-val" id="trend-screen">3.1h</div>
-            <div class="habit-sub">per day</div>
-          </div>
-          <div class="habit-card">
-            <div class="habit-icon">🤝</div>
-            <div class="habit-title">Social Support</div>
-            <div class="habit-val" id="trend-support">Often</div>
-            <div class="habit-sub">this month</div>
-          </div>
-          <div class="habit-card">
-            <div class="habit-icon">📚</div>
-            <div class="habit-title">Study Hours</div>
-            <div class="habit-val" id="trend-study">2.4h</div>
-            <div class="habit-sub">outside class</div>
-          </div>
-          <div class="habit-card">
-            <div class="habit-icon">🧠</div>
-            <div class="habit-title">Stress Level</div>
-            <div class="habit-val" id="trend-stress">2.8</div>
-            <div class="habit-sub">avg (1–5)</div>
-          </div>
+      <div class="habits-row">
+        <div class="habit-card">
+          <div class="habit-icon">🌙</div>
+          <div class="habit-title">Avg. Sleep</div>
+          <div class="habit-val" id="habit-sleep">7.2h</div>
+          <div class="habit-sub">per night</div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.75rem">
-          <div class="card">
-            <h2 class="conf-title" style="margin-bottom:1rem">Stability Score — Last 8 Weeks</h2>
-            <div class="chart-wrap"><canvas id="chart-trend"></canvas></div>
-          </div>
-          <div class="card">
-            <h2 class="conf-title" style="margin-bottom:1rem">PHQ-9 Over Time</h2>
-            <div class="chart-wrap"><canvas id="chart-phq"></canvas></div>
-          </div>
-          <div class="card" style="grid-column:1/-1">
-            <h2 class="conf-title" style="margin-bottom:1rem">Risk Level Distribution</h2>
-            <div class="chart-wrap" style="height:200px"><canvas id="chart-risk"></canvas></div>
-          </div>
+        <div class="habit-card">
+          <div class="habit-icon">🏃</div>
+          <div class="habit-title">Exercise</div>
+          <div class="habit-val" id="habit-exercise">3×</div>
+          <div class="habit-sub">per week</div>
+        </div>
+        <div class="habit-card">
+          <div class="habit-icon">📱</div>
+          <div class="habit-title">Screen Time</div>
+          <div class="habit-val" id="habit-screen">3.1h</div>
+          <div class="habit-sub">per day</div>
+        </div>
+        <div class="habit-card">
+          <div class="habit-icon">🤝</div>
+          <div class="habit-title">Social Support</div>
+          <div class="habit-val" id="habit-support">Often</div>
+          <div class="habit-sub">this month</div>
+        </div>
+        <div class="habit-card">
+          <div class="habit-icon">📚</div>
+          <div class="habit-title">Study Hours</div>
+          <div class="habit-val" id="habit-study">2.4h</div>
+          <div class="habit-sub">outside class</div>
+        </div>
+        <div class="habit-card">
+          <div class="habit-icon">🧠</div>
+          <div class="habit-title">Stress Level</div>
+          <div class="habit-val" id="habit-stress">2.8</div>
+          <div class="habit-sub">avg (1–5)</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.75rem">
+        <div class="card">
+          <h2 class="conf-title" style="margin-bottom:1rem">Stability Score — Last 8 Weeks</h2>
+          <div class="chart-wrap"><canvas id="chart-trend"></canvas></div>
+        </div>
+        <div class="card">
+          <h2 class="conf-title" style="margin-bottom:1rem">PHQ-9 Over Time</h2>
+          <div class="chart-wrap"><canvas id="chart-phq"></canvas></div>
+        </div>
+        <div class="card" style="grid-column:1/-1">
+          <h2 class="conf-title" style="margin-bottom:1rem">Risk Level Distribution</h2>
+          <div class="chart-wrap" style="height:200px"><canvas id="chart-risk"></canvas></div>
         </div>
       </div>
     </div>
@@ -2548,7 +2539,7 @@
           <div class="tips-sidebar">
             <div class="tips-filter-card">
               <div class="tips-filter-title">Filter by Category</div>
-              <button class="filter-btn active-f" onclick="filterTips('all',this)">🔍 All Tips <span
+              <button class="filter-btn active-f" onclick="filterTips('all',this)">🔍 All Recommendations <span
                   class="filter-count" id="fc-all">0</span></button>
               <button class="filter-btn" onclick="filterTips('urgent',this)">🚨 Urgent <span class="filter-count"
                   id="fc-urgent">0</span></button>
@@ -2569,8 +2560,8 @@
                   id="ts-stab" style="color:var(--p)">—</span></div>
               <div class="mini-score-row"><span class="mini-score-lbl">Risk Level</span><span class="mini-score-val"
                   id="ts-risk">—</span></div>
-              <div class="mini-score-row" style="border:none"><span class="mini-score-lbl">Tips Generated</span><span
-                  class="mini-score-val" id="ts-count" style="color:var(--p)">—</span></div>
+              <div class="mini-score-row" style="border:none"><span class="mini-score-lbl">Recommendations
+                  Generated</span><span class="mini-score-val" id="ts-count" style="color:var(--p)">—</span></div>
             </div>
           </div>
           <div class="tips-main" id="tips-list-wrap"></div>
@@ -2614,7 +2605,7 @@
     const PHQ_LABELS = ["Little interest or pleasure in doing things", "Feeling down, depressed, or hopeless", "Trouble falling/staying asleep, or sleeping too much", "Feeling tired or having little energy", "Poor appetite or overeating", "Feeling bad about yourself — or that you are a failure", "Trouble concentrating on things", "Moving/speaking slowly OR restlessness/fidgety", "Thoughts that you would be better off dead or hurting yourself"];
     const PHQ_OPTS = ["Not at all", "Several days", "More than half", "Nearly every day"];
     let assessmentDone = false;
-    let currentStability = 88;
+    let charts = {};
 
     function showPage(id, el) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -2626,10 +2617,6 @@
         document.getElementById('page-tips').classList.add('active');
         if (!assessmentDone) { document.getElementById('tips-empty').style.display = 'block'; document.getElementById('tips-content').style.display = 'none'; }
         else { document.getElementById('tips-empty').style.display = 'none'; document.getElementById('tips-content').style.display = 'block'; }
-      } else if (id === 'habits') {
-        document.getElementById('page-habits').classList.add('active');
-        if (!assessmentDone) { document.getElementById('trends-empty').style.display = 'block'; document.getElementById('trends-content').style.display = 'none'; }
-        else { document.getElementById('trends-empty').style.display = 'none'; document.getElementById('trends-content').style.display = 'block'; }
       } else { document.getElementById('page-' + id).classList.add('active'); }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -2734,11 +2721,10 @@
         document.getElementById('tips-container').innerHTML = tips.map(([icon, title, body, type]) => '<div class="tip-card ' + type + '"><div class="tip-head"><span class="tip-icon">' + icon + '</span><span class="tip-title">' + title + '</span></div><div class="tip-body">' + body + '</div></div>').join('');
         document.getElementById('tips-count').textContent = '📊 ' + tips.length + ' personalised recommendations generated.';
         assessmentDone = true;
-        currentStability = stability;
         document.getElementById('home-pre-assess').style.display = 'none';
         document.getElementById('home-dashboard').style.display = 'block';
-        updateTrendsPage();
         populateTipsPage(pred, phqT, gadSim, stability, tips);
+        updateInsightsPage(stability, phqT, probs);
         document.getElementById('home-risk-title').textContent = r.label + ' Detected';
         document.getElementById('home-risk-desc').textContent = r.msg;
         document.getElementById('home-stab').textContent = stability + '%';
@@ -2763,6 +2749,39 @@
         });
       } catch (e) { showToast('Network error — please try again.'); console.error(e); }
       btn.textContent = '🚀 Analyze My Mental Health Risk'; btn.disabled = false;
+    }
+
+    function updateInsightsPage(stability, phqT, probs) {
+      const sleepMap = ["<5 hrs", "5–6 hrs", "6–7 hrs", "7–8 hrs", ">8 hrs"];
+      const exerciseMap = ["Never", "1–2×/wk", "3–4×/wk", "Daily"];
+      const screenMap = ["<2 hrs", "2–4 hrs", ">4 hrs"];
+      const supportMap = ["Never", "Rarely", "Sometimes", "Often", "Always"];
+      const studyMap = ["0–1 hr", "1–2 hrs", "2–3 hrs", "3+ hrs"];
+
+      document.getElementById('habit-sleep').textContent = sleepMap[inputs.sleep];
+      document.getElementById('habit-exercise').textContent = exerciseMap[inputs.exercise];
+      document.getElementById('habit-screen').textContent = screenMap[inputs.screen];
+      document.getElementById('habit-support').textContent = supportMap[inputs.support];
+      document.getElementById('habit-study').textContent = studyMap[inputs.study];
+      document.getElementById('habit-stress').textContent = ((inputs.workload + inputs.relax + inputs.overwhelm + inputs.exam) / 4).toFixed(1);
+
+      if (charts.trend) {
+        charts.trend.data.datasets[0].data.push(stability);
+        charts.trend.data.labels.push('Now');
+        if (charts.trend.data.labels.length > 9) { charts.trend.data.labels.shift(); charts.trend.data.datasets[0].data.shift(); }
+        charts.trend.update();
+      }
+      if (charts.phq) {
+        charts.phq.data.datasets[0].data.push(phqT);
+        charts.phq.data.labels.push('Now');
+        charts.phq.data.datasets[0].backgroundColor.push(phqT >= 15 ? 'rgba(239,68,68,.7)' : phqT >= 10 ? 'rgba(245,158,11,.7)' : 'rgba(16,185,129,.7)');
+        if (charts.phq.data.labels.length > 9) { charts.phq.data.labels.shift(); charts.phq.data.datasets[0].data.shift(); charts.phq.data.datasets[0].backgroundColor.shift(); }
+        charts.phq.update();
+      }
+      if (charts.risk) {
+        charts.risk.data.datasets[0].data = [probs[0] * 100, probs[1] * 100, probs[2] * 100];
+        charts.risk.update();
+      }
     }
 
     function populateTipsPage(pred, phqT, gadSim, stability, tips) {
@@ -2853,36 +2872,15 @@
         document.getElementById('welcomeScreen').style.display = 'flex';
       }
     }
-    function updateTrendsPage() {
-      if (!assessmentDone) return;
-      const sleepMap = { 0: '<5 hrs', 1: '5–6 hrs', 2: '6–7 hrs', 3: '7–8 hrs', 4: '>8 hrs' };
-      const exerciseMap = { 0: 'Never', 1: '1–2×/wk', 2: '3–4×/wk', 3: 'Daily' };
-      const screenMap = { 0: '<2 hrs', 1: '2–4 hrs', 2: '>4 hrs' };
-      const supportMap = { 0: 'Never', 1: 'Rarely', 2: 'Sometimes', 3: 'Often', 4: 'Always' };
-      const studyMap = { 0: '0–1 hr', 1: '1–2 hrs', 2: '2–3 hrs', 3: '3+ hrs' };
-      document.getElementById('trend-sleep').textContent = sleepMap[inputs.sleep] || '7.2h';
-      document.getElementById('trend-exercise').textContent = exerciseMap[inputs.exercise] || '3×';
-      document.getElementById('trend-screen').textContent = screenMap[inputs.screen] || '3.1h';
-      document.getElementById('trend-support').textContent = supportMap[inputs.support] || 'Often';
-      document.getElementById('trend-study').textContent = studyMap[inputs.study] || '2.4h';
-      const stressAvg = ((inputs.workload + inputs.relax + inputs.overwhelm + inputs.exam) / 4).toFixed(1);
-      document.getElementById('trend-stress').textContent = stressAvg;
-      initCharts();
-    }
     function showToast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(function () { t.classList.remove('show') }, 2500) }
 
     function initCharts() {
       var weeks = ['Wk1', 'Wk2', 'Wk3', 'Wk4', 'Wk5', 'Wk6', 'Wk7', 'Wk8'];
       var stabData = [72, 75, 78, 74, 80, 82, 85, 88]; var phqData = [12, 11, 10, 9, 8, 7, 6, 4];
-      if (assessmentDone) {
-        const phqT = inputs.phq.reduce((a, b) => a + b, 0);
-        phqData[7] = phqT;
-        stabData[7] = currentStability;
-      }
       var baseFont = { family: "'DM Sans', sans-serif", size: 11 }; var gridColor = 'rgba(0,0,0,.06)';
-      new Chart(document.getElementById('chart-trend'), { type: 'line', data: { labels: weeks, datasets: [{ label: 'Stability %', data: stabData, borderColor: '#6C3CE1', backgroundColor: 'rgba(108,60,225,.1)', fill: true, tension: .4, pointBackgroundColor: '#6C3CE1', pointRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { min: 50, max: 100, ticks: { font: baseFont }, grid: { color: gridColor } }, x: { ticks: { font: baseFont }, grid: { color: gridColor } } } } });
-      new Chart(document.getElementById('chart-phq'), { type: 'bar', data: { labels: weeks, datasets: [{ label: 'PHQ-9', data: phqData, backgroundColor: phqData.map(function (v) { return v >= 15 ? 'rgba(239,68,68,.7)' : v >= 10 ? 'rgba(245,158,11,.7)' : 'rgba(16,185,129,.7)' }), borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { min: 0, max: 27, ticks: { font: baseFont }, grid: { color: gridColor } }, x: { ticks: { font: baseFont }, grid: { color: gridColor } } } } });
-      new Chart(document.getElementById('chart-risk'), { type: 'doughnut', data: { labels: ['Low Risk', 'Moderate Risk', 'High Risk'], datasets: [{ data: [65, 25, 10], backgroundColor: ['rgba(16,185,129,.8)', 'rgba(167,139,250,.8)', 'rgba(239,68,68,.8)'], borderWidth: 0, hoverOffset: 8 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'right', labels: { font: baseFont, padding: 16, usePointStyle: true } } } } });
+      charts.trend = new Chart(document.getElementById('chart-trend'), { type: 'line', data: { labels: weeks, datasets: [{ label: 'Stability %', data: stabData, borderColor: '#6C3CE1', backgroundColor: 'rgba(108,60,225,.1)', fill: true, tension: .4, pointBackgroundColor: '#6C3CE1', pointRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { min: 50, max: 100, ticks: { font: baseFont }, grid: { color: gridColor } }, x: { ticks: { font: baseFont }, grid: { color: gridColor } } } } });
+      charts.phq = new Chart(document.getElementById('chart-phq'), { type: 'bar', data: { labels: weeks, datasets: [{ label: 'PHQ-9', data: phqData, backgroundColor: phqData.map(function (v) { return v >= 15 ? 'rgba(239,68,68,.7)' : v >= 10 ? 'rgba(245,158,11,.7)' : 'rgba(16,185,129,.7)' }), borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { min: 0, max: 27, ticks: { font: baseFont }, grid: { color: gridColor } }, x: { ticks: { font: baseFont }, grid: { color: gridColor } } } } });
+      charts.risk = new Chart(document.getElementById('chart-risk'), { type: 'doughnut', data: { labels: ['Low Risk', 'Moderate Risk', 'High Risk'], datasets: [{ data: [65, 25, 10], backgroundColor: ['rgba(16,185,129,.8)', 'rgba(167,139,250,.8)', 'rgba(239,68,68,.8)'], borderWidth: 0, hoverOffset: 8 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'right', labels: { font: baseFont, padding: 16, usePointStyle: true } } } } });
     }
 
     function animateHome() {
