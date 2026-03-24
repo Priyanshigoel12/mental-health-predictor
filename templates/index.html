@@ -2204,8 +2204,10 @@
                   <circle class="ring-bg" cx="75" cy="75" r="62"></circle>
                   <circle class="ring-fill" id="home-ring" cx="75" cy="75" r="62"></circle>
                 </svg>
-                <div class="ring-text"><span class="ring-val" id="home-stab">88%</span><span
-                    class="ring-lbl">Stability</span></div>
+                <div class="ring-text"><span class="ring-val" id="home-stab">88%</span><span class="ring-lbl">Wellness
+                    Score <span style='font-size:0.7rem;color:var(--txt2);cursor:help;'
+                      title='Wellness Score is calculated from your PHQ-9 total and stress indicators. It is not a clinically validated metric — it is a relative indicator for tracking your responses over time.'>ⓘ</span></span>
+                </div>
               </div>
               <div class="scores">
                 <div class="score-box phq">
@@ -2213,8 +2215,11 @@
                   <div><span class="s-num" id="home-phq">04</span><span class="s-max"> / 27</span></div>
                 </div>
                 <div class="score-box gad">
-                  <div class="s-lbl">GAD-7 Score</div>
-                  <div><span class="s-num" id="home-gad">02</span><span class="s-max"> / 21</span></div>
+                  <div class="s-lbl" style="color:var(--txt2)">Anxiety Index (est.)</div>
+                  <div><span class="s-num" id="home-gad" style="color:var(--txt2)">02</span><span class="s-max"> /
+                      21</span></div>
+                  <div style="font-size:0.6rem;color:var(--txt2);font-style:italic;margin-top:2px">⚠ Estimated — not a
+                    validated clinical score</div>
                 </div>
               </div>
             </div>
@@ -2464,6 +2469,11 @@
         <div class="assess-hero-title">📈 Your Insights</div>
         <div class="assess-hero-sub">Your mental wellness journey over time</div>
       </div>
+      <div id="how-compare-card" class="card"
+        style="display:none;margin-bottom:1.75rem;background:linear-gradient(135deg,#F5F3FF 0%,#FFFFFF 100%);border-color:var(--p)">
+        <h2 class="conf-title" style="margin-bottom:.5rem">📊 How You Compare</h2>
+        <p class="conf-sub" id="compare-text" style="font-size:.9rem;line-height:1.6"></p>
+      </div>
       <div class="habits-row">
         <div class="habit-card">
           <div class="habit-icon">🌙</div>
@@ -2504,7 +2514,10 @@
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.75rem">
         <div class="card">
-          <h2 class="conf-title" style="margin-bottom:1rem">Stability Score — Last 8 Weeks</h2>
+          <h2 class="conf-title" style="margin-bottom:1rem">Wellness Score <span
+              style='font-size:0.7rem;color:var(--txt2);cursor:help;'
+              title='Wellness Score is calculated from your PHQ-9 total and stress indicators. It is not a clinically validated metric — it is a relative indicator for tracking your responses over time.'>ⓘ</span>
+            — Study Population</h2>
           <div class="chart-wrap"><canvas id="chart-trend"></canvas></div>
         </div>
         <div class="card">
@@ -2554,14 +2567,19 @@
               <div class="score-sum-title">Your Scores</div>
               <div class="mini-score-row"><span class="mini-score-lbl">PHQ-9 Score</span><span class="mini-score-val"
                   id="ts-phq" style="color:var(--green)">—</span></div>
-              <div class="mini-score-row"><span class="mini-score-lbl">GAD-7 (est.)</span><span class="mini-score-val"
-                  id="ts-gad" style="color:var(--violet)">—</span></div>
-              <div class="mini-score-row"><span class="mini-score-lbl">Stability</span><span class="mini-score-val"
-                  id="ts-stab" style="color:var(--p)">—</span></div>
+              <div class="mini-score-row"><span class="mini-score-lbl">Anxiety Index (est.)</span><span
+                  class="mini-score-val" id="ts-gad" style="color:var(--txt2)">—</span></div>
+              <div class="mini-score-row"><span class="mini-score-lbl">Wellness Score <span
+                    style='font-size:0.7rem;color:var(--txt2);cursor:help;'
+                    title='Wellness Score is calculated from your PHQ-9 total and stress indicators. It is not a clinically validated metric — it is a relative indicator for tracking your responses over time.'>ⓘ</span></span><span
+                  class="mini-score-val" id="ts-stab" style="color:var(--p)">—</span></div>
               <div class="mini-score-row"><span class="mini-score-lbl">Risk Level</span><span class="mini-score-val"
                   id="ts-risk">—</span></div>
               <div class="mini-score-row" style="border:none"><span class="mini-score-lbl">Recommendations
                   Generated</span><span class="mini-score-val" id="ts-count" style="color:var(--p)">—</span></div>
+              <div style="font-size:0.65rem;color:var(--txt2);margin-top:0.5rem;font-style:italic;">* Wellness Score and
+                Anxiety Index are computed estimates, not clinical diagnoses.</div>
+              <div style="font-size:0.65rem;color:var(--txt2);margin-top:0.2rem;">Assessed today</div>
             </div>
           </div>
           <div class="tips-main" id="tips-list-wrap"></div>
@@ -2658,15 +2676,37 @@
     }
     function selPHQ(q, v, el) { inputs.phq[q] = v; document.querySelectorAll('#phqg-' + q + ' .phq-opt').forEach(o => o.classList.remove('sel')); el.classList.add('sel'); }
 
-    function buildSHAP() {
+    function buildSHAP(pred) {
       const phqT = inputs.phq.reduce((a, b) => a + b, 0);
-      const s = (v, max) => Math.min(98, Math.round((v / max) * 100));
-      return [
-        ["PHQ-9 Score", s(phqT, 27), "#EF4444"], ["Workload Stress", s(inputs.workload - 1, 4), "#F97316"],
-        ["Sleep Quality", s(4 - inputs.sleep, 4), "#6366F1"], ["Social Support", s(4 - inputs.support, 4), "#A78BFA"],
-        ["Difficulty Relaxing", s(inputs.relax - 1, 4), "#F59E0B"], ["Exam Anxiety", s(inputs.exam - 1, 4), "#EC4899"],
-        ["Screen Time", s(inputs.screen, 2), "#14B8A6"], ["Exercise Freq.", s(3 - inputs.exercise, 3), "#3B82F6"],
-      ].sort((a, b) => b[1] - a[1]).slice(0, 6);
+
+      // Real SHAP values from LinearExplainer on 1,151 student dataset
+      const BASE_SHAP = [
+        ["PHQ-3: Sleep trouble", 0.5996],
+        ["PHQ-1: Low interest", 0.5933],
+        ["PHQ-6: Worthlessness", 0.5911],
+        ["PHQ-7: Concentration", 0.5520],
+        ["PHQ-2: Depressed mood", 0.5474],
+        ["PHQ-5: Appetite change", 0.5154],
+        ["PHQ-8: Psychomotor", 0.4905],
+        ["PHQ-4: Low energy", 0.4851],
+        ["Difficulty relaxing", 0.1513],
+        ["Exercise frequency", 0.1422],
+        ["Sleep hours", 0.0954],
+      ];
+
+      // Weight by user's actual PHQ responses where applicable
+      const phqWeights = [
+        inputs.phq[2], inputs.phq[0], inputs.phq[5],
+        inputs.phq[6], inputs.phq[1], inputs.phq[4],
+        inputs.phq[7], inputs.phq[3]
+      ];
+
+      return BASE_SHAP.map(([lbl, base], i) => {
+        const userWeight = i < 8 ? (phqWeights[i] / 3) : 1;
+        const adjusted = Math.round(base * 100 * (0.6 + 0.4 * userWeight));
+        const color = i < 8 ? '#EF4444' : '#6C3CE1';
+        return [lbl, Math.min(99, adjusted), color];
+      }).sort((a, b) => b[1] - a[1]).slice(0, 6);
     }
 
     function buildTips(pred, phqT) {
@@ -2706,17 +2746,17 @@
         const phqT = data.phq_total;
         const stability = data.stability;
         const gadSim = data.gad_estimate;
-        const RISK = { 0: { label: "Low Risk", cls: "rb-low", icon: "🌿", msg: "You're doing great! Keep maintaining your healthy habits." }, 1: { label: "Moderate Risk", cls: "rb-mod", icon: "⚡", msg: "Some risk detected. Consider adjusting your sleep and stress management." }, 2: { label: "High Risk", cls: "rb-high", icon: "⚠️", msg: "High risk detected. We strongly recommend speaking to a counsellor." } };
+        const RISK = { 0: { label: "Low Risk", cls: "rb-low", icon: "🌿", msg: "You're doing great! Keep maintaining your healthy habits." }, 1: { label: "Moderate Risk", cls: "rb-mod", icon: "⚠️", msg: "Some risk detected. Consider adjusting your sleep and stress management." }, 2: { label: "High Risk", cls: "rb-high", icon: "⚠️", msg: "High risk detected. We strongly recommend speaking to a counsellor." } };
         const r = RISK[pred];
         const ban = document.getElementById('result-banner'); ban.className = 'result-banner ' + r.cls;
         document.getElementById('rb-icon').textContent = r.icon;
         document.getElementById('rb-title').textContent = r.label;
-        document.getElementById('rb-msg').textContent = r.msg;
+        document.getElementById('rb-msg').textContent = buildResultMsg(pred);
         document.getElementById('rb-phq').textContent = 'PHQ-9 Score: ' + phqT + ' / 27';
         const bars = [['Low Risk', probs[0], 'var(--green)', 'g'], ['Moderate Risk', probs[1], 'var(--amber)', 'v'], ['High Risk', probs[2], 'var(--red)', 'r']];
         document.getElementById('res-conf-bars').innerHTML = bars.map(([lbl, p, col, cls]) => '<div><div class="conf-row-head"><span class="conf-label">' + lbl + '</span><span class="conf-pct ' + cls + '">' + (p * 100).toFixed(1) + '%</span></div><div class="bar-track"><div class="bar-fill" style="background:' + col + ';width:0" data-w="' + (p * 100).toFixed(1) + '"></div></div></div>').join('');
-        const shapData = buildSHAP();
-        document.getElementById('shap-bars').innerHTML = shapData.map(([lbl, val, col]) => '<div class="shap-row"><span class="shap-label">' + lbl + '</span><div class="shap-track"><div class="shap-bar" style="background:' + col + ';width:0" data-w="' + val + '" data-v="' + val + '%"></div></div></div>').join('');
+        const shapData = buildSHAP(pred);
+        document.getElementById('shap-bars').innerHTML = shapData.map(([lbl, val, col]) => '<div class="shap-row"><span class="shap-label">' + lbl + '</span><div class="shap-track"><div class="shap-bar" style="background:' + col + ';width:0" data-w="' + val + '" data-v="' + val + '%"></div></div><span style="font-size:.7rem;font-weight:700;color:var(--txt2);margin-left:8px">' + val + '%</span></div>').join('');
         const tips = buildTips(pred, phqT);
         document.getElementById('tips-container').innerHTML = tips.map(([icon, title, body, type]) => '<div class="tip-card ' + type + '"><div class="tip-head"><span class="tip-icon">' + icon + '</span><span class="tip-title">' + title + '</span></div><div class="tip-body">' + body + '</div></div>').join('');
         document.getElementById('tips-count').textContent = '📊 ' + tips.length + ' personalised recommendations generated.';
@@ -2751,6 +2791,34 @@
       btn.textContent = '🚀 Analyze My Mental Health Risk'; btn.disabled = false;
     }
 
+    function buildResultMsg(pred) {
+      const issues = [];
+      if (inputs.sleep === 0) issues.push("critical sleep deprivation (<5 hrs)");
+      else if (inputs.sleep === 1) issues.push("insufficient sleep (5–6 hrs)");
+      if (inputs.exercise === 0) issues.push("no physical activity");
+      if (inputs.support <= 1) issues.push("very low social support");
+      if (inputs.workload >= 4) issues.push("high academic stress");
+      if (inputs.relax >= 4) issues.push("difficulty relaxing");
+
+      const phqT = inputs.phq.reduce((a, b) => a + b, 0);
+
+      if (pred === 0) {
+        return issues.length === 0
+          ? "Your responses indicate good mental wellness. Keep maintaining your healthy habits."
+          : `Your overall risk is low, but watch out for: ${issues.slice(0, 2).join(" and ")}.`;
+      }
+      if (pred === 1) {
+        return issues.length > 0
+          ? `Your main risk factors are ${issues.slice(0, 2).join(" and ")}. Addressing these can significantly improve your wellbeing.`
+          : `Your PHQ-9 score of ${phqT}/27 indicates moderate risk. Focus on consistent sleep and stress management.`;
+      }
+      if (pred === 2) {
+        return issues.length > 0
+          ? `High risk detected — key concerns include ${issues.slice(0, 2).join(" and ")}. Please reach out to a counsellor today.`
+          : `Your PHQ-9 score of ${phqT}/27 indicates high depression risk. Professional support is strongly recommended.`;
+      }
+    }
+
     function updateInsightsPage(stability, phqT, probs) {
       const sleepMap = ["<5 hrs", "5–6 hrs", "6–7 hrs", "7–8 hrs", ">8 hrs"];
       const exerciseMap = ["Never", "1–2×/wk", "3–4×/wk", "Daily"];
@@ -2765,23 +2833,36 @@
       document.getElementById('habit-study').textContent = studyMap[inputs.study];
       document.getElementById('habit-stress').textContent = ((inputs.workload + inputs.relax + inputs.overwhelm + inputs.exam) / 4).toFixed(1);
 
-      if (charts.trend) {
-        charts.trend.data.datasets[0].data.push(stability);
-        charts.trend.data.labels.push('Now');
-        if (charts.trend.data.labels.length > 9) { charts.trend.data.labels.shift(); charts.trend.data.datasets[0].data.shift(); }
-        charts.trend.update();
-      }
-      if (charts.phq) {
-        charts.phq.data.datasets[0].data.push(phqT);
-        charts.phq.data.labels.push('Now');
-        charts.phq.data.datasets[0].backgroundColor.push(phqT >= 15 ? 'rgba(239,68,68,.7)' : phqT >= 10 ? 'rgba(245,158,11,.7)' : 'rgba(16,185,129,.7)');
-        if (charts.phq.data.labels.length > 9) { charts.phq.data.labels.shift(); charts.phq.data.datasets[0].data.shift(); charts.phq.data.datasets[0].backgroundColor.shift(); }
-        charts.phq.update();
-      }
-      if (charts.risk) {
-        charts.risk.data.datasets[0].data = [probs[0] * 100, probs[1] * 100, probs[2] * 100];
-        charts.risk.update();
-      }
+      // Add status indicators
+      const addIndicator = (id, type) => {
+        const el = document.getElementById(id);
+        let color = '#10B981', label = 'Good';
+        if (type === 'crit') { color = '#EF4444'; label = 'Critical'; }
+        else if (type === 'warn') { color = '#F59E0B'; label = 'Improve'; }
+        const existing = el.parentNode.querySelector('.habit-status');
+        if (existing) existing.remove();
+        const indicator = document.createElement('div');
+        indicator.className = 'habit-status';
+        indicator.style.cssText = `font-size:0.65rem;font-weight:800;color:${color};text-transform:uppercase;margin-top:4px`;
+        indicator.textContent = label;
+        el.parentNode.appendChild(indicator);
+      };
+
+      addIndicator('habit-sleep', inputs.sleep <= 1 ? 'crit' : inputs.sleep === 2 ? 'warn' : 'good');
+      addIndicator('habit-exercise', inputs.exercise === 0 ? 'crit' : inputs.exercise === 1 ? 'warn' : 'good');
+      addIndicator('habit-screen', inputs.screen === 2 ? 'crit' : inputs.screen === 1 ? 'warn' : 'good');
+      addIndicator('habit-support', inputs.support <= 1 ? 'crit' : inputs.support === 2 ? 'warn' : 'good');
+      addIndicator('habit-study', inputs.study >= 3 ? 'warn' : 'good');
+      addIndicator('habit-stress', parseFloat(document.getElementById('habit-stress').textContent) >= 4 ? 'crit' : parseFloat(document.getElementById('habit-stress').textContent) >= 3 ? 'warn' : 'good');
+
+      // Update Compare Card
+      const compareCard = document.getElementById('how-compare-card');
+      compareCard.style.display = 'block';
+      const riskLabels = ['Low Risk', 'Moderate Risk', 'High Risk'];
+      const popMean = 11.6;
+      const diff = phqT - popMean;
+      const diffText = diff > 0 ? `${diff.toFixed(1)} points higher than` : `${Math.abs(diff).toFixed(1)} points lower than`;
+      document.getElementById('compare-text').innerHTML = `Your PHQ-9 score of <strong>${phqT}/27</strong> is ${diffText} the study average (11.6). You are in the <strong>${riskLabels[probs.indexOf(Math.max(...probs))]}</strong> category, which represents ${[41.3, 45.9, 12.8][probs.indexOf(Math.max(...probs))]}% of the student population.`;
     }
 
     function populateTipsPage(pred, phqT, gadSim, stability, tips) {
@@ -2875,12 +2956,67 @@
     function showToast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(function () { t.classList.remove('show') }, 2500) }
 
     function initCharts() {
-      var weeks = ['Wk1', 'Wk2', 'Wk3', 'Wk4', 'Wk5', 'Wk6', 'Wk7', 'Wk8'];
-      var stabData = [72, 75, 78, 74, 80, 82, 85, 88]; var phqData = [12, 11, 10, 9, 8, 7, 6, 4];
       var baseFont = { family: "'DM Sans', sans-serif", size: 11 }; var gridColor = 'rgba(0,0,0,.06)';
-      charts.trend = new Chart(document.getElementById('chart-trend'), { type: 'line', data: { labels: weeks, datasets: [{ label: 'Stability %', data: stabData, borderColor: '#6C3CE1', backgroundColor: 'rgba(108,60,225,.1)', fill: true, tension: .4, pointBackgroundColor: '#6C3CE1', pointRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { min: 50, max: 100, ticks: { font: baseFont }, grid: { color: gridColor } }, x: { ticks: { font: baseFont }, grid: { color: gridColor } } } } });
-      charts.phq = new Chart(document.getElementById('chart-phq'), { type: 'bar', data: { labels: weeks, datasets: [{ label: 'PHQ-9', data: phqData, backgroundColor: phqData.map(function (v) { return v >= 15 ? 'rgba(239,68,68,.7)' : v >= 10 ? 'rgba(245,158,11,.7)' : 'rgba(16,185,129,.7)' }), borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { min: 0, max: 27, ticks: { font: baseFont }, grid: { color: gridColor } }, x: { ticks: { font: baseFont }, grid: { color: gridColor } } } } });
-      charts.risk = new Chart(document.getElementById('chart-risk'), { type: 'doughnut', data: { labels: ['Low Risk', 'Moderate Risk', 'High Risk'], datasets: [{ data: [65, 25, 10], backgroundColor: ['rgba(16,185,129,.8)', 'rgba(167,139,250,.8)', 'rgba(239,68,68,.8)'], borderWidth: 0, hoverOffset: 8 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'right', labels: { font: baseFont, padding: 16, usePointStyle: true } } } } });
+
+      // Chart 1: Depression Risk Distribution (Horizontal Bar)
+      charts.trend = new Chart(document.getElementById('chart-trend'), {
+        type: 'bar',
+        data: {
+          labels: ['Low Risk', 'Moderate Risk', 'High Risk'],
+          datasets: [{
+            data: [41.3, 45.9, 12.8],
+            backgroundColor: ['#10B981', '#F59E0B', '#EF4444'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { x: { max: 100, ticks: { font: baseFont, callback: v => v + '%' }, grid: { color: gridColor } }, y: { ticks: { font: baseFont }, grid: { display: false } } }
+        }
+      });
+
+      // Chart 2: Average PHQ-9 by Sleep Duration
+      charts.phq = new Chart(document.getElementById('chart-phq'), {
+        type: 'bar',
+        data: {
+          labels: ['<5 hrs', '5–6 hrs', '6–7 hrs', '7–8 hrs', '>8 hrs'],
+          datasets: [{
+            label: 'Avg PHQ-9',
+            data: [16.3, 13.1, 11.4, 9.2, 7.5],
+            backgroundColor: ['#EF4444', '#F59E0B', '#FBBF24', '#34D399', '#10B981'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { min: 0, max: 20, ticks: { font: baseFont }, grid: { color: gridColor } }, x: { ticks: { font: baseFont }, grid: { display: false } } }
+        }
+      });
+
+      // Chart 3: Top Risk Factors Correlation (Horizontal Bar)
+      charts.risk = new Chart(document.getElementById('chart-risk'), {
+        type: 'bar',
+        data: {
+          labels: ['Difficulty relaxing', 'Overwhelmed', 'Exam anxiety', 'Social support', 'Sleep hours', 'Exercise'],
+          datasets: [{
+            data: [0.595, 0.585, 0.539, -0.546, -0.533, -0.492],
+            backgroundColor: ['#EF4444', '#EF4444', '#F59E0B', '#10B981', '#10B981', '#14B8A6'],
+            borderRadius: 4
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { x: { min: -0.7, max: 0.7, ticks: { font: baseFont }, grid: { color: gridColor } }, y: { ticks: { font: baseFont }, grid: { display: false } } }
+        }
+      });
     }
 
     function animateHome() {
