@@ -2466,13 +2466,28 @@
   <div class="page" id="page-habits">
     <div style="max-width:1000px;margin:0 auto">
       <div class="assess-hero" style="margin-bottom:2rem">
-        <div class="assess-hero-title">📈 Your Insights</div>
-        <div class="assess-hero-sub">Your mental wellness journey over time</div>
+        <div class="assess-hero-title">📈 Why AI gave these recommendations</div>
+        <div class="assess-hero-sub">Personalised analysis of your mental health drivers</div>
       </div>
       <div id="how-compare-card" class="card"
         style="display:none;margin-bottom:1.75rem;background:linear-gradient(135deg,#F5F3FF 0%,#FFFFFF 100%);border-color:var(--p)">
         <h2 class="conf-title" style="margin-bottom:.5rem">📊 How You Compare</h2>
         <p class="conf-sub" id="compare-text" style="font-size:.9rem;line-height:1.6"></p>
+      </div>
+      <div id="insights-empty-state" class="card" style="text-align:center;padding:3rem;margin-bottom:1.75rem">
+        <div style="font-size:3rem;margin-bottom:1rem">🔬</div>
+        <h2 class="conf-title">No assessment data yet</h2>
+        <p class="conf-sub">Complete an assessment to see the AI analysis of your personal risk factors.</p>
+        <button class="btn-go-assess" style="margin-top:1.5rem"
+          onclick="showPage('assess',document.querySelectorAll('.nav-link')[1])">Start Assessment →</button>
+      </div>
+      <div id="insights-main-content" style="display:none">
+        <div class="card" style="margin-bottom:1.75rem">
+          <h2 class="conf-title" style="margin-bottom:1rem">Top Influencing Factors</h2>
+          <p class="conf-sub" style="margin-bottom:1.5rem">These factors from your assessment had the most impact on
+            your personalised wellness plan.</p>
+          <div class="chart-wrap" style="height:350px"><canvas id="chart-shap-insights"></canvas></div>
+        </div>
       </div>
       <div class="habits-row">
         <div class="habit-card">
@@ -2512,23 +2527,7 @@
           <div class="habit-sub">avg (1–5)</div>
         </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.75rem">
-        <div class="card">
-          <h2 class="conf-title" style="margin-bottom:1rem">Wellness Score <span
-              style='font-size:0.7rem;color:var(--txt2);cursor:help;'
-              title='Wellness Score is calculated from your PHQ-9 total and stress indicators. It is not a clinically validated metric — it is a relative indicator for tracking your responses over time.'>ⓘ</span>
-            — Study Population</h2>
-          <div class="chart-wrap"><canvas id="chart-trend"></canvas></div>
-        </div>
-        <div class="card">
-          <h2 class="conf-title" style="margin-bottom:1rem">PHQ-9 Over Time</h2>
-          <div class="chart-wrap"><canvas id="chart-phq"></canvas></div>
-        </div>
-        <div class="card" style="grid-column:1/-1">
-          <h2 class="conf-title" style="margin-bottom:1rem">Top Risk Factors — Correlation with Depression (r)</h2>
-          <div class="chart-wrap" style="height:200px"><canvas id="chart-risk"></canvas></div>
-        </div>
-      </div>
+
     </div>
   </div>
 
@@ -2858,11 +2857,23 @@
       // Update Compare Card
       const compareCard = document.getElementById('how-compare-card');
       compareCard.style.display = 'block';
+      document.getElementById('insights-empty-state').style.display = 'none';
+      document.getElementById('insights-main-content').style.display = 'block';
+
       const riskLabels = ['Low Risk', 'Moderate Risk', 'High Risk'];
       const popMean = 11.6;
       const diff = phqT - popMean;
       const diffText = diff > 0 ? `${diff.toFixed(1)} points higher than` : `${Math.abs(diff).toFixed(1)} points lower than`;
       document.getElementById('compare-text').innerHTML = `Your PHQ-9 score of <strong>${phqT}/27</strong> is ${diffText} the study average (11.6). You are in the <strong>${riskLabels[probs.indexOf(Math.max(...probs))]}</strong> category, which represents ${[41.3, 45.9, 12.8][probs.indexOf(Math.max(...probs))]}% of the student population.`;
+
+      // Update SHAP Insights Chart
+      const shapData = buildSHAP(probs.indexOf(Math.max(...probs)));
+      if (charts.shapInsights) {
+        charts.shapInsights.data.labels = shapData.map(d => d[0]);
+        charts.shapInsights.data.datasets[0].data = shapData.map(d => d[1]);
+        charts.shapInsights.data.datasets[0].backgroundColor = shapData.map(d => d[2]);
+        charts.shapInsights.update();
+      }
     }
 
     function populateTipsPage(pred, phqT, gadSim, stability, tips) {
@@ -2958,14 +2969,14 @@
     function initCharts() {
       var baseFont = { family: "'DM Sans', sans-serif", size: 11 }; var gridColor = 'rgba(0,0,0,.06)';
 
-      // Chart 1: Depression Risk Distribution (Horizontal Bar)
-      charts.trend = new Chart(document.getElementById('chart-trend'), {
+      // SHAP Insights Chart (Horizontal Bar)
+      charts.shapInsights = new Chart(document.getElementById('chart-shap-insights'), {
         type: 'bar',
         data: {
-          labels: ['Low Risk', 'Moderate Risk', 'High Risk'],
+          labels: ['Sleep', 'Stress', 'Social Support', 'Exercise', 'Workload', 'Relaxation'],
           datasets: [{
-            data: [41.3, 45.9, 12.8],
-            backgroundColor: ['#10B981', '#F59E0B', '#EF4444'],
+            data: [0, 0, 0, 0, 0, 0],
+            backgroundColor: '#6C3CE1',
             borderRadius: 6
           }]
         },
@@ -2974,47 +2985,15 @@
           responsive: true,
           maintainAspectRatio: false,
           plugins: { legend: { display: false } },
-          scales: { x: { max: 100, ticks: { font: baseFont, callback: v => v + '%' }, grid: { color: gridColor } }, y: { ticks: { font: baseFont }, grid: { display: false } } }
-        }
-      });
-
-      // Chart 2: Average PHQ-9 by Sleep Duration
-      charts.phq = new Chart(document.getElementById('chart-phq'), {
-        type: 'bar',
-        data: {
-          labels: ['<5 hrs', '5–6 hrs', '6–7 hrs', '7–8 hrs', '>8 hrs'],
-          datasets: [{
-            label: 'Avg PHQ-9',
-            data: [16.3, 13.1, 11.4, 9.2, 7.5],
-            backgroundColor: ['#EF4444', '#F59E0B', '#FBBF24', '#34D399', '#10B981'],
-            borderRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: { y: { min: 0, max: 20, ticks: { font: baseFont }, grid: { color: gridColor } }, x: { ticks: { font: baseFont }, grid: { display: false } } }
-        }
-      });
-
-      // Chart 3: Top Risk Factors Correlation (Horizontal Bar)
-      charts.risk = new Chart(document.getElementById('chart-risk'), {
-        type: 'bar',
-        data: {
-          labels: ['Difficulty relaxing', 'Overwhelmed', 'Exam anxiety', 'Social support', 'Sleep hours', 'Exercise'],
-          datasets: [{
-            data: [0.595, 0.585, 0.539, -0.546, -0.533, -0.492],
-            backgroundColor: ['#EF4444', '#EF4444', '#F59E0B', '#10B981', '#10B981', '#14B8A6'],
-            borderRadius: 4
-          }]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: { x: { min: -0.7, max: 0.7, ticks: { font: baseFont }, grid: { color: gridColor } }, y: { ticks: { font: baseFont }, grid: { display: false } } }
+          scales: {
+            x: {
+              min: 0,
+              max: 100,
+              ticks: { font: baseFont, callback: v => v + '%' },
+              grid: { color: gridColor }
+            },
+            y: { ticks: { font: baseFont }, grid: { display: false } }
+          }
         }
       });
     }
