@@ -2466,30 +2466,10 @@
   <div class="page" id="page-habits">
     <div style="max-width:1000px;margin:0 auto">
       <div class="assess-hero" style="margin-bottom:2rem">
-        <div class="assess-hero-title">📈 Why AI gave these recommendations</div>
-        <div class="assess-hero-sub">Personalised analysis of your mental health drivers</div>
+        <div class="assess-hero-title">📈 Your Insights</div>
+        <div class="assess-hero-sub">Your mental wellness journey over time</div>
       </div>
-      <div id="how-compare-card" class="card"
-        style="display:none;margin-bottom:1.75rem;background:linear-gradient(135deg,#F5F3FF 0%,#FFFFFF 100%);border-color:var(--p)">
-        <h2 class="conf-title" style="margin-bottom:.5rem">📊 How You Compare</h2>
-        <p class="conf-sub" id="compare-text" style="font-size:.9rem;line-height:1.6"></p>
-      </div>
-      <div id="insights-empty-state" class="card" style="text-align:center;padding:3rem;margin-bottom:1.75rem">
-        <div style="font-size:3rem;margin-bottom:1rem">🔬</div>
-        <h2 class="conf-title">No assessment data yet</h2>
-        <p class="conf-sub">Complete an assessment to see the AI analysis of your personal risk factors.</p>
-        <button class="btn-go-assess" style="margin-top:1.5rem"
-          onclick="showPage('assess',document.querySelectorAll('.nav-link')[1])">Start Assessment →</button>
-      </div>
-      <div id="insights-main-content" style="display:none">
-        <div class="card" style="margin-bottom:1.75rem">
-          <h2 class="conf-title" style="margin-bottom:1rem">Top Influencing Factors</h2>
-          <p class="conf-sub" style="margin-bottom:1.5rem">These factors from your assessment had the most impact on
-            your personalised wellness plan.</p>
-          <div class="chart-wrap" style="height:350px"><canvas id="chart-shap-insights"></canvas></div>
-        </div>
-      </div>
-      <div class="habits-row">
+      <div class="habits-row" style="margin-bottom:2rem">
         <div class="habit-card">
           <div class="habit-icon">🌙</div>
           <div class="habit-title">Avg. Sleep</div>
@@ -2527,6 +2507,44 @@
           <div class="habit-sub">avg (1–5)</div>
         </div>
       </div>
+      <div id="how-compare-card" class="card"
+        style="display:none;margin-bottom:1.75rem;background:linear-gradient(135deg,#F5F3FF 0%,#FFFFFF 100%);border-color:var(--p)">
+        <h2 class="conf-title" style="margin-bottom:.5rem">📊 How You Compare</h2>
+        <p class="conf-sub" id="compare-text" style="font-size:.9rem;line-height:1.6"></p>
+      </div>
+      <div id="insights-empty-state" class="card" style="text-align:center;padding:3rem;margin-bottom:1.75rem">
+        <div style="font-size:3rem;margin-bottom:1rem">🔬</div>
+        <h2 class="conf-title">No assessment data yet</h2>
+        <p class="conf-sub">Complete an assessment to see the AI analysis of your personal risk factors.</p>
+        <button class="btn-go-assess" style="margin-top:1.5rem"
+          onclick="showPage('assess',document.querySelectorAll('.nav-link')[1])">Start Assessment →</button>
+      </div>
+      <div id="insights-main-content" style="display:none">
+        <div style="margin-top:3rem;margin-bottom:2rem;text-align:center">
+          <h2 class="conf-title" style="font-size:1.8rem;letter-spacing:-0.02em">WHY AI GAVE THESE RECOMMENDATIONS</h2>
+          <div style="width:60px;height:4px;background:var(--p);margin:1rem auto;border-radius:2px"></div>
+        </div>
+
+        <div class="card" style="margin-bottom:1.75rem;padding:1.5rem">
+          <h3 class="conf-title" style="margin-bottom:1rem;font-size:1.1rem">1. Global Feature Importance</h3>
+          <img src="/static/images/shap_1_global_importance.png"
+            style="width:100%;border-radius:8px;border:1px solid var(--border)" alt="Global Importance">
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;margin-bottom:2rem">
+          <div class="card" style="padding:1.5rem">
+            <h3 class="conf-title" style="margin-bottom:1rem;font-size:1.1rem">2. Summary Beeswarm</h3>
+            <img src="/static/images/shap_2_summary_beeswarm.png"
+              style="width:100%;border-radius:8px;border:1px solid var(--border)" alt="Summary Beeswarm">
+          </div>
+          <div class="card" style="padding:1.5rem">
+            <h3 class="conf-title" style="margin-bottom:1rem;font-size:1.1rem">3. Per-Class Importance</h3>
+            <img src="/static/images/shap_3_per_class_bar.png"
+              style="width:100%;border-radius:8px;border:1px solid var(--border)" alt="Per-Class Bar">
+          </div>
+        </div>
+      </div>
+
 
     </div>
   </div>
@@ -2865,15 +2883,6 @@
       const diff = phqT - popMean;
       const diffText = diff > 0 ? `${diff.toFixed(1)} points higher than` : `${Math.abs(diff).toFixed(1)} points lower than`;
       document.getElementById('compare-text').innerHTML = `Your PHQ-9 score of <strong>${phqT}/27</strong> is ${diffText} the study average (11.6). You are in the <strong>${riskLabels[probs.indexOf(Math.max(...probs))]}</strong> category, which represents ${[41.3, 45.9, 12.8][probs.indexOf(Math.max(...probs))]}% of the student population.`;
-
-      // Update SHAP Insights Chart
-      const shapData = buildSHAP(probs.indexOf(Math.max(...probs)));
-      if (charts.shapInsights) {
-        charts.shapInsights.data.labels = shapData.map(d => d[0]);
-        charts.shapInsights.data.datasets[0].data = shapData.map(d => d[1]);
-        charts.shapInsights.data.datasets[0].backgroundColor = shapData.map(d => d[2]);
-        charts.shapInsights.update();
-      }
     }
 
     function populateTipsPage(pred, phqT, gadSim, stability, tips) {
@@ -2968,34 +2977,6 @@
 
     function initCharts() {
       var baseFont = { family: "'DM Sans', sans-serif", size: 11 }; var gridColor = 'rgba(0,0,0,.06)';
-
-      // SHAP Insights Chart (Horizontal Bar)
-      charts.shapInsights = new Chart(document.getElementById('chart-shap-insights'), {
-        type: 'bar',
-        data: {
-          labels: ['Sleep', 'Stress', 'Social Support', 'Exercise', 'Workload', 'Relaxation'],
-          datasets: [{
-            data: [0, 0, 0, 0, 0, 0],
-            backgroundColor: '#6C3CE1',
-            borderRadius: 6
-          }]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: {
-              min: 0,
-              max: 100,
-              ticks: { font: baseFont, callback: v => v + '%' },
-              grid: { color: gridColor }
-            },
-            y: { ticks: { font: baseFont }, grid: { display: false } }
-          }
-        }
-      });
     }
 
     function animateHome() {
