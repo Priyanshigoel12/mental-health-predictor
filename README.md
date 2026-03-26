@@ -2,6 +2,8 @@
 
 **🔴 Live App:** [mental-health-riskpredictor.streamlit.app](https://mental-health-riskpredictor.streamlit.app)
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Priyanshigoel12/mental-health-predictor)
+
 ---
 
 ## About
