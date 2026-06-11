@@ -178,7 +178,7 @@
     .hero {
       background: linear-gradient(135deg, #6C3CE1 0%, #9B59B6 50%, #C471ED 100%);
       border-radius: var(--r);
-      padding: 3.5rem 2.5rem;
+      padding: 2.2rem 2.5rem;
       color: white;
       margin-bottom: 2.5rem;
       position: relative;
@@ -190,8 +190,8 @@
       position: absolute;
       right: -60px;
       top: -60px;
-      width: 340px;
-      height: 340px;
+      width: 240px;
+      height: 240px;
       background: rgba(255, 255, 255, .06);
       border-radius: 50%
     }
@@ -201,8 +201,8 @@
       position: absolute;
       right: 80px;
       bottom: -80px;
-      width: 220px;
-      height: 220px;
+      width: 160px;
+      height: 160px;
       background: rgba(255, 255, 255, .04);
       border-radius: 50%
     }
@@ -540,6 +540,11 @@
     .score-box.gad .s-num {
       color: var(--violet)
     }
+
+    .gad-info-btn{cursor:pointer;font-size:.7rem;vertical-align:middle;opacity:.7;transition:opacity .2s}
+    .gad-info-btn:hover{opacity:1}
+    .gad-tooltip{display:none;position:absolute;top:100%;left:0;right:0;background:var(--card);border:1px solid rgba(108,60,225,.15);border-radius:10px;padding:.8rem 1rem;font-size:.72rem;line-height:1.5;color:var(--txt);box-shadow:var(--sh-md);z-index:50;margin-top:.5rem}
+    .gad-tooltip.show{display:block;animation:fadeUp .2s ease}
 
     .s-max {
       font-size: .78rem;
@@ -1222,6 +1227,19 @@
       font-weight: 600
     }
 
+    .crisis-block{background:linear-gradient(135deg,#FEE2E2,#FECACA);border:2px solid #EF4444;border-radius:16px;padding:1.8rem;margin-bottom:1.5rem;text-align:center;animation:fadeUp .4s ease}
+    .crisis-icon{font-size:2.5rem;margin-bottom:.5rem}
+    .crisis-title{font-size:1.15rem;font-weight:800;color:#991B1B;margin-bottom:.5rem}
+    .crisis-text{font-size:.85rem;color:#7F1D1D;margin-bottom:1rem;line-height:1.5}
+    .crisis-contacts{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem}
+    .crisis-link{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;background:#fff;border:1.5px solid #EF4444;border-radius:10px;padding:.6rem 1.2rem;color:#DC2626;font-weight:700;font-size:.88rem;text-decoration:none;transition:all .2s}
+    .crisis-link:hover{background:#FEE2E2;transform:scale(1.02)}
+    .crisis-note{font-size:.78rem;color:#991B1B;font-style:italic}
+    .rb-delta{margin-top:.5rem;font-size:.82rem;font-weight:700;padding:.4rem .8rem;border-radius:8px;display:inline-block}
+    .rb-delta.improved{background:rgba(16,185,129,.12);color:#065F46}
+    .rb-delta.worsened{background:rgba(239,68,68,.12);color:#991B1B}
+    .rb-delta.same{background:rgba(108,60,225,.08);color:var(--p)}
+
     .results-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1850,6 +1868,23 @@
       transform: translateX(-50%) translateY(0)
     }
 
+    .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+    .confirm-overlay.show{display:flex}
+    .confirm-modal{background:var(--card);border-radius:16px;padding:2rem;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:fadeUp .25s ease}
+    .confirm-icon{font-size:2.5rem;margin-bottom:.5rem}
+    .confirm-title{font-size:1.1rem;font-weight:800;color:var(--txt);margin-bottom:.4rem}
+    .confirm-text{font-size:.85rem;color:var(--txt2);margin-bottom:1.5rem;line-height:1.5}
+    .confirm-actions{display:flex;gap:.8rem;justify-content:center}
+    .confirm-btn{padding:.6rem 1.5rem;border-radius:10px;font-size:.85rem;font-weight:700;border:none;cursor:pointer;transition:all .2s}
+    .confirm-btn.cancel{background:var(--glass);color:var(--txt2);border:1px solid rgba(0,0,0,.1)}
+    .confirm-btn.cancel:hover{background:rgba(0,0,0,.05)}
+    .confirm-btn.danger{background:#EF4444;color:#fff}
+    .confirm-btn.danger:hover{background:#DC2626;transform:scale(1.03)}
+
+    .tip-done-toggle{display:flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;color:var(--txt2);cursor:pointer;margin-top:.6rem;padding:.3rem .6rem;border-radius:6px;background:rgba(108,60,225,.04);width:fit-content;transition:all .2s}
+    .tip-done-toggle:hover{background:rgba(108,60,225,.1)}
+    .tip-done-cb{accent-color:var(--p);cursor:pointer}
+
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -2145,8 +2180,8 @@
     .dash-hero-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
     .dash-meta-item{background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:.5rem 1rem;display:flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:600}
     .dash-meta-num{font-family:'Sora',sans-serif;font-weight:800;font-size:1.1rem}
-    .btn-export{padding:.6rem 1.2rem;border-radius:10px;border:1.5px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);backdrop-filter:blur(8px);color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
-    .btn-export:hover{background:rgba(255,255,255,.22);border-color:#fff}
+    .btn-export{padding:.7rem 1.5rem;border-radius:12px;border:none;background:rgba(255,255,255,.95);color:var(--p);font-size:.88rem;font-weight:800;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;box-shadow:0 4px 16px rgba(0,0,0,.1);letter-spacing:.2px}
+    .btn-export:hover{background:#fff;transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.15)}
     .dash-stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1.25rem;margin-bottom:1.75rem}
     .dash-stat-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh-sm);padding:1.2rem;position:relative;overflow:hidden}
     .dash-stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:var(--r) var(--r) 0 0}
@@ -2218,11 +2253,23 @@
     .fab-item-icon{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 16px rgba(0,0,0,.18);transition:transform .2s;flex-shrink:0}
     .fab-item-icon:hover{transform:scale(1.12)}
     .fab-item:nth-child(1) .fab-item-icon{background:linear-gradient(135deg,#6C3CE1,#9B59B6)}
-    .fab-item:nth-child(2) .fab-item-icon{background:linear-gradient(135deg,#0891B2,#06B6D4)}
-    .fab-item:nth-child(3) .fab-item-icon{background:linear-gradient(135deg,#8B5CF6,#A78BFA)}
-    .fab-item:nth-child(4) .fab-item-icon{background:linear-gradient(135deg,#F59E0B,#FBBF24)}
+    .fab-item:nth-child(2) .fab-item-icon{background:linear-gradient(135deg,#6C3CE1,#9B59B6)}
+    .fab-item:nth-child(3) .fab-item-icon{background:linear-gradient(135deg,#6C3CE1,#9B59B6)}
+    .fab-item:nth-child(4) .fab-item-icon{background:linear-gradient(135deg,#6C3CE1,#9B59B6)}
     .fab-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:399;display:none;backdrop-filter:blur(3px)}
     .fab-backdrop.show{display:block}
+
+    /* ── My Progress Tabs ──────────────────────────────────────── */
+    .progress-hero{background:linear-gradient(135deg,#6C3CE1 0%,#9B59B6 55%,#C471ED 100%);border-radius:var(--r);padding:2rem 2.5rem;color:white;margin-bottom:1.5rem;position:relative;overflow:hidden}
+    .progress-hero::after{content:'';position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.08)}
+    .progress-hero-title{font-size:1.5rem;font-weight:800;margin-bottom:.3rem}
+    .progress-hero-sub{font-size:.88rem;opacity:.85}
+    .progress-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;background:var(--glass);border-radius:12px;padding:.35rem;border:1px solid rgba(108,60,225,.1)}
+    .progress-tab{flex:1;padding:.7rem 1rem;border-radius:10px;border:none;background:transparent;color:var(--txt2);font-size:.82rem;font-weight:700;cursor:pointer;transition:all .25s}
+    .progress-tab.active{background:var(--p);color:#fff;box-shadow:0 4px 16px rgba(108,60,225,.3)}
+    .progress-tab:hover:not(.active){background:rgba(108,60,225,.06);color:var(--p)}
+    .progress-section{display:none}
+    .progress-section.active{display:block}
 
     /* ── Mindfulness Tool Modal (shared) ──────────────────────── */
     .mind-overlay{position:fixed;inset:0;background:rgba(10,8,30,.85);backdrop-filter:blur(12px);z-index:600;display:none;align-items:center;justify-content:center;padding:1.5rem}
@@ -2366,6 +2413,13 @@
     .btn-lock-journal:hover{background:rgba(239,68,68,.06)}
     .btn-delete-entry{background:none;border:none;color:var(--txt2);font-size:.7rem;font-weight:700;cursor:pointer;transition:color .2s;padding:.2rem .4rem}
     .btn-delete-entry:hover{color:var(--red)}
+    .timed-toggle{font-size:.75rem !important;padding:.35rem .7rem !important;border-radius:8px !important;opacity:.8}
+    .timed-toggle:hover{opacity:1}
+    .mood-selector{padding:.6rem;background:rgba(108,60,225,.03);border-radius:10px;border:1px solid rgba(108,60,225,.08)}
+    .mood-options{display:flex;gap:.5rem}
+    .mood-btn{width:42px;height:42px;border-radius:50%;border:2px solid transparent;background:var(--glass);font-size:1.3rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
+    .mood-btn:hover{transform:scale(1.15);border-color:var(--p)}
+    .mood-btn.selected{border-color:var(--p);background:rgba(108,60,225,.1);transform:scale(1.15);box-shadow:0 4px 12px rgba(108,60,225,.2)}
     @media(max-width:900px){.journal-page-grid{grid-template-columns:1fr}}
   </style>
 </head>
@@ -2375,11 +2429,9 @@
     <div class="nav-inner">
       <div class="nav-brand">🧠 MindScan</div>
       <div class="nav-links">
-        <span class="nav-link active" onclick="showPage('home',this)">Home</span>
-        <span class="nav-link" onclick="showPage('assess',this)">Assess</span>
-        <span class="nav-link" onclick="showPage('habits',this)">Insights</span>
-        <span class="nav-link" onclick="showPage('tips',this)">💡 Recommendations</span>
-        <span class="nav-link" onclick="showPage('dashboard',this)">📊 Dashboard</span>
+        <span class="nav-link active" onclick="showPage('home',this)">🏠 Home</span>
+        <span class="nav-link" onclick="showPage('assess',this)">🔬 Assess</span>
+        <span class="nav-link" onclick="showPage('progress',this)">📊 My Progress</span>
         <span class="nav-link" onclick="showPage('journal',this)">📝 Journal</span>
       </div>
       <div class="nav-actions">
@@ -2459,13 +2511,12 @@
                   <div class="s-lbl">PHQ-9 Score</div>
                   <div><span class="s-num" id="home-phq">04</span><span class="s-max"> / 27</span></div>
                 </div>
-                <div class="score-box gad">
-                  <div class="s-lbl" style="color:var(--txt2)">Anxiety Index (est.)</div>
-                  <div><span class="s-num" id="home-gad" style="color:var(--txt2)">02</span><span class="s-max"> /
-                      21</span></div>
-                  <div style="font-size:0.6rem;color:var(--txt2);font-style:italic;margin-top:2px">⚠ Estimated — not a
-                    validated clinical score</div>
-                </div>
+              <div class="score-box gad" style="position:relative">
+                <div class="s-lbl" style="color:var(--txt2)">Anxiety Index (est.) <span class="gad-info-btn" onclick="event.stopPropagation();document.getElementById('gad-tooltip').classList.toggle('show')" title="Why can this differ from PHQ-9?">ℹ️</span></div>
+                <div><span class="s-num" id="home-gad" style="color:var(--txt2)">02</span><span class="s-max"> / 21</span></div>
+                <div style="font-size:0.6rem;color:var(--txt2);font-style:italic;margin-top:2px">⚠ Estimated — not a validated clinical score</div>
+                <div class="gad-tooltip" id="gad-tooltip">The Anxiety Index (GAD estimate) is calculated from your stress responses (workload, relaxation difficulty, exam anxiety), not from PHQ-9. These scores measure different aspects of mental health — depression vs anxiety — and can diverge significantly.<br><br>A low PHQ-9 with a higher GAD estimate may simply mean you're managing mood well but experiencing situational stress.</div>
+              </div>
               </div>
             </div>
           </div>
@@ -2473,6 +2524,7 @@
         <div class="grid-bottom">
           <div class="card">
             <h2 class="sec-head">Active Assessments</h2>
+                <div class="last-check-nudge" id="lastCheckNudge" style="font-size:.78rem;color:var(--txt2);margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem"></div>
             <div class="assess-grid">
               <div class="acard">
                 <div class="a-icon i-pur">⚡</div><span class="a-badge b-pur">12 Left</span>
@@ -2676,6 +2728,18 @@
         <div class="rb-title" id="rb-title">Low Risk</div>
         <div class="rb-msg" id="rb-msg">You're doing great!</div>
         <div class="rb-phq" id="rb-phq">PHQ-9 Score: 0 / 27</div>
+        <div class="rb-delta" id="rb-delta" style="display:none"></div>
+      </div>
+      <div id="crisis-block" class="crisis-block" style="display:none">
+        <div class="crisis-icon">🆘</div>
+        <div class="crisis-title">You're Not Alone — Help is Available 24/7</div>
+        <div class="crisis-text">Your responses indicate you may be going through a very difficult time. Please reach out to one of these free, confidential helplines:</div>
+        <div class="crisis-contacts">
+          <a href="tel:9152987821" class="crisis-link">📞 iCall: 9152987821</a>
+          <a href="tel:18602662345" class="crisis-link">📞 Vandrevala Foundation: 1860-2662-345</a>
+          <a href="tel:08046110007" class="crisis-link">📞 NIMHANS: 080-46110007</a>
+        </div>
+        <div class="crisis-note">❤️ These services are free, anonymous, and available 24/7. Talking helps.</div>
       </div>
       <div class="results-grid">
         <div class="card">
@@ -2708,7 +2772,19 @@
     </div>
   </div>
 
-  <div class="page" id="page-habits">
+  <div class="page" id="page-progress">
+    <div style="max-width:1100px;margin:0 auto">
+      <div class="progress-hero">
+        <div class="progress-hero-title">📊 My Progress</div>
+        <div class="progress-hero-sub">Your complete mental wellness journey — insights, recommendations & trends</div>
+      </div>
+      <div class="progress-tabs">
+        <button class="progress-tab active" onclick="switchProgressTab('dashboard',this)">📊 Dashboard</button>
+        <button class="progress-tab" onclick="switchProgressTab('insights',this)">📈 Insights</button>
+        <button class="progress-tab" onclick="switchProgressTab('recommendations',this)">💡 Recommendations</button>
+      </div>
+
+  <div class="progress-section" id="progress-insights" style="display:none">
     <div style="max-width:1000px;margin:0 auto">
       <div class="assess-hero" style="margin-bottom:2rem">
         <div class="assess-hero-title">📈 Your Insights</div>
@@ -2794,7 +2870,7 @@
     </div>
   </div>
 
-  <div class="page" id="page-tips">
+  <div class="progress-section" id="progress-recommendations" style="display:none">
     <div style="max-width:1100px;margin:0 auto">
       <div class="tips-hero">
         <div class="tips-hero-title">💡 Your Personalised Recommendations</div>
@@ -2851,7 +2927,7 @@
   </div>
 
 
-  <div class="page" id="page-dashboard">
+  <div class="progress-section active" id="progress-dashboard">
     <div style="max-width:1100px;margin:0 auto">
       <div class="dash-hero">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1">
@@ -2927,13 +3003,15 @@
       </div>
     </div>
   </div>
+    </div>
+  </div>
 
   <!-- ── Journal Page ─────────────────────────────────────────── -->
   <div class="page" id="page-journal">
     <div style="max-width:1100px;margin:0 auto">
       <div class="journal-hero">
         <div class="journal-hero-title">📝 My Private Journal</div>
-        <div class="journal-hero-sub">A safe space for your thoughts — password-protected & stored only on your device</div>
+        <div class="journal-hero-sub">A safe space for your thoughts — password-protected & stored in your browser's local storage</div>
         <div class="journal-hero-stats">
           <div class="journal-hero-stat">📖 <span class="journal-hero-stat-num" id="jpage-total">0</span> Entries</div>
           <div class="journal-hero-stat">✍️ <span class="journal-hero-stat-num" id="jpage-words">0</span> Words Written</div>
@@ -2946,7 +3024,7 @@
         <div class="journal-pw-card">
           <div class="journal-pw-icon" id="jpw-icon">🔒</div>
           <div class="journal-pw-title" id="jpw-title">Set Your Journal Password</div>
-          <div class="journal-pw-sub" id="jpw-sub">Create a password to keep your journal entries private. This password is stored securely on your device only.</div>
+          <div class="journal-pw-sub" id="jpw-sub">Create a password to keep your journal entries private. Stored in your browser's local storage. ⚠️ Clearing browser data will remove entries — export regularly.</div>
           <input type="password" class="journal-pw-input" id="jpw-input" placeholder="Enter password" autocomplete="off" />
           <input type="password" class="journal-pw-input" id="jpw-confirm" placeholder="Confirm password" autocomplete="off" />
           <button class="btn-pw" id="jpw-btn" onclick="handleJournalPassword()">🔐 Set Password & Enter</button>
@@ -2962,7 +3040,11 @@
             <!-- Write new entry -->
             <div class="journal-write-card" style="margin-bottom:1.5rem">
               <div class="journal-write-title">✍️ Write New Entry</div>
-              <div class="journal-timer-bar">
+              <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem">
+                <button class="btn-journal timed-toggle" id="jpgTimedToggle" onclick="toggleTimedMode()">⏱ Timed Mode</button>
+                <span style="font-size:.7rem;color:var(--txt2)">Optional — adds a gentle 5-minute timer</span>
+              </div>
+              <div class="journal-timer-bar" id="jpgTimerBar" style="display:none">
                 <div class="journal-timer-icon">⏱️</div>
                 <div class="journal-timer-text" id="jpgTimerText">5:00</div>
                 <div class="journal-timer-progress"><div class="journal-timer-fill" id="jpgTimerFill" style="width:0%"></div></div>
@@ -2975,6 +3057,16 @@
               <div class="journal-footer">
                 <div class="journal-word-count" id="jpgWordCount">0 words</div>
                 <div class="journal-saved" id="jpgSaved">✓ Auto-saved</div>
+              </div>
+              <div class="mood-selector" id="jpgMoodSelector" style="margin-bottom:.8rem">
+                <div style="font-size:.78rem;font-weight:600;color:var(--txt2);margin-bottom:.4rem">How are you feeling?</div>
+                <div class="mood-options">
+                  <button class="mood-btn" onclick="selectMood('😊',this)" title="Happy">😊</button>
+                  <button class="mood-btn" onclick="selectMood('😐',this)" title="Neutral">😐</button>
+                  <button class="mood-btn" onclick="selectMood('😢',this)" title="Sad">😢</button>
+                  <button class="mood-btn" onclick="selectMood('😤',this)" title="Frustrated">😤</button>
+                  <button class="mood-btn" onclick="selectMood('😴',this)" title="Tired">😴</button>
+                </div>
               </div>
               <div class="journal-actions">
                 <button class="btn-journal new-prompt" onclick="newJpgPrompt()">🔄 New Prompt</button>
@@ -2998,6 +3090,11 @@
               <div class="mini-score-row"><span class="mini-score-lbl">Avg Words/Entry</span><span class="mini-score-val" id="jstat-avg" style="color:var(--p)">0</span></div>
               <div class="mini-score-row"><span class="mini-score-lbl">Longest Streak</span><span class="mini-score-val" id="jstat-streak" style="color:var(--green)">0 days</span></div>
               <div class="mini-score-row" style="border:none"><span class="mini-score-lbl">Last Entry</span><span class="mini-score-val" id="jstat-last" style="color:var(--txt2)">—</span></div>
+            </div>
+            <div class="journal-sidebar-card">
+              <div class="journal-sidebar-title">📥 Backup</div>
+              <button class="btn-journal save" onclick="exportJournal()" style="width:100%;margin-bottom:.4rem">📥 Export Journal</button>
+              <div style="font-size:.68rem;color:var(--txt2);text-align:center">⚠️ Export before clearing browser data</div>
             </div>
             <div class="journal-sidebar-card">
               <div class="journal-sidebar-title">🔐 Security</div>
@@ -3037,10 +3134,24 @@
     </div>
   </div>
 
+  <div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-modal">
+      <div class="confirm-icon">⚠️</div>
+      <div class="confirm-title" id="confirmTitle">Are you sure?</div>
+      <div class="confirm-text" id="confirmText">This action cannot be undone.</div>
+      <div class="confirm-actions">
+        <button class="confirm-btn cancel" onclick="closeConfirm()">Cancel</button>
+        <button class="confirm-btn danger" id="confirmAction">Delete</button>
+      </div>
+    </div>
+  </div>
   <div class="toast" id="toast"></div>
   <div class="fab-backdrop" id="fabBackdrop" onclick="closeFab()"></div>
   <div class="fab-wrap" id="fabWrap">
     <div class="fab-menu">
+      <div class="fab-item" onclick="closeFab();openMoodCheckin()">
+        <span class="fab-item-label">Quick Mood Check-in</span><div class="fab-item-icon">😊</div>
+      </div>
       <div class="fab-item" onclick="closeFab();showPage('assess',document.querySelectorAll('.nav-link')[1]);showToast('Starting new assessment…')">
         <span class="fab-item-label">New Assessment</span><div class="fab-item-icon">🔬</div>
       </div>
@@ -3050,14 +3161,35 @@
       <div class="fab-item" onclick="closeFab();openBodyScan()">
         <span class="fab-item-label">Body Scan</span><div class="fab-item-icon">🧘</div>
       </div>
-      <div class="fab-item" onclick="closeFab();showPage('journal',document.querySelectorAll('.nav-link')[5])">
-        <span class="fab-item-label">Guided Journaling</span><div class="fab-item-icon">📝</div>
-      </div>
     </div>
     <button class="fab" onclick="toggleFab()" title="Mindfulness Tools">+</button>
   </div>
 
   <!-- ── Breathing Timer Modal ──────────────────────────────── -->
+  <!-- ── Quick Mood Check-in Modal ──────────────────────────── -->
+  <div class="mind-overlay" id="moodOverlay">
+    <div class="mind-modal" style="max-width:380px">
+      <button class="mind-close" onclick="closeMoodCheckin()">✕</button>
+      <div class="mind-header">
+        <div class="mind-header-icon">😊</div>
+        <div class="mind-header-title">Quick Mood Check-in</div>
+        <div class="mind-header-sub">How are you feeling right now?</div>
+      </div>
+      <div class="mind-body" style="text-align:center">
+        <div class="mood-options" style="justify-content:center;margin-bottom:1rem">
+          <button class="mood-btn" onclick="selectQuickMood('😊',this)" title="Happy">😊</button>
+          <button class="mood-btn" onclick="selectQuickMood('😐',this)" title="Neutral">😐</button>
+          <button class="mood-btn" onclick="selectQuickMood('😢',this)" title="Sad">😢</button>
+          <button class="mood-btn" onclick="selectQuickMood('😤',this)" title="Frustrated">😤</button>
+          <button class="mood-btn" onclick="selectQuickMood('😴',this)" title="Tired">😴</button>
+        </div>
+        <input type="text" class="journal-pw-input" id="moodNote" placeholder="Optional: add a quick note…" style="margin-bottom:1rem" />
+        <button class="btn-pw" onclick="saveMoodCheckin()">✅ Save Mood</button>
+        <div style="font-size:.7rem;color:var(--txt2);margin-top:.6rem">Tracked locally to see your mood trends</div>
+      </div>
+    </div>
+  </div>
+
   <div class="mind-overlay" id="breathOverlay">
     <div class="mind-modal">
       <button class="mind-close" onclick="closeBreathing()">✕</button>
@@ -3176,12 +3308,50 @@
       document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
       if (el) el.classList.add('active');
       if (id === 'assess') { document.getElementById('page-assess').classList.add('active'); }
+      else if (id === 'progress') {
+        document.getElementById('page-progress').classList.add('active');
+        loadDashboard();
+        if (assessmentDone) {
+          var tipsEmpty = document.getElementById('tips-empty');
+          var tipsContent = document.getElementById('tips-content');
+          if (tipsEmpty) tipsEmpty.style.display = 'none';
+          if (tipsContent) tipsContent.style.display = 'block';
+        }
+      }
+      else if (id === 'dashboard') {
+        document.getElementById('page-progress').classList.add('active');
+        switchProgressTab('dashboard', document.querySelectorAll('.progress-tab')[0]);
+        loadDashboard();
+        if (el) { document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelectorAll('.nav-link')[2].classList.add('active'); }
+      }
       else if (id === 'tips') {
-        document.getElementById('page-tips').classList.add('active');
+        document.getElementById('page-progress').classList.add('active');
+        switchProgressTab('recommendations', document.querySelectorAll('.progress-tab')[2]);
         if (!assessmentDone) { document.getElementById('tips-empty').style.display = 'block'; document.getElementById('tips-content').style.display = 'none'; }
         else { document.getElementById('tips-empty').style.display = 'none'; document.getElementById('tips-content').style.display = 'block'; }
-      } else if (id === 'dashboard') { document.getElementById('page-dashboard').classList.add('active'); loadDashboard(); } else if (id === 'journal') { document.getElementById('page-journal').classList.add('active'); initJournalPage(); } else { document.getElementById('page-' + id).classList.add('active'); }
+        if (el) { document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelectorAll('.nav-link')[2].classList.add('active'); }
+      }
+      else if (id === 'habits') {
+        document.getElementById('page-progress').classList.add('active');
+        switchProgressTab('insights', document.querySelectorAll('.progress-tab')[1]);
+        if (el) { document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.querySelectorAll('.nav-link')[2].classList.add('active'); }
+      }
+      else if (id === 'journal') { document.getElementById('page-journal').classList.add('active'); initJournalPage(); }
+      else { document.getElementById('page-' + id).classList.add('active'); }
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function switchProgressTab(tab, btn) {
+      document.querySelectorAll('.progress-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.progress-section').forEach(s => s.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      var section = document.getElementById('progress-' + tab);
+      if (section) section.classList.add('active');
+      if (tab === 'dashboard') loadDashboard();
+      if (tab === 'recommendations') {
+        if (!assessmentDone) { document.getElementById('tips-empty').style.display = 'block'; document.getElementById('tips-content').style.display = 'none'; }
+        else { document.getElementById('tips-empty').style.display = 'none'; document.getElementById('tips-content').style.display = 'block'; }
+      }
     }
 
     function goStep(n) {
@@ -3249,7 +3419,15 @@
       return BASE_SHAP.map(([lbl, base], i) => {
         const userWeight = i < 8 ? (phqWeights[i] / 3) : 1;
         const adjusted = Math.round(base * 100 * (0.6 + 0.4 * userWeight));
-        const color = i < 8 ? '#EF4444' : '#6C3CE1';
+        // Encode direction: red for risk factors, green for protective factors
+        var color;
+        if (lbl.indexOf('Exercise') !== -1 || lbl.indexOf('Sleep hours') !== -1) {
+          color = '#10B981'; // green — protective factor
+        } else if (lbl.indexOf('PHQ') !== -1) {
+          color = '#EF4444'; // red — risk factor
+        } else {
+          color = '#6C3CE1'; // purple — stress/lifestyle
+        }
         return [lbl, Math.min(99, adjusted), color];
       }).sort((a, b) => b[1] - a[1]).slice(0, 6);
     }
@@ -3276,6 +3454,10 @@
       if (inputs.phq[3] >= 2) tips.push(["⚡", "Low energy patterns", "Check water intake, meal regularity and iron levels.", ""]);
       if (inputs.phq[6] >= 2) tips.push(["🎯", "Improving concentration", "Try single-tasking — close all tabs except the one you need.", ""]);
       if (pred === 2) tips.push(["🆘", "Please reach out today", "iCall: 9152987821 · Vandrevala Foundation: 1860-2662-345 (24/7) · NIMHANS: 080-46110007.", "urgent"]);
+      // Mindfulness tips — always show, link to FAB tools
+      tips.push(['\ud83c\udf2c\ufe0f', 'Try the Breathing Timer', 'Take 2 minutes for deep breathing \u2014 click the + button and select Breathing Timer for guided 4-7-8 or box breathing.', 'info']);
+      tips.push(['\ud83e\uddd8', 'Do a Body Scan', 'Check in with your body \u2014 a 5-minute guided scan helps release tension. Available from the + menu.', 'info']);
+      tips.push(['\ud83d\udcdd', 'Write in Your Journal', 'Even 3 sentences can help process your thoughts. Visit the Journal page from the nav bar.', 'info']);
       return tips;
     }
 
@@ -3298,6 +3480,28 @@
         document.getElementById('rb-title').textContent = r.label;
         document.getElementById('rb-msg').textContent = buildResultMsg(pred);
         document.getElementById('rb-phq').textContent = 'PHQ-9 Score: ' + phqT + ' / 27';
+        var crisisBlock = document.getElementById('crisis-block');
+        if (crisisBlock) crisisBlock.style.display = pred === 2 ? 'block' : 'none';
+        // Session comparison delta
+        var prevSessions = JSON.parse(localStorage.getItem('ms_sessions') || '[]');
+        var deltaEl = document.getElementById('rb-delta');
+        if (deltaEl && prevSessions.length > 0) {
+          var prevPHQ = prevSessions[prevSessions.length - 1].phqTotal;
+          var prevDate = new Date(prevSessions[prevSessions.length - 1].date);
+          var dateStr = prevDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+          var diff = phqT - prevPHQ;
+          if (diff < 0) {
+            deltaEl.className = 'rb-delta improved';
+            deltaEl.textContent = '↓ PHQ-9 improved by ' + Math.abs(diff) + ' points since ' + dateStr;
+          } else if (diff > 0) {
+            deltaEl.className = 'rb-delta worsened';
+            deltaEl.textContent = '↑ PHQ-9 increased by ' + diff + ' points since ' + dateStr;
+          } else {
+            deltaEl.className = 'rb-delta same';
+            deltaEl.textContent = '↔ PHQ-9 unchanged since ' + dateStr;
+          }
+          deltaEl.style.display = 'inline-block';
+        }
         const bars = [['Low Risk', probs[0], 'var(--green)', 'g'], ['Moderate Risk', probs[1], 'var(--amber)', 'v'], ['High Risk', probs[2], 'var(--red)', 'r']];
         document.getElementById('res-conf-bars').innerHTML = bars.map(([lbl, p, col, cls]) => '<div><div class="conf-row-head"><span class="conf-label">' + lbl + '</span><span class="conf-pct ' + cls + '">' + (p * 100).toFixed(1) + '%</span></div><div class="bar-track"><div class="bar-fill" style="background:' + col + ';width:0" data-w="' + (p * 100).toFixed(1) + '"></div></div></div>').join('');
         const shapData = buildSHAP(pred);
@@ -3429,18 +3633,21 @@
       document.getElementById('fc-good').textContent = counts.good;
       document.getElementById('fc-warning').textContent = counts.warning;
       document.getElementById('fc-info').textContent = counts.info;
-      var SECTIONS = [{ key: 'sleep', label: '🌙 Sleep', icon: '🌙', bg: '#EDE9FE' }, { key: 'exercise', label: '🏃 Exercise', icon: '🏃', bg: '#DBEAFE' }, { key: 'screen', label: '📱 Screen & Digital', icon: '📱', bg: '#FEF3C7' }, { key: 'social', label: '🤝 Social Support', icon: '🤝', bg: '#F3E8FF' }, { key: 'stress', label: '😰 Stress & Anxiety', icon: '😰', bg: '#FEE2E2' }, { key: 'wellness', label: '🔬 Wellness (PHQ-9)', icon: '🔬', bg: '#D1FAE5' }, { key: 'crisis', label: '🆘 Crisis Resources', icon: '🆘', bg: '#FEE2E2' }, { key: 'general', label: '💡 General', icon: '💡', bg: '#F0F2FA' }];
-      var SM = { '🌙': 'sleep', '✅': 'wellness', '🏃': 'exercise', '📱': 'screen', '🤝': 'social', '📚': 'social', '😰': 'stress', '🧘': 'stress', '📋': 'stress', '📝': 'stress', '🛌': 'sleep', '⚡': 'wellness', '🎯': 'wellness', '🆘': 'crisis' };
+      var SECTIONS = [{ key: 'sleep', label: '🌙 Sleep', icon: '🌙', bg: '#EDE9FE' }, { key: 'exercise', label: '🏃 Exercise', icon: '🏃', bg: '#DBEAFE' }, { key: 'screen', label: '📱 Screen & Digital', icon: '📱', bg: '#FEF3C7' }, { key: 'social', label: '🤝 Social Support', icon: '🤝', bg: '#F3E8FF' }, { key: 'stress', label: '😰 Stress & Anxiety', icon: '😰', bg: '#FEE2E2' }, { key: 'wellness', label: '🔬 Wellness (PHQ-9)', icon: '🔬', bg: '#D1FAE5' }, { key: 'crisis', label: '🆘 Crisis Resources', icon: '🆘', bg: '#FEE2E2' }, { key: 'mindfulness', label: '🧘 Mindfulness', icon: '🧘', bg: '#E0F2FE' }, { key: 'general', label: '💡 General', icon: '💡', bg: '#F0F2FA' }];
+      var SM = { '🌙': 'sleep', '✅': 'wellness', '🏃': 'exercise', '📱': 'screen', '🤝': 'social', '📚': 'social', '😰': 'stress', '🧘': 'stress', '📋': 'stress', '📝': 'stress', '🛌': 'sleep', '⚡': 'wellness', '🎯': 'wellness', '🆘': 'crisis', '🌬️': 'mindfulness', '🧘': 'mindfulness', '📝': 'mindfulness' };
       var grouped = {}; SECTIONS.forEach(function (s) { grouped[s.key] = [] });
       tips.forEach(function (tip) { var sec = SM[tip[0]] || 'general'; grouped[sec].push(tip) });
       var html = '';
+      var doneState = JSON.parse(localStorage.getItem('ms_tips_done') || '{}');
+      var globalIdx = 0;
       SECTIONS.forEach(function (sec) {
         var items = grouped[sec.key]; if (!items || items.length === 0) return;
         html += '<div class="tips-section-head" data-sec="' + sec.key + '"><div class="tips-section-icon" style="background:' + sec.bg + '">' + sec.icon + '</div>' + sec.label + '</div>';
         items.forEach(function (t, idx) {
           var type = t[3] || 'warning';
           var tagLabel = type === 'urgent' ? 'Action Needed' : type === 'good' ? 'On Track' : type === 'info' ? 'Tip' : 'Improve';
-          html += '<div class="tip-big-card ' + type + '" data-type="' + type + '" style="animation-delay:' + idx * 0.05 + 's"><div class="tbh"><div class="tb-icon-wrap">' + t[0] + '</div><div class="tb-text"><div class="tb-title">' + t[1] + '</div><div class="tb-body">' + t[2] + '</div><span class="tb-tag">' + tagLabel + '</span></div></div></div>'
+          var cardIdx = globalIdx++;
+          html += '<div class="tip-big-card ' + type + '" data-type="' + type + '" style="animation-delay:' + idx * 0.05 + 's' + (doneState[cardIdx] ? ';opacity:0.55' : '') + '"><div class="tbh"><div class="tb-icon-wrap">' + t[0] + '</div><div class="tb-text"><div class="tb-title">' + t[1] + '</div><div class="tb-body">' + t[2] + '</div><span class="tb-tag">' + tagLabel + '</span><label class="tip-done-toggle"><input type="checkbox" class="tip-done-cb" data-idx="' + cardIdx + '" ' + (doneState[cardIdx] ? 'checked' : '') + ' onchange="toggleTipDone(' + cardIdx + ',this.checked)">' + (doneState[cardIdx] ? '✅ Done' : 'Mark done') + '</label></div></div></div>'
         });
       });
       document.getElementById('tips-list-wrap').innerHTML = html;
@@ -3821,11 +4028,38 @@
       });
     }
 
+    function showConfirm(title, text, actionText, onConfirm) {
+      document.getElementById('confirmTitle').textContent = title;
+      document.getElementById('confirmText').textContent = text;
+      var btn = document.getElementById('confirmAction');
+      btn.textContent = actionText;
+      btn.onclick = function() { closeConfirm(); onConfirm(); };
+      document.getElementById('confirmOverlay').classList.add('show');
+    }
+    function closeConfirm() { document.getElementById('confirmOverlay').classList.remove('show'); }
     function clearHistory() {
-      if (!confirm('Clear all session history? This cannot be undone.')) return;
-      localStorage.removeItem('ms_sessions');
-      loadDashboard();
-      showToast('Session history cleared');
+      var sessions = JSON.parse(localStorage.getItem('ms_sessions') || '[]');
+      showConfirm(
+        'Clear All Session History?',
+        'This will permanently delete all ' + sessions.length + ' session(s). This cannot be undone.',
+        'Delete All',
+        function() {
+          localStorage.removeItem('ms_sessions');
+          loadDashboard();
+          showToast('Session history cleared');
+        }
+      );
+    }
+    function toggleTipDone(idx, done) {
+      var state = JSON.parse(localStorage.getItem('ms_tips_done') || '{}');
+      if (done) state[idx] = true; else delete state[idx];
+      localStorage.setItem('ms_tips_done', JSON.stringify(state));
+      var card = document.querySelectorAll('.tip-big-card')[idx];
+      if (card) {
+        card.style.opacity = done ? '0.55' : '1';
+        var label = card.querySelector('.tip-done-toggle');
+        if (label) label.innerHTML = '<input type="checkbox" class="tip-done-cb" data-idx="' + idx + '" ' + (done ? 'checked' : '') + ' onchange="toggleTipDone(' + idx + ',this.checked)">' + (done ? '✅ Done' : 'Mark done');
+      }
     }
 
     // ── SECTION 10: Export Report ──
@@ -3849,6 +4083,22 @@
 
     document.addEventListener('DOMContentLoaded', function () {
       initChips(); buildPHQ(); initCharts(); animateHome(); loadProfile();
+      // Last checked nudge
+      (function(){
+        var sessions = JSON.parse(localStorage.getItem('ms_sessions') || '[]');
+        var nudge = document.getElementById('lastCheckNudge');
+        if (nudge) {
+          if (sessions.length === 0) {
+            nudge.innerHTML = '🆕 <span style="color:var(--p);font-weight:700">Never checked in yet — start your first assessment!</span>';
+          } else {
+            var last = new Date(sessions[sessions.length - 1].date);
+            var days = Math.floor((Date.now() - last) / 86400000);
+            if (days === 0) nudge.innerHTML = '✅ <span style="color:var(--green);font-weight:600">Checked in today — great job!</span>';
+            else if (days === 1) nudge.innerHTML = '📅 <span>Last checked in <strong>yesterday</strong></span>';
+            else nudge.innerHTML = '📅 <span>Last checked in <strong>' + days + ' days ago</strong></span>';
+          }
+        }
+      })();
       document.getElementById('modal').addEventListener('click', function (e) { if (e.target === document.getElementById('modal')) closeModal() });
       document.getElementById('welcome-name').addEventListener('keydown', function (e) { if (e.key === 'Enter') completeWelcome() });
       document.getElementById('welcome-name').addEventListener('input', function () { document.getElementById('welcome-btn').disabled = !this.value.trim() });
@@ -3859,6 +4109,21 @@
     // ══════════════════════════════════════════════════════════
     function toggleFab() { var w = document.getElementById('fabWrap'), b = document.getElementById('fabBackdrop'); w.classList.toggle('open'); b.classList.toggle('show'); }
     function closeFab() { document.getElementById('fabWrap').classList.remove('open'); document.getElementById('fabBackdrop').classList.remove('show'); }
+
+    var quickMoodSelected = '';
+    function openMoodCheckin() { quickMoodSelected = ''; document.querySelectorAll('#moodOverlay .mood-btn').forEach(function(b){b.classList.remove('selected')}); document.getElementById('moodNote').value = ''; document.getElementById('moodOverlay').classList.add('show'); }
+    function closeMoodCheckin() { document.getElementById('moodOverlay').classList.remove('show'); }
+    function selectQuickMood(mood, btn) { quickMoodSelected = mood; document.querySelectorAll('#moodOverlay .mood-btn').forEach(function(b){b.classList.remove('selected')}); btn.classList.add('selected'); }
+    function saveMoodCheckin() {
+      if (!quickMoodSelected) { showToast('Select a mood first!'); return; }
+      var note = document.getElementById('moodNote').value.trim();
+      var moods = JSON.parse(localStorage.getItem('ms_moods') || '[]');
+      moods.unshift({ date: new Date().toISOString(), mood: quickMoodSelected, note: note });
+      if (moods.length > 200) moods = moods.slice(0, 200);
+      localStorage.setItem('ms_moods', JSON.stringify(moods));
+      closeMoodCheckin();
+      showToast('Mood logged: ' + quickMoodSelected + (note ? ' — ' + note : ''));
+    }
 
     // ══════════════════════════════════════════════════════════
     // ── Breathing Timer ──────────────────────────────────────
@@ -4065,7 +4330,7 @@
         content.style.display = 'none';
         document.getElementById('jpw-icon').textContent = '🔒';
         document.getElementById('jpw-title').textContent = 'Set Your Journal Password';
-        document.getElementById('jpw-sub').textContent = 'Create a password to keep your journal entries private. This password is stored securely on your device only.';
+        document.getElementById('jpw-sub').textContent = 'Create a password to keep your journal entries private. Stored in your browser\'s local storage. ⚠️ Clearing browser data will remove entries — export regularly.';
         document.getElementById('jpw-confirm').style.display = 'block';
         document.getElementById('jpw-btn').textContent = '🔐 Set Password & Enter';
         document.getElementById('jpw-input').value = '';
@@ -4157,6 +4422,26 @@
       document.getElementById('jpgPrompt').textContent = JOURNAL_PROMPTS[idx];
     }
 
+    function toggleTimedMode() {
+      var bar = document.getElementById('jpgTimerBar');
+      var btn = document.getElementById('jpgTimedToggle');
+      if (bar.style.display === 'none') {
+        bar.style.display = 'flex';
+        btn.textContent = '⏱ Timer ON';
+        btn.style.background = 'var(--p)';
+        btn.style.color = '#fff';
+        resetJpgTimer();
+        startJpgTimer();
+      } else {
+        bar.style.display = 'none';
+        btn.textContent = '⏱ Timed Mode';
+        btn.style.background = '';
+        btn.style.color = '';
+        stopJpgTimer();
+        resetJpgTimer();
+      }
+    }
+
     function resetJpgTimer() {
       jpgTimer.remaining = 300;
       document.getElementById('jpgTimerText').textContent = '5:00';
@@ -4190,17 +4475,48 @@
       jpgTimer.autoSaveId = setTimeout(function() { if (text.length > 0) document.getElementById('jpgSaved').classList.add('show'); }, 1500);
     }
 
+    var selectedMood = '';
+    function selectMood(mood, btn) {
+      selectedMood = mood;
+      document.querySelectorAll('.mood-btn').forEach(function(b) { b.classList.remove('selected') });
+      btn.classList.add('selected');
+    }
+
+    function exportJournal() {
+      var entries = JSON.parse(localStorage.getItem('ms_journal') || '[]');
+      if (entries.length === 0) { showToast('No entries to export'); return; }
+      var text = 'MINDSCAN JOURNAL EXPORT\n' + '='.repeat(40) + '\n';
+      text += 'Exported: ' + new Date().toLocaleString() + '\n';
+      text += 'Total Entries: ' + entries.length + '\n\n';
+      entries.forEach(function(e, i) {
+        text += '--- Entry ' + (i+1) + ' ---\n';
+        text += 'Date: ' + new Date(e.date).toLocaleString() + '\n';
+        if (e.mood) text += 'Mood: ' + e.mood + '\n';
+        text += 'Prompt: ' + (e.prompt || 'None') + '\n';
+        text += e.text + '\n';
+        text += '(' + (e.words || 0) + ' words)\n\n';
+      });
+      var blob = new Blob([text], { type: 'text/plain' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'mindscan-journal-' + new Date().toISOString().slice(0,10) + '.txt';
+      a.click();
+      showToast('Journal exported! 📥');
+    }
+
     function saveJpgEntry() {
       var text = document.getElementById('jpgText').value.trim();
       if (!text) { showToast('Write something first!'); return; }
       var prompt = document.getElementById('jpgPrompt').textContent;
       var entries = JSON.parse(localStorage.getItem('ms_journal') || '[]');
-      entries.unshift({ date: new Date().toISOString(), prompt: prompt, text: text, words: text.split(/\s+/).length });
+      entries.unshift({ date: new Date().toISOString(), prompt: prompt, text: text, words: text.split(/\s+/).length, mood: selectedMood || '' });
       if (entries.length > 100) entries = entries.slice(0, 100);
       localStorage.setItem('ms_journal', JSON.stringify(entries));
       document.getElementById('jpgText').value = '';
       document.getElementById('jpgWordCount').textContent = '0 words';
       showToast('Journal entry saved! 💜');
+      selectedMood = '';
+      document.querySelectorAll('.mood-btn').forEach(function(b) { b.classList.remove('selected') });
       resetJpgTimer();
       startJpgTimer();
       newJpgPrompt();
@@ -4224,13 +4540,13 @@
       var entries = JSON.parse(localStorage.getItem('ms_journal') || '[]');
       var container = document.getElementById('jpgAllEntries');
       if (entries.length === 0) {
-        container.innerHTML = '<div class="journal-empty"><div class="journal-empty-icon">📝</div>No entries yet — write your first one above!</div>';
+        container.innerHTML = '<div class="journal-empty"><div class="journal-empty-icon">✨</div><div style="font-size:1rem;font-weight:700;color:var(--txt);margin-bottom:.4rem">Start your journaling journey</div><div>Even 3 sentences counts — your thoughts matter.<br>Write about your day, your feelings, or respond to the prompt above.</div></div>';
         return;
       }
       container.innerHTML = entries.map(function(e, i) {
         var d = new Date(e.date);
         var dateStr = d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) + ' at ' + d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
-        return '<div class="journal-full-entry"><div style="display:flex;justify-content:space-between;align-items:center"><div class="journal-full-date">' + dateStr + '</div><button class="btn-delete-entry" onclick="deleteJpgEntry(' + i + ')" title="Delete">🗑</button></div><div class="journal-full-prompt">"' + (e.prompt || '').replace(/</g, '&lt;') + '"</div><div class="journal-full-text">' + e.text.replace(/</g, '&lt;').replace(/\n/g, '<br>') + '</div><div class="journal-full-meta"><span>' + (e.words || 0) + ' words</span></div></div>';
+        return '<div class="journal-full-entry"><div style="display:flex;justify-content:space-between;align-items:center"><div class="journal-full-date">' + dateStr + (e.mood ? ' <span style="font-size:1.1rem">' + e.mood + '</span>' : '') + '</div><button class="btn-delete-entry" onclick="deleteJpgEntry(' + i + ')" title="Delete">🗑</button></div><div class="journal-full-prompt">"' + (e.prompt || '').replace(/</g, '&lt;') + '"</div><div class="journal-full-text">' + e.text.replace(/</g, '&lt;').replace(/\n/g, '<br>') + '</div><div class="journal-full-meta"><span>' + (e.words || 0) + ' words</span></div></div>';
       }).join('');
     }
 
