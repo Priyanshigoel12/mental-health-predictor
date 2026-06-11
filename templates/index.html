@@ -2205,6 +2205,168 @@
     .spark-sq{width:18px;height:18px;border-radius:4px;flex-shrink:0}
     .symptom-badge{font-size:.7rem;font-weight:700;padding:.2rem .5rem;border-radius:6px;white-space:nowrap;flex-shrink:0}
     .habit-improved{color:var(--green);font-weight:700}.habit-worsened{color:var(--red);font-weight:700}.habit-same{color:var(--txt2);font-weight:700}
+
+    /* ── FAB Radial Menu ───────────────────────────────────────── */
+    .fab-wrap{position:fixed;bottom:2rem;right:2rem;z-index:400}
+    .fab{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--pl));color:#fff;font-size:1.6rem;font-weight:700;border:none;cursor:pointer;box-shadow:0 6px 24px rgba(108,60,225,.45);display:flex;align-items:center;justify-content:center;transition:transform .3s,box-shadow .3s}
+    .fab:hover{box-shadow:0 8px 30px rgba(108,60,225,.55);transform:scale(1.08)}
+    .fab-menu{position:absolute;bottom:70px;right:0;display:flex;flex-direction:column;gap:.6rem;align-items:flex-end;opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .25s,transform .25s}
+    .fab-wrap.open .fab-menu{opacity:1;pointer-events:auto;transform:translateY(0)}
+    .fab-wrap.open .fab{transform:rotate(45deg)}
+    .fab-item{display:flex;align-items:center;gap:.6rem;cursor:pointer;animation:fadeUp .3s ease both}
+    .fab-item-label{background:var(--txt);color:#fff;padding:.45rem .9rem;border-radius:10px;font-size:.78rem;font-weight:700;white-space:nowrap;box-shadow:var(--sh-md);letter-spacing:.2px}
+    .fab-item-icon{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 16px rgba(0,0,0,.18);transition:transform .2s;flex-shrink:0}
+    .fab-item-icon:hover{transform:scale(1.12)}
+    .fab-item:nth-child(1) .fab-item-icon{background:linear-gradient(135deg,#6C3CE1,#9B59B6)}
+    .fab-item:nth-child(2) .fab-item-icon{background:linear-gradient(135deg,#0891B2,#06B6D4)}
+    .fab-item:nth-child(3) .fab-item-icon{background:linear-gradient(135deg,#8B5CF6,#A78BFA)}
+    .fab-item:nth-child(4) .fab-item-icon{background:linear-gradient(135deg,#F59E0B,#FBBF24)}
+    .fab-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:399;display:none;backdrop-filter:blur(3px)}
+    .fab-backdrop.show{display:block}
+
+    /* ── Mindfulness Tool Modal (shared) ──────────────────────── */
+    .mind-overlay{position:fixed;inset:0;background:rgba(10,8,30,.85);backdrop-filter:blur(12px);z-index:600;display:none;align-items:center;justify-content:center;padding:1.5rem}
+    .mind-overlay.open{display:flex}
+    .mind-modal{background:var(--card);border-radius:24px;width:100%;max-width:520px;box-shadow:0 24px 80px rgba(0,0,0,.4);animation:fadeUp .4s ease;overflow:hidden;position:relative}
+    .mind-header{padding:1.8rem 2rem 1rem;text-align:center}
+    .mind-header-icon{font-size:2.8rem;margin-bottom:.5rem}
+    .mind-header-title{font-family:'Sora',sans-serif;font-size:1.4rem;font-weight:800;letter-spacing:-.5px;margin-bottom:.3rem}
+    .mind-header-sub{font-size:.85rem;color:var(--txt2);line-height:1.5}
+    .mind-body{padding:0 2rem 2rem}
+    .mind-close{position:absolute;top:1rem;right:1rem;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:var(--txt2);transition:all .2s;z-index:2}
+    .mind-close:hover{background:var(--bg);color:var(--txt)}
+
+    /* ── Breathing Timer ─────────────────────────────────────── */
+    .breath-container{display:flex;flex-direction:column;align-items:center;padding:1.5rem 0}
+    .breath-circle-wrap{position:relative;width:200px;height:200px;margin-bottom:1.5rem}
+    .breath-circle{width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(108,60,225,.08) 0%,rgba(108,60,225,.02) 70%);border:3px solid rgba(108,60,225,.2);display:flex;align-items:center;justify-content:center;transition:transform 4s ease-in-out,border-color .5s,background .5s}
+    .breath-circle.inhale{transform:scale(1.35);border-color:rgba(8,145,178,.5);background:radial-gradient(circle,rgba(8,145,178,.12) 0%,rgba(8,145,178,.03) 70%)}
+    .breath-circle.hold{transform:scale(1.35);border-color:rgba(167,139,250,.5);background:radial-gradient(circle,rgba(167,139,250,.12) 0%,rgba(167,139,250,.03) 70%)}
+    .breath-circle.exhale{transform:scale(1);border-color:rgba(16,185,129,.5);background:radial-gradient(circle,rgba(16,185,129,.12) 0%,rgba(16,185,129,.03) 70%)}
+    .breath-label{font-family:'Sora',sans-serif;font-size:1.3rem;font-weight:800;color:var(--p);transition:color .5s}
+    .breath-circle.inhale .breath-label{color:#0891B2}
+    .breath-circle.hold .breath-label{color:#8B5CF6}
+    .breath-circle.exhale .breath-label{color:#10B981}
+    .breath-timer{font-size:.85rem;font-weight:700;color:var(--txt2);margin-top:4px}
+    .breath-counter{font-family:'Sora',sans-serif;font-size:2.2rem;font-weight:800;color:var(--txt);margin-bottom:.4rem}
+    .breath-phase-dots{display:flex;gap:.5rem;margin-bottom:1.2rem}
+    .breath-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .3s}
+    .breath-dot.active{background:var(--p)}
+    .breath-pattern-select{display:flex;gap:.5rem;margin-bottom:1.2rem;flex-wrap:wrap;justify-content:center}
+    .breath-pat-btn{padding:.4rem .85rem;border-radius:50px;border:1.5px solid var(--border);background:var(--card);color:var(--txt2);font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s}
+    .breath-pat-btn.active{background:#EDE9FE;border-color:var(--p);color:var(--p)}
+    .breath-pat-btn:hover{border-color:var(--pm)}
+    .btn-breath{padding:.75rem 2rem;border-radius:50px;border:none;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
+    .btn-breath.start{background:linear-gradient(135deg,var(--p),var(--pl));color:#fff;box-shadow:0 4px 16px rgba(108,60,225,.35)}
+    .btn-breath.start:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(108,60,225,.45)}
+    .btn-breath.stop{background:var(--bg);color:var(--txt);border:1.5px solid var(--border)}
+    .btn-breath.stop:hover{border-color:var(--p);color:var(--p)}
+    .breath-stats{display:flex;gap:1.5rem;margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--border)}
+    .breath-stat{text-align:center}
+    .breath-stat-val{font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;color:var(--p)}
+    .breath-stat-lbl{font-size:.65rem;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px}
+
+    /* ── Body Scan ────────────────────────────────────────────── */
+    .scan-container{padding:1rem 0}
+    .scan-progress{display:flex;align-items:center;gap:.5rem;margin-bottom:1.5rem}
+    .scan-progress-bar{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+    .scan-progress-fill{height:100%;background:linear-gradient(90deg,#8B5CF6,#A78BFA);border-radius:3px;transition:width .5s ease;width:0}
+    .scan-progress-text{font-size:.72rem;font-weight:700;color:var(--txt2);white-space:nowrap}
+    .scan-body-visual{display:flex;justify-content:center;margin-bottom:1.5rem}
+    .scan-body-svg{width:120px;height:260px}
+    .scan-body-part{fill:#E8EBF5;transition:fill .5s}
+    .scan-body-part.active{fill:rgba(139,92,246,.4);animation:scanPulse 2s ease-in-out infinite}
+    .scan-body-part.done{fill:rgba(16,185,129,.3)}
+    @keyframes scanPulse{0%,100%{fill:rgba(139,92,246,.3)}50%{fill:rgba(139,92,246,.6)}}
+    .scan-prompt-card{background:#F8F9FE;border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center;margin-bottom:1.2rem;min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .scan-prompt-emoji{font-size:2rem;margin-bottom:.5rem}
+    .scan-prompt-text{font-size:.95rem;font-weight:600;color:var(--txt);line-height:1.6}
+    .scan-prompt-hint{font-size:.78rem;color:var(--txt2);margin-top:.4rem;font-style:italic}
+    .scan-nav{display:flex;gap:.75rem;justify-content:center}
+    .btn-scan{padding:.65rem 1.5rem;border-radius:50px;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s}
+    .btn-scan.primary{border:none;background:linear-gradient(135deg,#8B5CF6,#A78BFA);color:#fff;box-shadow:0 4px 14px rgba(139,92,246,.3)}
+    .btn-scan.primary:hover{transform:translateY(-2px)}
+    .btn-scan.secondary{border:1.5px solid var(--border);background:var(--card);color:var(--txt2)}
+    .btn-scan.secondary:hover{border-color:var(--p);color:var(--p)}
+    .scan-complete{text-align:center;padding:2rem 0}
+    .scan-complete-icon{font-size:3rem;margin-bottom:.8rem}
+    .scan-complete-title{font-family:'Sora',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
+    .scan-complete-sub{font-size:.85rem;color:var(--txt2);line-height:1.6}
+
+    /* ── Guided Journaling ───────────────────────────────────── */
+    .journal-container{padding:.5rem 0}
+    .journal-timer-bar{display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem;padding:.6rem 1rem;background:#F8F9FE;border:1px solid var(--border);border-radius:12px}
+    .journal-timer-icon{font-size:1rem}
+    .journal-timer-text{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;color:var(--p);flex:1}
+    .journal-timer-progress{width:100px;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+    .journal-timer-fill{height:100%;background:linear-gradient(90deg,#F59E0B,#FBBF24);border-radius:3px;transition:width 1s linear}
+    .journal-prompt-card{background:linear-gradient(135deg,#FFFBEB,#FFF);border:1px solid rgba(245,158,11,.2);border-left:4px solid #F59E0B;border-radius:14px;padding:1.2rem;margin-bottom:1rem}
+    .journal-prompt-label{font-size:.65rem;font-weight:800;color:#92400E;text-transform:uppercase;letter-spacing:.6px;margin-bottom:.4rem}
+    .journal-prompt-text{font-size:.92rem;font-weight:600;color:var(--txt);line-height:1.55}
+    .journal-textarea{width:100%;min-height:180px;border:1.5px solid var(--border);border-radius:14px;padding:1rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:.9rem;line-height:1.7;color:var(--txt);resize:vertical;outline:none;transition:border-color .2s}
+    .journal-textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(108,60,225,.08)}
+    .journal-textarea::placeholder{color:#B0B0C0}
+    .journal-footer{display:flex;justify-content:space-between;align-items:center;margin-top:.8rem}
+    .journal-word-count{font-size:.72rem;font-weight:700;color:var(--txt2)}
+    .journal-saved{font-size:.72rem;font-weight:700;color:var(--green);opacity:0;transition:opacity .3s}
+    .journal-saved.show{opacity:1}
+    .journal-actions{display:flex;gap:.6rem;margin-top:1rem}
+    .btn-journal{flex:1;padding:.7rem;border-radius:12px;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s}
+    .btn-journal.save{border:none;background:linear-gradient(135deg,#F59E0B,#FBBF24);color:#fff;box-shadow:0 4px 14px rgba(245,158,11,.3)}
+    .btn-journal.save:hover{transform:translateY(-2px)}
+    .btn-journal.new-prompt{border:1.5px solid var(--border);background:var(--card);color:var(--txt2)}
+    .btn-journal.new-prompt:hover{border-color:var(--p);color:var(--p)}
+    .journal-history{margin-top:1.2rem;border-top:1px solid var(--border);padding-top:1rem}
+    .journal-history-title{font-size:.75rem;font-weight:800;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.6rem}
+    .journal-entry{background:#F8F9FE;border:1px solid var(--border);border-radius:10px;padding:.75rem .9rem;margin-bottom:.5rem;font-size:.8rem;color:var(--txt);line-height:1.5}
+    .journal-entry-date{font-size:.65rem;color:var(--txt2);font-weight:700;margin-bottom:.3rem}
+    .journal-entry-text{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+    /* ── Journal Page ─────────────────────────────────────────── */
+    .journal-hero{background:linear-gradient(135deg,#1e1b4b 0%,#7c3aed 50%,#a78bfa 100%);border-radius:var(--r);padding:2.5rem;color:#fff;margin-bottom:2rem;position:relative;overflow:hidden}
+    .journal-hero::after{content:'';position:absolute;right:-50px;top:-50px;width:280px;height:280px;background:rgba(255,255,255,.06);border-radius:50%}
+    .journal-hero-title{font-family:'Sora',sans-serif;font-size:1.8rem;font-weight:800;margin-bottom:.4rem;display:flex;align-items:center;gap:.6rem;position:relative;z-index:1}
+    .journal-hero-sub{font-size:.9rem;opacity:.88;position:relative;z-index:1}
+    .journal-hero-stats{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap;position:relative;z-index:1}
+    .journal-hero-stat{background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:.5rem 1rem;display:flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:600}
+    .journal-hero-stat-num{font-family:'Sora',sans-serif;font-weight:800;font-size:1.1rem}
+    .journal-pw-gate{max-width:440px;margin:0 auto;text-align:center;padding:3rem 0}
+    .journal-pw-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh-lg);padding:2.5rem 2rem}
+    .journal-pw-icon{font-size:3.5rem;margin-bottom:1rem}
+    .journal-pw-title{font-family:'Sora',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:.4rem}
+    .journal-pw-sub{font-size:.88rem;color:var(--txt2);line-height:1.6;margin-bottom:1.5rem}
+    .journal-pw-input{width:100%;border:2px solid var(--border);border-radius:12px;padding:.85rem 1.1rem;font-size:.95rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .3s;text-align:center;margin-bottom:.8rem;letter-spacing:2px}
+    .journal-pw-input:focus{border-color:var(--p);box-shadow:0 0 0 4px rgba(108,60,225,.1)}
+    .journal-pw-input::placeholder{letter-spacing:0}
+    .btn-pw{width:100%;padding:.85rem;border-radius:12px;border:none;background:linear-gradient(135deg,var(--p),var(--pl));color:#fff;font-size:.95rem;font-weight:700;font-family:'Sora',sans-serif;box-shadow:0 4px 16px rgba(108,60,225,.35);cursor:pointer;transition:transform .2s}
+    .btn-pw:hover{transform:translateY(-2px)}
+    .btn-pw:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .journal-pw-error{font-size:.78rem;color:var(--red);font-weight:700;margin-top:.5rem;display:none}
+    .journal-pw-hint{font-size:.72rem;color:var(--txt2);margin-top:.8rem}
+    .journal-page-grid{display:grid;grid-template-columns:1fr 340px;gap:1.75rem;align-items:start}
+    .journal-write-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh-md);padding:1.75rem}
+    .journal-write-title{font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+    .journal-pg-textarea{width:100%;min-height:220px;border:1.5px solid var(--border);border-radius:14px;padding:1rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:.9rem;line-height:1.7;color:var(--txt);resize:vertical;outline:none;transition:border-color .2s}
+    .journal-pg-textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(108,60,225,.08)}
+    .journal-pg-textarea::placeholder{color:#B0B0C0}
+    .journal-sidebar{display:flex;flex-direction:column;gap:1.25rem}
+    .journal-sidebar-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh-sm);padding:1.4rem}
+    .journal-sidebar-title{font-family:'Sora',sans-serif;font-size:.88rem;font-weight:800;margin-bottom:1rem;display:flex;align-items:center;gap:.4rem}
+    .journal-full-entry{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--p);border-radius:14px;padding:1.2rem;margin-bottom:1rem;box-shadow:var(--sh-sm);transition:transform .2s}
+    .journal-full-entry:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+    .journal-full-date{font-size:.7rem;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem}
+    .journal-full-prompt{font-size:.78rem;color:var(--p);font-weight:700;margin-bottom:.5rem;font-style:italic}
+    .journal-full-text{font-size:.85rem;color:var(--txt);line-height:1.65}
+    .journal-full-meta{display:flex;gap:1rem;margin-top:.6rem;font-size:.68rem;color:var(--txt2);font-weight:600}
+    .journal-empty{text-align:center;padding:2rem;color:var(--txt2);font-size:.88rem}
+    .journal-empty-icon{font-size:2.5rem;margin-bottom:.6rem}
+    .btn-change-pw{padding:.5rem 1rem;border-radius:8px;border:1.5px solid var(--border);background:var(--card);color:var(--txt2);font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s}
+    .btn-change-pw:hover{border-color:var(--p);color:var(--p)}
+    .btn-lock-journal{padding:.5rem 1rem;border-radius:8px;border:1.5px solid var(--red);background:transparent;color:var(--red);font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s}
+    .btn-lock-journal:hover{background:rgba(239,68,68,.06)}
+    .btn-delete-entry{background:none;border:none;color:var(--txt2);font-size:.7rem;font-weight:700;cursor:pointer;transition:color .2s;padding:.2rem .4rem}
+    .btn-delete-entry:hover{color:var(--red)}
+    @media(max-width:900px){.journal-page-grid{grid-template-columns:1fr}}
   </style>
 </head>
 
@@ -2218,6 +2380,7 @@
         <span class="nav-link" onclick="showPage('habits',this)">Insights</span>
         <span class="nav-link" onclick="showPage('tips',this)">💡 Recommendations</span>
         <span class="nav-link" onclick="showPage('dashboard',this)">📊 Dashboard</span>
+        <span class="nav-link" onclick="showPage('journal',this)">📝 Journal</span>
       </div>
       <div class="nav-actions">
         <div class="nav-icon" onclick="showToast('No new notifications')">🔔</div>
@@ -2764,6 +2927,91 @@
       </div>
     </div>
   </div>
+
+  <!-- ── Journal Page ─────────────────────────────────────────── -->
+  <div class="page" id="page-journal">
+    <div style="max-width:1100px;margin:0 auto">
+      <div class="journal-hero">
+        <div class="journal-hero-title">📝 My Private Journal</div>
+        <div class="journal-hero-sub">A safe space for your thoughts — password-protected & stored only on your device</div>
+        <div class="journal-hero-stats">
+          <div class="journal-hero-stat">📖 <span class="journal-hero-stat-num" id="jpage-total">0</span> Entries</div>
+          <div class="journal-hero-stat">✍️ <span class="journal-hero-stat-num" id="jpage-words">0</span> Words Written</div>
+          <div class="journal-hero-stat">📅 Since <span class="journal-hero-stat-num" id="jpage-since">—</span></div>
+        </div>
+      </div>
+
+      <!-- Password Gate -->
+      <div id="journal-pw-gate">
+        <div class="journal-pw-card">
+          <div class="journal-pw-icon" id="jpw-icon">🔒</div>
+          <div class="journal-pw-title" id="jpw-title">Set Your Journal Password</div>
+          <div class="journal-pw-sub" id="jpw-sub">Create a password to keep your journal entries private. This password is stored securely on your device only.</div>
+          <input type="password" class="journal-pw-input" id="jpw-input" placeholder="Enter password" autocomplete="off" />
+          <input type="password" class="journal-pw-input" id="jpw-confirm" placeholder="Confirm password" autocomplete="off" />
+          <button class="btn-pw" id="jpw-btn" onclick="handleJournalPassword()">🔐 Set Password & Enter</button>
+          <div class="journal-pw-error" id="jpw-error"></div>
+          <div class="journal-pw-hint">🔒 Password never leaves your device</div>
+        </div>
+      </div>
+
+      <!-- Journal Content (hidden until password verified) -->
+      <div id="journal-content" style="display:none">
+        <div class="journal-page-grid">
+          <div>
+            <!-- Write new entry -->
+            <div class="journal-write-card" style="margin-bottom:1.5rem">
+              <div class="journal-write-title">✍️ Write New Entry</div>
+              <div class="journal-timer-bar">
+                <div class="journal-timer-icon">⏱️</div>
+                <div class="journal-timer-text" id="jpgTimerText">5:00</div>
+                <div class="journal-timer-progress"><div class="journal-timer-fill" id="jpgTimerFill" style="width:0%"></div></div>
+              </div>
+              <div class="journal-prompt-card" style="margin-bottom:1rem">
+                <div class="journal-prompt-label">Today's Prompt</div>
+                <div class="journal-prompt-text" id="jpgPrompt">What is one thing that made you smile today?</div>
+              </div>
+              <textarea class="journal-pg-textarea" id="jpgText" placeholder="Start writing here… Let your thoughts flow freely." oninput="onJpgInput()"></textarea>
+              <div class="journal-footer">
+                <div class="journal-word-count" id="jpgWordCount">0 words</div>
+                <div class="journal-saved" id="jpgSaved">✓ Auto-saved</div>
+              </div>
+              <div class="journal-actions">
+                <button class="btn-journal new-prompt" onclick="newJpgPrompt()">🔄 New Prompt</button>
+                <button class="btn-journal save" onclick="saveJpgEntry()">💾 Save Entry</button>
+              </div>
+            </div>
+
+            <!-- All entries -->
+            <div class="journal-write-card">
+              <div class="journal-write-title">📖 All Journal Entries</div>
+              <div id="jpgAllEntries"></div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="journal-sidebar">
+            <div class="journal-sidebar-card">
+              <div class="journal-sidebar-title">📊 Journal Stats</div>
+              <div class="mini-score-row"><span class="mini-score-lbl">Total Entries</span><span class="mini-score-val" id="jstat-total" style="color:var(--p)">0</span></div>
+              <div class="mini-score-row"><span class="mini-score-lbl">Total Words</span><span class="mini-score-val" id="jstat-words" style="color:var(--p)">0</span></div>
+              <div class="mini-score-row"><span class="mini-score-lbl">Avg Words/Entry</span><span class="mini-score-val" id="jstat-avg" style="color:var(--p)">0</span></div>
+              <div class="mini-score-row"><span class="mini-score-lbl">Longest Streak</span><span class="mini-score-val" id="jstat-streak" style="color:var(--green)">0 days</span></div>
+              <div class="mini-score-row" style="border:none"><span class="mini-score-lbl">Last Entry</span><span class="mini-score-val" id="jstat-last" style="color:var(--txt2)">—</span></div>
+            </div>
+            <div class="journal-sidebar-card">
+              <div class="journal-sidebar-title">🔐 Security</div>
+              <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+                <button class="btn-change-pw" onclick="changeJournalPassword()">🔑 Change Password</button>
+                <button class="btn-lock-journal" onclick="lockJournal()">🔒 Lock Journal</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-overlay" id="modal">
     <div class="modal">
       <div class="modal-title">Edit Profile</div>
@@ -2790,9 +3038,130 @@
   </div>
 
   <div class="toast" id="toast"></div>
-  <button class="fab"
-    onclick="showPage('assess',document.querySelectorAll('.nav-link')[1]);showToast('Starting new assessment…')"
-    title="New assessment">+</button>
+  <div class="fab-backdrop" id="fabBackdrop" onclick="closeFab()"></div>
+  <div class="fab-wrap" id="fabWrap">
+    <div class="fab-menu">
+      <div class="fab-item" onclick="closeFab();showPage('assess',document.querySelectorAll('.nav-link')[1]);showToast('Starting new assessment…')">
+        <span class="fab-item-label">New Assessment</span><div class="fab-item-icon">🔬</div>
+      </div>
+      <div class="fab-item" onclick="closeFab();openBreathing()">
+        <span class="fab-item-label">Breathing Timer</span><div class="fab-item-icon">🌬️</div>
+      </div>
+      <div class="fab-item" onclick="closeFab();openBodyScan()">
+        <span class="fab-item-label">Body Scan</span><div class="fab-item-icon">🧘</div>
+      </div>
+      <div class="fab-item" onclick="closeFab();showPage('journal',document.querySelectorAll('.nav-link')[5])">
+        <span class="fab-item-label">Guided Journaling</span><div class="fab-item-icon">📝</div>
+      </div>
+    </div>
+    <button class="fab" onclick="toggleFab()" title="Mindfulness Tools">+</button>
+  </div>
+
+  <!-- ── Breathing Timer Modal ──────────────────────────────── -->
+  <div class="mind-overlay" id="breathOverlay">
+    <div class="mind-modal">
+      <button class="mind-close" onclick="closeBreathing()">✕</button>
+      <div class="mind-header">
+        <div class="mind-header-icon">🌬️</div>
+        <div class="mind-header-title">Breathing Timer</div>
+        <div class="mind-header-sub">Follow the circle — breathe in as it grows, out as it shrinks</div>
+      </div>
+      <div class="mind-body">
+        <div class="breath-container">
+          <div class="breath-pattern-select">
+            <button class="breath-pat-btn active" onclick="setBreathPattern('478',this)">4-7-8 Calm</button>
+            <button class="breath-pat-btn" onclick="setBreathPattern('box',this)">Box Breathing</button>
+            <button class="breath-pat-btn" onclick="setBreathPattern('simple',this)">Simple 4-4</button>
+          </div>
+          <div class="breath-circle-wrap">
+            <div class="breath-circle" id="breathCircle">
+              <div style="text-align:center">
+                <div class="breath-counter" id="breathCounter">—</div>
+                <div class="breath-label" id="breathLabel">Ready</div>
+                <div class="breath-timer" id="breathTimer"></div>
+              </div>
+            </div>
+          </div>
+          <div class="breath-phase-dots" id="breathDots">
+            <div class="breath-dot"></div><div class="breath-dot"></div><div class="breath-dot"></div>
+          </div>
+          <button class="btn-breath start" id="breathBtn" onclick="toggleBreathing()">Begin Breathing</button>
+          <div class="breath-stats">
+            <div class="breath-stat"><div class="breath-stat-val" id="breathCycles">0</div><div class="breath-stat-lbl">Cycles</div></div>
+            <div class="breath-stat"><div class="breath-stat-val" id="breathElapsed">0:00</div><div class="breath-stat-lbl">Elapsed</div></div>
+            <div class="breath-stat"><div class="breath-stat-val" id="breathTotal">0</div><div class="breath-stat-lbl">Total Today</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Body Scan Modal ──────────────────────────────────────── -->
+  <div class="mind-overlay" id="scanOverlay">
+    <div class="mind-modal">
+      <button class="mind-close" onclick="closeBodyScan()">✕</button>
+      <div class="mind-header">
+        <div class="mind-header-icon">🧘</div>
+        <div class="mind-header-title">Body Scan</div>
+        <div class="mind-header-sub">Focus on each body area — notice sensations without judgement</div>
+      </div>
+      <div class="mind-body">
+        <div class="scan-container" id="scanContainer">
+          <div class="scan-progress">
+            <div class="scan-progress-bar"><div class="scan-progress-fill" id="scanFill"></div></div>
+            <div class="scan-progress-text" id="scanStep">0 / 7</div>
+          </div>
+          <div class="scan-prompt-card" id="scanPrompt">
+            <div class="scan-prompt-emoji">🌟</div>
+            <div class="scan-prompt-text">Find a comfortable position. Close your eyes and take 3 deep breaths.</div>
+            <div class="scan-prompt-hint">Press "Begin" when you're ready</div>
+          </div>
+          <div class="scan-nav">
+            <button class="btn-scan secondary" id="scanBackBtn" onclick="scanPrev()" style="display:none">← Back</button>
+            <button class="btn-scan primary" id="scanNextBtn" onclick="scanNext()">Begin Scan →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Guided Journaling Modal ──────────────────────────────── -->
+  <div class="mind-overlay" id="journalOverlay">
+    <div class="mind-modal" style="max-width:560px">
+      <button class="mind-close" onclick="closeJournal()">✕</button>
+      <div class="mind-header">
+        <div class="mind-header-icon">📝</div>
+        <div class="mind-header-title">5-Min Guided Journaling</div>
+        <div class="mind-header-sub">Let your thoughts flow freely — no right or wrong answers</div>
+      </div>
+      <div class="mind-body">
+        <div class="journal-container">
+          <div class="journal-timer-bar">
+            <div class="journal-timer-icon">⏱️</div>
+            <div class="journal-timer-text" id="journalTimerText">5:00</div>
+            <div class="journal-timer-progress"><div class="journal-timer-fill" id="journalTimerFill" style="width:0%"></div></div>
+          </div>
+          <div class="journal-prompt-card">
+            <div class="journal-prompt-label">Today's Prompt</div>
+            <div class="journal-prompt-text" id="journalPrompt">What is one thing that made you smile today, even just a little?</div>
+          </div>
+          <textarea class="journal-textarea" id="journalText" placeholder="Start writing here… Let your thoughts flow freely." oninput="onJournalInput()"></textarea>
+          <div class="journal-footer">
+            <div class="journal-word-count" id="journalWordCount">0 words</div>
+            <div class="journal-saved" id="journalSaved">✓ Auto-saved</div>
+          </div>
+          <div class="journal-actions">
+            <button class="btn-journal new-prompt" onclick="newJournalPrompt()">🔄 New Prompt</button>
+            <button class="btn-journal save" id="journalSaveBtn" onclick="saveJournalEntry()">💾 Save Entry</button>
+          </div>
+          <div class="journal-history" id="journalHistory" style="display:none">
+            <div class="journal-history-title">Recent Entries</div>
+            <div id="journalHistoryList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <script>
     const inputs = { age: 21, gender: 0, year: 4, sleep: 3, exercise: 2, screen: 1, study: 1, support: 3, overload: 0, workload: 3, relax: 3, overwhelm: 3, exam: 3, phq: [0, 0, 0, 0, 0, 0, 0, 0, 0] };
@@ -2811,7 +3180,7 @@
         document.getElementById('page-tips').classList.add('active');
         if (!assessmentDone) { document.getElementById('tips-empty').style.display = 'block'; document.getElementById('tips-content').style.display = 'none'; }
         else { document.getElementById('tips-empty').style.display = 'none'; document.getElementById('tips-content').style.display = 'block'; }
-      } else if (id === 'dashboard') { document.getElementById('page-dashboard').classList.add('active'); loadDashboard(); } else { document.getElementById('page-' + id).classList.add('active'); }
+      } else if (id === 'dashboard') { document.getElementById('page-dashboard').classList.add('active'); loadDashboard(); } else if (id === 'journal') { document.getElementById('page-journal').classList.add('active'); initJournalPage(); } else { document.getElementById('page-' + id).classList.add('active'); }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -3483,6 +3852,418 @@
       document.getElementById('modal').addEventListener('click', function (e) { if (e.target === document.getElementById('modal')) closeModal() });
       document.getElementById('welcome-name').addEventListener('keydown', function (e) { if (e.key === 'Enter') completeWelcome() });
       document.getElementById('welcome-name').addEventListener('input', function () { document.getElementById('welcome-btn').disabled = !this.value.trim() });
+    });
+
+    // ══════════════════════════════════════════════════════════
+    // ── FAB Radial Menu ──────────────────────────────────────
+    // ══════════════════════════════════════════════════════════
+    function toggleFab() { var w = document.getElementById('fabWrap'), b = document.getElementById('fabBackdrop'); w.classList.toggle('open'); b.classList.toggle('show'); }
+    function closeFab() { document.getElementById('fabWrap').classList.remove('open'); document.getElementById('fabBackdrop').classList.remove('show'); }
+
+    // ══════════════════════════════════════════════════════════
+    // ── Breathing Timer ──────────────────────────────────────
+    // ══════════════════════════════════════════════════════════
+    var breathState = { running: false, pattern: '478', cycles: 0, elapsed: 0, intervalId: null, phaseTimeout: null, elapsedInterval: null };
+    var BREATH_PATTERNS = {
+      '478': { name: '4-7-8 Calm', phases: [{ label: 'Inhale', duration: 4, cls: 'inhale' }, { label: 'Hold', duration: 7, cls: 'hold' }, { label: 'Exhale', duration: 8, cls: 'exhale' }] },
+      'box': { name: 'Box Breathing', phases: [{ label: 'Inhale', duration: 4, cls: 'inhale' }, { label: 'Hold', duration: 4, cls: 'hold' }, { label: 'Exhale', duration: 4, cls: 'exhale' }, { label: 'Hold', duration: 4, cls: 'hold' }] },
+      'simple': { name: 'Simple 4-4', phases: [{ label: 'Inhale', duration: 4, cls: 'inhale' }, { label: 'Exhale', duration: 4, cls: 'exhale' }] }
+    };
+
+    function openBreathing() {
+      document.getElementById('breathOverlay').classList.add('open');
+      var today = new Date().toDateString();
+      var saved = JSON.parse(localStorage.getItem('ms_breath_today') || '{}');
+      document.getElementById('breathTotal').textContent = (saved.date === today ? saved.count : 0);
+    }
+    function closeBreathing() { stopBreathing(); document.getElementById('breathOverlay').classList.remove('open'); }
+
+    function setBreathPattern(key, btn) {
+      if (breathState.running) return;
+      breathState.pattern = key;
+      document.querySelectorAll('.breath-pat-btn').forEach(function(b) { b.classList.remove('active') });
+      btn.classList.add('active');
+      var phases = BREATH_PATTERNS[key].phases;
+      var dotsHtml = '';
+      for (var i = 0; i < phases.length; i++) dotsHtml += '<div class="breath-dot"></div>';
+      document.getElementById('breathDots').innerHTML = dotsHtml;
+    }
+
+    function toggleBreathing() { if (breathState.running) stopBreathing(); else startBreathing(); }
+
+    function startBreathing() {
+      breathState.running = true; breathState.cycles = 0; breathState.elapsed = 0;
+      document.getElementById('breathBtn').textContent = 'Stop'; document.getElementById('breathBtn').className = 'btn-breath stop';
+      document.getElementById('breathCycles').textContent = '0';
+      document.getElementById('breathElapsed').textContent = '0:00';
+      breathState.elapsedInterval = setInterval(function() {
+        breathState.elapsed++;
+        var m = Math.floor(breathState.elapsed / 60), s = breathState.elapsed % 60;
+        document.getElementById('breathElapsed').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+      }, 1000);
+      runBreathCycle(0);
+    }
+
+    function runBreathCycle(phaseIdx) {
+      if (!breathState.running) return;
+      var phases = BREATH_PATTERNS[breathState.pattern].phases;
+      if (phaseIdx >= phases.length) {
+        breathState.cycles++;
+        document.getElementById('breathCycles').textContent = breathState.cycles;
+        runBreathCycle(0);
+        return;
+      }
+      var phase = phases[phaseIdx];
+      var circle = document.getElementById('breathCircle');
+      circle.className = 'breath-circle ' + phase.cls;
+      document.getElementById('breathLabel').textContent = phase.label;
+      var dots = document.querySelectorAll('#breathDots .breath-dot');
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === phaseIdx) });
+      var remaining = phase.duration;
+      document.getElementById('breathCounter').textContent = remaining;
+      if (breathState.intervalId) clearInterval(breathState.intervalId);
+      breathState.intervalId = setInterval(function() {
+        remaining--;
+        if (remaining <= 0) {
+          clearInterval(breathState.intervalId);
+          runBreathCycle(phaseIdx + 1);
+        } else {
+          document.getElementById('breathCounter').textContent = remaining;
+        }
+      }, 1000);
+    }
+
+    function stopBreathing() {
+      breathState.running = false;
+      if (breathState.intervalId) clearInterval(breathState.intervalId);
+      if (breathState.elapsedInterval) clearInterval(breathState.elapsedInterval);
+      document.getElementById('breathCircle').className = 'breath-circle';
+      document.getElementById('breathLabel').textContent = 'Ready';
+      document.getElementById('breathCounter').textContent = '—';
+      document.getElementById('breathBtn').textContent = 'Begin Breathing';
+      document.getElementById('breathBtn').className = 'btn-breath start';
+      document.querySelectorAll('#breathDots .breath-dot').forEach(function(d) { d.classList.remove('active') });
+      if (breathState.cycles > 0) {
+        var today = new Date().toDateString();
+        var saved = JSON.parse(localStorage.getItem('ms_breath_today') || '{}');
+        var count = (saved.date === today ? saved.count : 0) + breathState.cycles;
+        localStorage.setItem('ms_breath_today', JSON.stringify({ date: today, count: count }));
+        document.getElementById('breathTotal').textContent = count;
+        showToast('Completed ' + breathState.cycles + ' breathing cycles 🌬️');
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // ── Body Scan ────────────────────────────────────────────
+    // ══════════════════════════════════════════════════════════
+    var SCAN_STEPS = [
+      { emoji: '🌟', area: 'Preparation', text: 'Find a comfortable position. Close your eyes and take 3 deep breaths.', hint: 'Press "Begin" when you\'re ready' },
+      { emoji: '🧠', area: 'Head & Face', text: 'Bring attention to the top of your head. Notice your forehead, eyes, jaw. Release any tension you find there.', hint: 'Spend 20-30 seconds here' },
+      { emoji: '💪', area: 'Neck & Shoulders', text: 'Move your awareness down to your neck and shoulders. These areas often carry stress. Let them soften and drop.', hint: 'Breathe into any tightness' },
+      { emoji: '🫁', area: 'Chest & Upper Back', text: 'Notice your chest rising and falling. Feel the space between your shoulder blades. Let your breath flow naturally.', hint: 'No need to change your breathing' },
+      { emoji: '🌀', area: 'Belly & Lower Back', text: 'Bring attention to your belly. Notice how it expands with each breath. Feel the support of your lower back.', hint: 'This is your centre of gravity' },
+      { emoji: '🦵', area: 'Hips & Legs', text: 'Scan down through your hips, thighs, and knees. Notice any sensation — warmth, tingling, heaviness. Just observe.', hint: 'There is no right or wrong sensation' },
+      { emoji: '🦶', area: 'Feet & Toes', text: 'Bring awareness to your feet and each individual toe. Feel the ground beneath you. You are grounded and present.', hint: 'Wiggle your toes gently' },
+      { emoji: '✨', area: 'Full Body', text: 'Expand your awareness to your entire body at once. Feel the wholeness. Take 3 deep breaths and slowly open your eyes.', hint: 'You\'ve completed the body scan' }
+    ];
+    var scanIdx = 0;
+
+    function openBodyScan() { scanIdx = 0; renderScan(); document.getElementById('scanOverlay').classList.add('open'); }
+    function closeBodyScan() { document.getElementById('scanOverlay').classList.remove('open'); scanIdx = 0; renderScan(); }
+
+    function renderScan() {
+      var step = SCAN_STEPS[scanIdx];
+      var total = SCAN_STEPS.length;
+      document.getElementById('scanFill').style.width = (scanIdx / (total - 1) * 100) + '%';
+      document.getElementById('scanStep').textContent = scanIdx + ' / ' + (total - 1);
+      var prompt = document.getElementById('scanPrompt');
+      prompt.innerHTML = '<div class="scan-prompt-emoji">' + step.emoji + '</div>' +
+        '<div class="scan-prompt-text">' + step.text + '</div>' +
+        '<div class="scan-prompt-hint">' + step.hint + '</div>';
+      document.getElementById('scanBackBtn').style.display = scanIdx > 0 ? 'inline-flex' : 'none';
+      var nextBtn = document.getElementById('scanNextBtn');
+      if (scanIdx === 0) nextBtn.textContent = 'Begin Scan →';
+      else if (scanIdx >= total - 1) nextBtn.textContent = '✓ Done';
+      else nextBtn.textContent = 'Next: ' + SCAN_STEPS[scanIdx + 1].area + ' →';
+    }
+
+    function scanNext() {
+      if (scanIdx >= SCAN_STEPS.length - 1) {
+        closeBodyScan();
+        showToast('Body scan complete — well done! 🧘');
+        return;
+      }
+      scanIdx++;
+      renderScan();
+    }
+    function scanPrev() { if (scanIdx > 0) { scanIdx--; renderScan(); } }
+
+    // ══════════════════════════════════════════════════════════
+    // ── Guided Journaling (prompts & old modal stubs) ────────
+    // ══════════════════════════════════════════════════════════
+    var JOURNAL_PROMPTS = [
+      "What is one thing that made you smile today, even just a little?",
+      "Describe how your body feels right now — from head to toes.",
+      "What's one worry you can let go of today? Write it out and release it.",
+      "Write about someone who makes you feel safe. What do they bring to your life?",
+      "If today had a colour, what would it be and why?",
+      "What are three things you're genuinely grateful for right now?",
+      "What would you tell your younger self about handling tough days?",
+      "Describe your ideal calm evening. What does it look, sound, and feel like?",
+      "What boundaries do you need to set this week for your wellbeing?",
+      "Write a letter of encouragement to yourself — as if to a close friend.",
+      "What's one small act of kindness you can do for yourself today?",
+      "What pattern in your life would you like to gently change?",
+      "Describe a moment this week when you felt truly at peace.",
+      "What emotion are you feeling most strongly right now? Give it a name and a shape.",
+      "If you could remove one source of stress, what would it be and how would life change?"
+    ];
+    var journalTimer = { running: false, remaining: 300, intervalId: null, autoSaveId: null };
+
+    // Old modal stubs (redirect to full page)
+    function openJournal() { showPage('journal', document.querySelectorAll('.nav-link')[5]); }
+    function closeJournal() { stopJournalTimer(); document.getElementById('journalOverlay').classList.remove('open'); }
+    function newJournalPrompt() { var idx = Math.floor(Math.random() * JOURNAL_PROMPTS.length); document.getElementById('journalPrompt').textContent = JOURNAL_PROMPTS[idx]; }
+    function resetJournalTimer() { journalTimer.remaining = 300; }
+    function startJournalTimer() {}
+    function stopJournalTimer() { journalTimer.running = false; if (journalTimer.intervalId) clearInterval(journalTimer.intervalId); if (journalTimer.autoSaveId) clearTimeout(journalTimer.autoSaveId); }
+    function onJournalInput() {}
+    function saveJournalEntry() {}
+    function loadJournalHistory() {}
+
+    // ══════════════════════════════════════════════════════════
+    // ── Journal Page (Full Page with Password) ───────────────
+    // ══════════════════════════════════════════════════════════
+    var jpgTimer = { running: false, remaining: 300, intervalId: null, autoSaveId: null };
+    var journalUnlocked = false;
+
+    function simpleHash(str) {
+      var hash = 0;
+      for (var i = 0; i < str.length; i++) {
+        var ch = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + ch;
+        hash = hash & hash;
+      }
+      return 'msh_' + Math.abs(hash).toString(36);
+    }
+
+    function initJournalPage() {
+      var stored = localStorage.getItem('ms_journal_pw');
+      var gate = document.getElementById('journal-pw-gate');
+      var content = document.getElementById('journal-content');
+      updateJournalHeroStats();
+
+      if (journalUnlocked) {
+        gate.style.display = 'none';
+        content.style.display = 'block';
+        loadJpgPage();
+        return;
+      }
+
+      if (!stored) {
+        gate.style.display = 'block';
+        content.style.display = 'none';
+        document.getElementById('jpw-icon').textContent = '🔒';
+        document.getElementById('jpw-title').textContent = 'Set Your Journal Password';
+        document.getElementById('jpw-sub').textContent = 'Create a password to keep your journal entries private. This password is stored securely on your device only.';
+        document.getElementById('jpw-confirm').style.display = 'block';
+        document.getElementById('jpw-btn').textContent = '🔐 Set Password & Enter';
+        document.getElementById('jpw-input').value = '';
+        document.getElementById('jpw-confirm').value = '';
+        document.getElementById('jpw-error').style.display = 'none';
+      } else {
+        gate.style.display = 'block';
+        content.style.display = 'none';
+        document.getElementById('jpw-icon').textContent = '🔐';
+        document.getElementById('jpw-title').textContent = 'Unlock Your Journal';
+        document.getElementById('jpw-sub').textContent = 'Enter your password to access your private journal entries.';
+        document.getElementById('jpw-confirm').style.display = 'none';
+        document.getElementById('jpw-btn').textContent = '🔓 Unlock Journal';
+        document.getElementById('jpw-input').value = '';
+        document.getElementById('jpw-error').style.display = 'none';
+      }
+      document.getElementById('jpw-input').focus();
+    }
+
+    function handleJournalPassword() {
+      var stored = localStorage.getItem('ms_journal_pw');
+      var pw = document.getElementById('jpw-input').value;
+      var errEl = document.getElementById('jpw-error');
+
+      if (!stored) {
+        var confirm = document.getElementById('jpw-confirm').value;
+        if (pw.length < 4) { errEl.textContent = 'Password must be at least 4 characters'; errEl.style.display = 'block'; return; }
+        if (pw !== confirm) { errEl.textContent = 'Passwords do not match'; errEl.style.display = 'block'; return; }
+        localStorage.setItem('ms_journal_pw', simpleHash(pw));
+        journalUnlocked = true;
+        showToast('Journal password set! 🔐');
+      } else {
+        if (simpleHash(pw) !== stored) { errEl.textContent = 'Incorrect password — try again'; errEl.style.display = 'block'; document.getElementById('jpw-input').value = ''; return; }
+        journalUnlocked = true;
+        showToast('Journal unlocked! 📝');
+      }
+
+      document.getElementById('journal-pw-gate').style.display = 'none';
+      document.getElementById('journal-content').style.display = 'block';
+      loadJpgPage();
+    }
+
+    function lockJournal() {
+      journalUnlocked = false;
+      stopJpgTimer();
+      document.getElementById('journal-content').style.display = 'none';
+      initJournalPage();
+      showToast('Journal locked 🔒');
+    }
+
+    function changeJournalPassword() {
+      var oldPw = prompt('Enter your current password:');
+      if (!oldPw) return;
+      var stored = localStorage.getItem('ms_journal_pw');
+      if (simpleHash(oldPw) !== stored) { showToast('Incorrect current password'); return; }
+      var newPw = prompt('Enter your new password (min 4 chars):');
+      if (!newPw || newPw.length < 4) { showToast('Password must be at least 4 characters'); return; }
+      var confirmPw = prompt('Confirm your new password:');
+      if (newPw !== confirmPw) { showToast('Passwords do not match'); return; }
+      localStorage.setItem('ms_journal_pw', simpleHash(newPw));
+      showToast('Password changed successfully! 🔑');
+    }
+
+    function loadJpgPage() {
+      newJpgPrompt();
+      document.getElementById('jpgText').value = '';
+      document.getElementById('jpgWordCount').textContent = '0 words';
+      document.getElementById('jpgSaved').classList.remove('show');
+      resetJpgTimer();
+      startJpgTimer();
+      renderJpgEntries();
+      updateJpgStats();
+      updateJournalHeroStats();
+    }
+
+    function updateJournalHeroStats() {
+      var entries = JSON.parse(localStorage.getItem('ms_journal') || '[]');
+      document.getElementById('jpage-total').textContent = entries.length;
+      var totalWords = entries.reduce(function(s, e) { return s + (e.words || 0) }, 0);
+      document.getElementById('jpage-words').textContent = totalWords;
+      if (entries.length > 0) {
+        var oldest = new Date(entries[entries.length - 1].date);
+        document.getElementById('jpage-since').textContent = oldest.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+      }
+    }
+
+    function newJpgPrompt() {
+      var idx = Math.floor(Math.random() * JOURNAL_PROMPTS.length);
+      document.getElementById('jpgPrompt').textContent = JOURNAL_PROMPTS[idx];
+    }
+
+    function resetJpgTimer() {
+      jpgTimer.remaining = 300;
+      document.getElementById('jpgTimerText').textContent = '5:00';
+      document.getElementById('jpgTimerFill').style.width = '0%';
+    }
+
+    function startJpgTimer() {
+      if (jpgTimer.intervalId) clearInterval(jpgTimer.intervalId);
+      jpgTimer.running = true;
+      jpgTimer.intervalId = setInterval(function() {
+        jpgTimer.remaining--;
+        if (jpgTimer.remaining <= 0) { jpgTimer.remaining = 0; stopJpgTimer(); showToast('5 minutes complete — great journaling! 📝'); }
+        var m = Math.floor(jpgTimer.remaining / 60), s = jpgTimer.remaining % 60;
+        document.getElementById('jpgTimerText').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+        document.getElementById('jpgTimerFill').style.width = ((300 - jpgTimer.remaining) / 300 * 100) + '%';
+      }, 1000);
+    }
+
+    function stopJpgTimer() {
+      jpgTimer.running = false;
+      if (jpgTimer.intervalId) clearInterval(jpgTimer.intervalId);
+      if (jpgTimer.autoSaveId) clearTimeout(jpgTimer.autoSaveId);
+    }
+
+    function onJpgInput() {
+      var text = document.getElementById('jpgText').value.trim();
+      var words = text ? text.split(/\s+/).length : 0;
+      document.getElementById('jpgWordCount').textContent = words + ' word' + (words !== 1 ? 's' : '');
+      document.getElementById('jpgSaved').classList.remove('show');
+      if (jpgTimer.autoSaveId) clearTimeout(jpgTimer.autoSaveId);
+      jpgTimer.autoSaveId = setTimeout(function() { if (text.length > 0) document.getElementById('jpgSaved').classList.add('show'); }, 1500);
+    }
+
+    function saveJpgEntry() {
+      var text = document.getElementById('jpgText').value.trim();
+      if (!text) { showToast('Write something first!'); return; }
+      var prompt = document.getElementById('jpgPrompt').textContent;
+      var entries = JSON.parse(localStorage.getItem('ms_journal') || '[]');
+      entries.unshift({ date: new Date().toISOString(), prompt: prompt, text: text, words: text.split(/\s+/).length });
+      if (entries.length > 100) entries = entries.slice(0, 100);
+      localStorage.setItem('ms_journal', JSON.stringify(entries));
+      document.getElementById('jpgText').value = '';
+      document.getElementById('jpgWordCount').textContent = '0 words';
+      showToast('Journal entry saved! 💜');
+      resetJpgTimer();
+      startJpgTimer();
+      newJpgPrompt();
+      renderJpgEntries();
+      updateJpgStats();
+      updateJournalHeroStats();
+    }
+
+    function deleteJpgEntry(idx) {
+      if (!confirm('Delete this journal entry?')) return;
+      var entries = JSON.parse(localStorage.getItem('ms_journal') || '[]');
+      entries.splice(idx, 1);
+      localStorage.setItem('ms_journal', JSON.stringify(entries));
+      renderJpgEntries();
+      updateJpgStats();
+      updateJournalHeroStats();
+      showToast('Entry deleted');
+    }
+
+    function renderJpgEntries() {
+      var entries = JSON.parse(localStorage.getItem('ms_journal') || '[]');
+      var container = document.getElementById('jpgAllEntries');
+      if (entries.length === 0) {
+        container.innerHTML = '<div class="journal-empty"><div class="journal-empty-icon">📝</div>No entries yet — write your first one above!</div>';
+        return;
+      }
+      container.innerHTML = entries.map(function(e, i) {
+        var d = new Date(e.date);
+        var dateStr = d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) + ' at ' + d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+        return '<div class="journal-full-entry"><div style="display:flex;justify-content:space-between;align-items:center"><div class="journal-full-date">' + dateStr + '</div><button class="btn-delete-entry" onclick="deleteJpgEntry(' + i + ')" title="Delete">🗑</button></div><div class="journal-full-prompt">"' + (e.prompt || '').replace(/</g, '&lt;') + '"</div><div class="journal-full-text">' + e.text.replace(/</g, '&lt;').replace(/\n/g, '<br>') + '</div><div class="journal-full-meta"><span>' + (e.words || 0) + ' words</span></div></div>';
+      }).join('');
+    }
+
+    function updateJpgStats() {
+      var entries = JSON.parse(localStorage.getItem('ms_journal') || '[]');
+      document.getElementById('jstat-total').textContent = entries.length;
+      var totalWords = entries.reduce(function(s, e) { return s + (e.words || 0) }, 0);
+      document.getElementById('jstat-words').textContent = totalWords;
+      document.getElementById('jstat-avg').textContent = entries.length > 0 ? Math.round(totalWords / entries.length) : 0;
+      if (entries.length > 0) {
+        var d = new Date(entries[0].date);
+        document.getElementById('jstat-last').textContent = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+      }
+      var streak = 0, maxStreak = 0;
+      if (entries.length > 0) {
+        var dates = entries.map(function(e) { return new Date(e.date).toDateString() });
+        var uniqueDates = [];
+        dates.forEach(function(d) { if (uniqueDates.indexOf(d) === -1) uniqueDates.push(d) });
+        uniqueDates.sort(function(a, b) { return new Date(b) - new Date(a) });
+        streak = 1; maxStreak = 1;
+        for (var i = 1; i < uniqueDates.length; i++) {
+          var diff = (new Date(uniqueDates[i-1]) - new Date(uniqueDates[i])) / 86400000;
+          if (diff <= 1) { streak++; if (streak > maxStreak) maxStreak = streak; }
+          else { streak = 1; }
+        }
+      }
+      document.getElementById('jstat-streak').textContent = maxStreak + ' day' + (maxStreak !== 1 ? 's' : '');
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && (document.activeElement.id === 'jpw-input' || document.activeElement.id === 'jpw-confirm')) {
+        handleJournalPassword();
+      }
     });
   </script>
 </body>
