@@ -2784,7 +2784,7 @@
         <button class="progress-tab" onclick="switchProgressTab('recommendations',this)">💡 Recommendations</button>
       </div>
 
-  <div class="progress-section" id="progress-insights" style="display:none">
+  <div class="progress-section" id="progress-insights">
     <div style="max-width:1000px;margin:0 auto">
       <div class="assess-hero" style="margin-bottom:2rem">
         <div class="assess-hero-title">📈 Your Insights</div>
@@ -2870,7 +2870,7 @@
     </div>
   </div>
 
-  <div class="progress-section" id="progress-recommendations" style="display:none">
+  <div class="progress-section" id="progress-recommendations">
     <div style="max-width:1100px;margin:0 auto">
       <div class="tips-hero">
         <div class="tips-hero-title">💡 Your Personalised Recommendations</div>
@@ -3723,8 +3723,23 @@
 
 
     // ── Session History & Dashboard (10 sections) ─────────────────
+    var lastSubmitTime = 0;
     function saveSession(data) {
+      // Prevent duplicate submissions within 30 seconds
+      var now = Date.now();
+      if (now - lastSubmitTime < 30000) {
+        showToast('⏳ Please wait 30 seconds before submitting again');
+        return false;
+      }
       var sessions = JSON.parse(localStorage.getItem('ms_sessions') || '[]');
+      // Deduplicate: skip if last session has identical PHQ score and was < 60s ago
+      if (sessions.length > 0) {
+        var lastSession = sessions[sessions.length - 1];
+        var timeSinceLast = now - new Date(lastSession.date).getTime();
+        if (timeSinceLast < 60000 && lastSession.phqTotal === data.phq_total && lastSession.riskLevel === data.prediction) {
+          return false; // Skip duplicate
+        }
+      }
       var RL = ['Low Risk', 'Moderate Risk', 'High Risk'];
       sessions.push({
         date: new Date().toISOString(),
@@ -3737,6 +3752,8 @@
         inputSnapshot: JSON.parse(JSON.stringify(inputs))
       });
       localStorage.setItem('ms_sessions', JSON.stringify(sessions));
+      lastSubmitTime = now;
+      return true;
     }
 
     function loadDashboard() {
