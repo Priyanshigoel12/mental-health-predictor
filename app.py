@@ -13,13 +13,16 @@ app = Flask(__name__)
 app.config['ENV'] = os.getenv('FLASK_ENV', 'development')
 
 # ── Load AI Model ─────────────────────────────────────────────────────────────
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODELS_DIR = os.path.join(BASE_DIR, 'models')
+
 def load_model():
     try:
-        with open('best_model.pkl', 'rb') as f:
+        with open(os.path.join(MODELS_DIR, 'best_model.pkl'), 'rb') as f:
             model = pickle.load(f)
-        with open('scaler.pkl', 'rb') as f:
+        with open(os.path.join(MODELS_DIR, 'scaler.pkl'), 'rb') as f:
             scaler = pickle.load(f)
-        with open('feature_names.pkl', 'rb') as f:
+        with open(os.path.join(MODELS_DIR, 'feature_names.pkl'), 'rb') as f:
             features = pickle.load(f)
         return model, scaler, features
     except FileNotFoundError as e:

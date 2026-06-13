@@ -63,7 +63,7 @@ Top findings from SHAP analysis:
 Python 3.11
 pandas · numpy · scikit-learn
 shap · matplotlib · seaborn
-Streamlit (deployed on Streamlit Cloud)
+Flask (deployed on Render)
 ```
 
 ---
@@ -73,16 +73,58 @@ Streamlit (deployed on Streamlit Cloud)
 ```
 mental-health-predictor/
 │
-├── app.py                          # Main Streamlit application
-├── requirements.txt                # Python dependencies
-├── README.md                       # This file
+├── README.md                           # Project documentation
+├── requirements.txt                    # Python dependencies
+├── MH_Survey_Cleaned_1151.csv          # Cleaned dataset (1,151 responses)
 │
-├── best_model.pkl                  # Trained Logistic Regression model
-├── scaler.pkl                      # MinMax feature scaler
-├── feature_names.pkl               # Feature column names
+├── scripts/                            # All Python implementation scripts
+│   ├── Phase3_EDA.py                   #   → Exploratory Data Analysis
+│   ├── Phase4_Model_Training.py        #   → Model Training & Comparison
+│   ├── Tier1_Upgrade1_SHAP.py          #   → SHAP Explainability Analysis
+│   ├── Tier1_Upgrade2_SMOTE.py         #   → SMOTE Class Balancing
+│   ├── Tier1_Upgrade3_GAD7.py          #   → GAD-7 Anxiety Estimation
+│   ├── build_dashboard.py              #   → Dashboard Builder
+│   └── test_prediction.py             #   → Model Testing Script
 │
-├── shap_1_global_importance.png    # SHAP global feature importance
-└── shap_3_per_class_bar.png        # SHAP per-class feature impact
+├── models/                             # Trained model artifacts
+│   ├── best_model.pkl                  #   → Final Logistic Regression model
+│   ├── best_model_smote.pkl            #   → SMOTE-balanced model
+│   ├── scaler.pkl                      #   → MinMax feature scaler
+│   └── feature_names.pkl              #   → Feature column names
+│
+├── outputs/                            # Generated visualizations
+│   ├── eda/                            #   → EDA plots (Phase 3)
+│   │   ├── eda_1_risk_distribution.png
+│   │   ├── eda_2_phq_histogram.png
+│   │   ├── eda_3_sleep_phq.png
+│   │   ├── eda_4_exercise_phq.png
+│   │   ├── eda_5_correlation_heatmap.png
+│   │   ├── eda_6_social_support_phq.png
+│   │   ├── eda_7_gender_risk.png
+│   │   ├── eda_8_feature_correlations.png
+│   │   ├── eda_9_phq_boxplot.png
+│   │   └── eda_10_stress_by_risk.png
+│   ├── model/                          #   → Model comparison (Phase 4)
+│   │   ├── model_comparison.png
+│   │   └── confusion_matrices.png
+│   ├── shap/                           #   → SHAP explainability
+│   │   ├── shap_1_global_importance.png
+│   │   ├── shap_2_summary_beeswarm.png
+│   │   ├── shap_3_per_class_bar.png
+│   │   └── shap_4_individual_explanations.png
+│   └── smote/                          #   → SMOTE analysis
+│       ├── smote_1_comparison.png
+│       ├── smote_2_class_distribution.png
+│       └── smote_3_confusion_matrix.png
+│
+├── app.py                              # Flask web application backend
+├── Procfile                            # Render deployment config
+├── runtime.txt                         # Python version for Render
+├── templates/                          # HTML templates
+│   └── index.html
+└── static/                             # Static web assets
+    └── images/
+        └── (SHAP images for web display)
 ```
 
 ---
@@ -103,8 +145,8 @@ source .venv/bin/activate        # Mac/Linux
 pip install -r requirements.txt
 
 # 4. Run the app
-streamlit run app.py
-# Opens at http://localhost:8501
+python app.py
+# Opens at http://localhost:5000
 ```
 
 ---

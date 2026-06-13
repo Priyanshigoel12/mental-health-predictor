@@ -1,3 +1,23 @@
+# Virtual environment
 .venv/
+venv/
+
+# Python cache
 __pycache__/
-*.DS_Store
+*.pyc
+*.pyo
+
+# macOS junk
+.DS_Store
+
+# IDE settings
+.vscode/
+.devcontainer/
+.idea/
+
+# Design previews (not part of submission)
+design_preview/
+
+# Irrelevant files to exclude from git
+mid term files/
+reference research papers /
