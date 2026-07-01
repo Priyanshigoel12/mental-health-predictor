@@ -483,7 +483,9 @@
       color: var(--txt2);
       text-transform: uppercase;
       letter-spacing: .6px;
-      margin-top: 3px
+      margin-top: 3px;
+      text-align: center;
+      line-height: 1.25;
     }
 
     .scores {
@@ -644,7 +646,7 @@
       height: 100%;
       border-radius: 3px;
       background: linear-gradient(90deg, var(--p), var(--pl));
-      width: 45%
+      width: 100%
     }
 
     .btn-now {
@@ -2501,8 +2503,7 @@
                   <circle class="ring-bg" cx="75" cy="75" r="62"></circle>
                   <circle class="ring-fill" id="home-ring" cx="75" cy="75" r="62"></circle>
                 </svg>
-                <div class="ring-text"><span class="ring-val" id="home-stab">88%</span><span class="ring-lbl">Wellness
-                    Score <span style='font-size:0.7rem;color:var(--txt2);cursor:help;'
+                <div class="ring-text"><span class="ring-val" id="home-stab">88%</span><span class="ring-lbl">Wellness<br>Score <span style='font-size:0.7rem;color:var(--txt2);cursor:help;'
                       title='Wellness Score is calculated from your PHQ-9 total and stress indicators. It is not a clinically validated metric — it is a relative indicator for tracking your responses over time.'>ⓘ</span></span>
                 </div>
               </div>
@@ -2535,7 +2536,7 @@
                 </div>
               </div>
               <div class="acard">
-                <div class="a-icon i-red">📖</div><span class="a-badge b-red">NEW</span>
+                <div class="a-icon i-red">📖</div>
                 <div class="a-title">Academic Stress</div>
                 <div class="a-desc">How is your workload affecting your mood? Quick survey on exams, deadlines, and
                   focus.</div><button class="btn-now"
