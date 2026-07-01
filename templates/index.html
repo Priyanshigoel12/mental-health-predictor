@@ -4054,7 +4054,7 @@
         function() {
           sessions.splice(idx, 1);
           localStorage.setItem('ms_sessions', JSON.stringify(sessions));
-          renderDashboard();
+          loadDashboard();
         }
       );
     }
