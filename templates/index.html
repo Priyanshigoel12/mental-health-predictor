@@ -2523,14 +2523,13 @@
         </div>
         <div class="grid-bottom">
           <div class="card">
-            <h2 class="sec-head">Active Assessments</h2>
+            <h2 class="sec-head">Assessments</h2>
                 <div class="last-check-nudge" id="lastCheckNudge" style="font-size:.78rem;color:var(--txt2);margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem"></div>
             <div class="assess-grid">
               <div class="acard">
-                <div class="a-icon i-pur">⚡</div><span class="a-badge b-pur">12 Left</span>
+                <div class="a-icon i-pur">⚡</div><span class="a-badge b-pur">Full Assessment</span>
                 <div class="a-title">Lifestyle &amp; Habits</div>
-                <div class="a-desc">Analyze sleep hygiene, physical activity, and social interaction frequency to refine
-                  your profile.</div>
+                <div class="a-desc">Covers sleep, physical activity, social support, academic stress, and PHQ-9 symptoms to generate your personalised risk score.</div>
                 <div class="mini-track">
                   <div class="mini-fill"></div>
                 </div>
@@ -2548,8 +2547,7 @@
             <div class="conf-head">
               <div>
                 <div class="conf-title">Prediction Confidence</div>
-                <div class="conf-sub">Our AI models calculate the probability of each risk level based on your
-                  historical data points.</div>
+                <div class="conf-sub">Probability assigned by the AI model to each risk level based on your latest assessment responses.</div>
               </div>
               <div class="acc-pill">
                 <div class="acc-icon">✓</div><span class="acc-text">94.2% Accuracy</span>
@@ -2998,7 +2996,7 @@
         </div>
         <div class="dash-table-card">
           <div class="dash-table-head"><div class="dash-table-title">📋 Session History</div><button class="btn-clear-history" onclick="clearHistory()">🗑 Clear History</button></div>
-          <div style="overflow-x:auto"><table class="dash-table"><thead><tr><th>#</th><th>Date</th><th>Risk Level</th><th>PHQ-9</th><th>Wellness</th><th>GAD Est.</th></tr></thead><tbody id="dash-table-body"></tbody></table></div>
+          <div style="overflow-x:auto"><table class="dash-table"><thead><tr><th>#</th><th>Date</th><th>Risk Level</th><th>PHQ-9</th><th>Wellness</th><th>GAD Est.</th><th></th></tr></thead><tbody id="dash-table-body"></tbody></table></div>
         </div>
       </div>
     </div>
@@ -4040,9 +4038,25 @@
         var d = new Date(s.date);
         var dateStr = fmt(s.date) + ' ' + d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
         var row = document.createElement('tr');
-        row.innerHTML = '<td style="font-weight:700;color:var(--txt2)">'+(sessions.length-idx)+'</td><td>'+dateStr+'</td><td><span class="risk-pill '+RISK_CLS[s.riskLevel]+'">'+s.riskLabel+'</span></td><td style="font-weight:700">'+s.phqTotal+'<span style="color:var(--txt2);font-weight:400"> /27</span></td><td style="font-weight:700;color:var(--p)">'+s.wellness+'%</td><td style="font-weight:700;color:var(--txt2)">'+s.gadEstimate+'<span style="font-weight:400"> /21</span></td>';
+        var realIdx = sessions.length - 1 - idx;
+         row.innerHTML = '<td style="font-weight:700;color:var(--txt2)">'+(sessions.length-idx)+'</td><td>'+dateStr+'</td><td><span class="risk-pill '+RISK_CLS[s.riskLevel]+'">'+s.riskLabel+'</span></td><td style="font-weight:700">'+s.phqTotal+'<span style="color:var(--txt2);font-weight:400"> /27</span></td><td style="font-weight:700;color:var(--p)">'+s.wellness+'%</td><td style="font-weight:700;color:var(--txt2)">'+s.gadEstimate+'<span style="font-weight:400"> /21</span></td><td><button onclick="deleteSession('+realIdx+')" title="Delete this entry" style="background:none;border:none;cursor:pointer;font-size:1rem;opacity:.5;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">🗑️</button></td>';
         tbody.appendChild(row);
       });
+    }
+
+    function deleteSession(idx) {
+      var sessions = JSON.parse(localStorage.getItem('ms_sessions') || '[]');
+      if (idx < 0 || idx >= sessions.length) return;
+      showConfirm(
+        'Delete this entry?',
+        'Session #' + (idx + 1) + ' will be permanently removed.',
+        'Delete',
+        function() {
+          sessions.splice(idx, 1);
+          localStorage.setItem('ms_sessions', JSON.stringify(sessions));
+          renderDashboard();
+        }
+      );
     }
 
     function showConfirm(title, text, actionText, onConfirm) {
