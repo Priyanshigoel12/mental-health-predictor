@@ -9,14 +9,12 @@ import numpy as np
 import pickle
 import os
 
-app = Flask(__name__,
-            template_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'APP', 'templates'),
-            static_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'APP', 'static'))
+app = Flask(__name__)
 app.config['ENV'] = os.getenv('FLASK_ENV', 'development')
 
 # ── Load AI Model ─────────────────────────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODELS_DIR = os.path.join(BASE_DIR, 'APP', 'models')
+MODELS_DIR = os.path.join(BASE_DIR, 'models')
 
 def load_model():
     try:
